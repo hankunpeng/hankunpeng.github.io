@@ -1,3 +1,4 @@
 theme: jekyll-theme-slate
 timezone: Asia/Shanghai
 title: 随手记些东西
+markdown: GFM
