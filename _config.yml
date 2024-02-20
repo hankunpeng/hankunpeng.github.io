@@ -1,7 +1,8 @@
 title: 茶余漫记
-email: hankunpeng@gmail.com
-#twitter_username: hankunpeng
-x_username: hankunpeng
+author:
+  name: William Han
+  email: hankunpeng@gmail.com
+twitter_username: hankunpeng
 github_username:  hankunpeng
 timezone: Asia/Shanghai
 markdown: GFM
