@@ -1,6 +1,6 @@
 ---
 title: 规章怎样反客为主，聊聊官僚制的演化与困局
-date: 2026-08-28 17:00:00 +0800
+date: 2026-08-28 13:00:00 +0800
 categories: [思考, 组织与社会]
 tags: [organization, sociology, management, bureaucracy, history]
 ---

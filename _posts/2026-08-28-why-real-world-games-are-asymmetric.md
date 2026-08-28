@@ -1,6 +1,6 @@
 ---
 title: 为什么真实世界的较量大多是非对称博弈
-date: 2026-08-28 16:00:00 +0800
+date: 2026-08-28 12:00:00 +0800
 categories: [思考, 决策与博弈]
 tags: [game theory, strategy, evolution, business, ai]
 ---

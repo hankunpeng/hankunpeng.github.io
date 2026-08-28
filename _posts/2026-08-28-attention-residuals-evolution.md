@@ -1,6 +1,6 @@
 ---
 title: 从残差连接到注意力残差，大模型深度维度的十年演进
-date: 2026-08-28 15:00:00 +0800
+date: 2026-08-28 11:00:00 +0800
 categories: [技术, 大模型架构]
 tags: [transformer, attention, resnet, deepseek, kimi, machine learning]
 ---

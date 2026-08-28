@@ -1,6 +1,6 @@
 ---
 title: 理清 Playwright 生态里的 Test、CLI 与 MCP
-date: 2026-08-28 14:00:00 +0800
+date: 2026-08-28 10:00:00 +0800
 categories: [技术, 前端自动化]
 tags: [playwright, mcp, automation, testing]
 ---
