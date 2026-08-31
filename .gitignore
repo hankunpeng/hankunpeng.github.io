@@ -33,3 +33,9 @@ Thumbs.db
 
 # MCP artifacts
 .playwright-mcp/
+
+# AI Agent & Skills
+.agents/
+.claude/
+skills-lock.json
+.skills-lock.json
