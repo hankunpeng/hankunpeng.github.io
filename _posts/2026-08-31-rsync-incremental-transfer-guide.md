@@ -3,6 +3,7 @@ title: rsync 增量传输与目录镜像同步机制
 date: 2026-08-31 13:40:00 +0800
 categories: [技术, 系统工程]
 tags: [linux, rsync, bash, backup, cli]
+mermaid: true
 ---
 
 rsync 通过滚动校验和算法比对源端与目标端文件的块级差异，仅在网络中传输变更的数据块。该机制使大文件的增量备份和跨服务器目录镜像同步具备极高的数据吞吐效率。
