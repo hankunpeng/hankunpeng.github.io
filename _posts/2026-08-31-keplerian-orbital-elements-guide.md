@@ -4,6 +4,7 @@ date: 2026-08-31 14:00:00 +0800
 categories: [技术, 航天工程]
 tags: [satellite, orbit, astrodynamics, tle, aerospace]
 mermaid: true
+math: true
 ---
 
 经典开普勒轨道六根数通过 6 个几何与动力学参数，唯一确定卫星在二体引力场中的轨道尺寸、空间姿态以及瞬时运行位置。相比笛卡尔坐标系下的位置与速度矢量，开普勒六根数直接解耦了轨道能量、空间朝向与时间变量。
