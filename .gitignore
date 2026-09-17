@@ -37,5 +37,14 @@ Thumbs.db
 # AI Agent & Skills
 .agents/
 .claude/
+.agent/
+.gemini/
+.codex/
+.hermes/
+.kiro/
+.pi/
+.qoder/
+.rovodev/
+.vibe
 skills-lock.json
 .skills-lock.json
