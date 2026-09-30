@@ -48,9 +48,7 @@
         var bothClosed = sidebarState === 'closed' && panelState === 'closed';
         layoutBtn.title = bothClosed ? '展开两侧栏（三栏全貌）' : '收起两侧栏（专注阅读）';
         layoutBtn.setAttribute('aria-label', layoutBtn.title);
-        layoutBtn.innerHTML = bothClosed
-          ? '<i class="fa-solid fa-table-columns fa-fw"></i>'
-          : '<i class="fa-solid fa-book-open fa-fw"></i>';
+        layoutBtn.classList.toggle('active', bothClosed);
       }
     }
 
@@ -250,6 +248,42 @@
         }
       }
     });
+
+    // 8. Sticky Title on Scroll (方案三: Medium / Ghost 模式)
+    if (isPost) {
+      var postHeading = document.querySelector('article header h1') || document.querySelector('article h1') || document.querySelector('main h1');
+      var topbarPostTitle = document.getElementById('topbar-post-title');
+
+      if (topbarPostTitle) {
+        topbarPostTitle.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      if (postHeading) {
+        var ticking = false;
+        function updateStickyTitle() {
+          var rect = postHeading.getBoundingClientRect();
+          // When the bottom of h1 passes behind the topbar (~50px), show sticky title
+          if (rect.bottom < 50) {
+            body.classList.add('title-sticky');
+          } else {
+            body.classList.remove('title-sticky');
+          }
+          ticking = false;
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(updateStickyTitle);
+            ticking = true;
+          }
+        }, { passive: true });
+
+        // Initial check on load (in case page is loaded already scrolled)
+        updateStickyTitle();
+      }
+    }
   }
 
   if (document.readyState === 'loading') {

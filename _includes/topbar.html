@@ -9,51 +9,55 @@
       <button
         type="button"
         id="sidebar-trigger"
-        class="btn btn-link topbar-btn me-2"
+        class="btn btn-link topbar-btn"
         aria-label="Sidebar"
         title="左侧栏抽屉 ([)"
       >
-        <i class="fas fa-bars fa-fw"></i>
+        <span class="bracket-symbol">[[[</span>
       </button>
 
-      <nav id="breadcrumb" aria-label="Breadcrumb">
-        {% assign paths = page.url | split: '/' %}
+      <button
+        type="button"
+        id="layout-toggle"
+        class="btn btn-link topbar-btn"
+        aria-label="Toggle Layout"
+        title="切换专注阅读 / 三栏布局"
+      >
+        <span class="bracket-symbol">📖</span>
+      </button>
 
-        {% if paths.size == 0 or page.layout == 'home' %}
-          <!-- index page -->
-          <span>{{ site.data.locales[include.lang].tabs.home | capitalize }}</span>
+      <button
+        type="button"
+        id="panel-trigger"
+        class="btn btn-link topbar-btn"
+        aria-label="Toggle Right Panel"
+        title="右侧栏抽屉 (])"
+      >
+        <span class="bracket-symbol">]]]</span>
+      </button>
 
-        {% else %}
+      {% if page.layout == 'post' %}
+        <span id="topbar-post-title" class="topbar-post-title" title="{{ page.title }}">{{ page.title }}</span>
+      {% elsif page.layout != 'home' %}
+        <nav id="breadcrumb" aria-label="Breadcrumb">
+          {% assign paths = page.url | split: '/' %}
           {% for item in paths %}
-            {% if forloop.first %}
-              <span>
-                <a href="{{ '/' | relative_url }}">
-                  {{- site.data.locales[include.lang].tabs.home | capitalize -}}
-                </a>
-              </span>
-
-            {% elsif forloop.last %}
+            {% if forloop.last %}
               {% if page.collection == 'tabs' %}
+                <span>{{ site.data.locales[include.lang].tabs[item] | default: page.title }}</span>
+              {% elsif page.layout == 'category' or page.layout == 'tag' %}
                 <span>{{ site.data.locales[include.lang].tabs[item] | default: page.title }}</span>
               {% else %}
                 <span>{{ page.title }}</span>
               {% endif %}
-
-            {% elsif page.layout == 'category' or page.layout == 'tag' %}
-              <span>
-                <a href="{{ item | append: '/' | relative_url }}">
-                  {{- site.data.locales[include.lang].tabs[item] | default: page.title -}}
-                </a>
-              </span>
             {% endif %}
           {% endfor %}
-        {% endif %}
-      </nav>
-      <!-- endof #breadcrumb -->
+        </nav>
+      {% endif %}
 
       <div id="topbar-title">
-        {% if page.layout == 'home' %}
-          {{- site.data.locales[include.lang].title | default: site.title -}}
+        {% if page.layout == 'home' or page.layout == 'post' %}
+          <!-- clean topbar, no static text -->
         {% elsif page.collection == 'tabs' or page.layout == 'page' %}
           {%- capture tab_key -%}{{ page.url | split: '/' }}{%- endcapture -%}
           {{- site.data.locales[include.lang].tabs[tab_key] | default: page.title -}}
@@ -77,25 +81,7 @@
         </button>
       {% endif %}
 
-      <button
-        type="button"
-        id="panel-trigger"
-        class="btn btn-link topbar-btn"
-        aria-label="Toggle Right Panel"
-        title="右侧栏抽屉 (])"
-      >
-        <i class="fa-solid fa-bars-staggered fa-fw"></i>
-      </button>
 
-      <button
-        type="button"
-        id="layout-toggle"
-        class="btn btn-link topbar-btn"
-        aria-label="Toggle Layout"
-        title="切换三栏 / 专注阅读布局"
-      >
-        <i class="fa-solid fa-table-columns fa-fw"></i>
-      </button>
 
       <button type="button" id="search-trigger" class="btn btn-link" aria-label="Search">
         <i class="fas fa-search fa-fw"></i>

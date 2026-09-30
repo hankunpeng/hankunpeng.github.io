@@ -74,19 +74,41 @@ main article,
     padding-right: var(--card-gutter) !important;
   }
 
-  #sidebar-trigger {
+  #sidebar-trigger,
+  #layout-toggle,
+  #panel-trigger {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0.5rem !important;
     width: auto !important;
   }
 
-  #sidebar-trigger i {
-    text-align: left !important;
-    width: auto !important;
+  #sidebar-trigger {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0.25rem !important;
+  }
+
+  #layout-toggle {
+    margin-left: 0.15rem !important;
+    margin-right: 0.15rem !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  #panel-trigger {
+    margin-left: 0 !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  #topbar-wrapper {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background-color: var(--topbar-bg) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   #topbar {
@@ -361,6 +383,46 @@ main article,
   background-color: var(--sidebar-hover-bg) !important;
 }
 
+.topbar-btn .bracket-symbol {
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+}
+
+/* --- Sticky Post Title on Scroll (方案三: Medium / Ghost 模式) --- */
+#topbar-post-title {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.28s;
+  display: inline-block;
+  max-width: clamp(140px, 42vw, 480px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  color: var(--text-color);
+  font-weight: 500;
+  margin-left: 0.75rem;
+  cursor: pointer;
+}
+
+#topbar-post-title:hover {
+  color: var(--link-color);
+}
+
+/* When scrolled past article h1, fade in title (center aligned with [[[ 📖 ]]]) */
+body.layout-post.title-sticky #topbar-post-title {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(1.5px);
+}
+
 /* Hide topbar buttons when search is active on mobile */
 #search-trigger.d-none ~ .topbar-btn,
 .search-active .topbar-btn {
@@ -465,6 +527,17 @@ dialog.toc-dialog::backdrop {
   padding: 2.5rem 1rem;
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+/* --- Back-to-Top Button Alignment: 圆心置于整个屏幕右侧 2.5% (2.5vw) 的垂直线上 --- */
+#back-to-top {
+  right: calc(2.5vw - 1.375rem) !important;
+}
+
+@media (max-width: 850px) {
+  #back-to-top {
+    right: 1rem !important;
+  }
 }
 
 
