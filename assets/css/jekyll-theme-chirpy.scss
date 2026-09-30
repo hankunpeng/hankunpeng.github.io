@@ -16,3 +16,354 @@
 #sidebar .profile-wrapper {
   margin-bottom: 2.5rem !important;
 }
+
+:root {
+  /* 留白占屏幕总宽度的百分比 5% (5vw) */
+  --card-gutter: 5vw;
+}
+
+/* --- Collapsible Sidebar & Panel (Reading Mode) --- */
+
+/* Smooth layout transitions */
+#sidebar,
+#main-wrapper,
+#main-wrapper > .container,
+#panel-wrapper,
+#panel-wrapper .access,
+#panel-wrapper #toc-wrapper,
+#topbar,
+main.col-12,
+main article,
+#tail-wrapper {
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              margin 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              max-width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              flex-basis 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sidebar,
+  #main-wrapper,
+  #main-wrapper > .container,
+  #panel-wrapper,
+  #panel-wrapper .access,
+  #panel-wrapper #toc-wrapper,
+  #topbar,
+  main.col-12,
+  main article,
+  #tail-wrapper {
+    transition: none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  /* On desktop, sidebars are fluid adaptive push columns, so no overlay mask is needed */
+  #mask {
+    display: none !important;
+  }
+
+  /* Make container fill the entire available width of #main-wrapper with 5% (5vw) padding */
+  #main-wrapper > .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: var(--card-gutter) !important;
+    padding-right: var(--card-gutter) !important;
+  }
+
+  #sidebar-trigger {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0.5rem !important;
+    width: auto !important;
+  }
+
+  #sidebar-trigger i {
+    text-align: left !important;
+    width: auto !important;
+  }
+
+  #topbar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+
+  #topbar #breadcrumb {
+    display: block !important;
+  }
+
+  search {
+    margin-right: 0 !important;
+  }
+
+  main.col-12 {
+    padding-left: 0 !important;
+  }
+
+  main article,
+  #tail-wrapper,
+  #post-list {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* ======================================================== */
+  /* State 1: All 3 cards open (三 card 全貌)                 */
+  /* Left takes 260px, Middle & Right share the rest          */
+  /* 中 card 文字到左 card 5%，到右 card 5% (5vw)            */
+  /* 搜索框最右侧与中 card 文字最右侧对齐                      */
+  /* ======================================================== */
+  body[data-sidebar="open"][data-panel="open"] #sidebar {
+    transform: translateX(0);
+    box-shadow: none;
+  }
+
+  body[data-sidebar="open"][data-panel="open"] #main-wrapper {
+    margin-left: 260px !important;
+  }
+
+  @media (min-width: 1650px) {
+    body[data-sidebar="open"][data-panel="open"] #main-wrapper {
+      margin-left: 320px !important;
+    }
+  }
+
+  body[data-sidebar="open"][data-panel="open"] #topbar,
+  body[data-sidebar="open"][data-panel="open"] main.col-12,
+  body[data-sidebar="open"][data-panel="open"] #tail-wrapper {
+    flex: 0 0 calc(100% - 280px) !important;
+    max-width: calc(100% - 280px) !important;
+    width: calc(100% - 280px) !important;
+    padding-right: var(--card-gutter) !important;
+  }
+
+  body[data-sidebar="open"][data-panel="open"] #panel-wrapper {
+    display: block !important;
+    flex: 0 0 280px !important;
+    max-width: 280px !important;
+    width: 280px !important;
+    position: static !important;
+    height: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-left: 1px solid var(--main-border-color) !important;
+    padding: 0 0 0 1rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* ======================================================== */
+  /* State 2: 收起左 card 时，中右两个 card 自适应分配全部区域 */
+  /* Left = 0, Middle takes ~74%, Right takes ~26% of screen   */
+  /* 中 card 文字到左边 5%，到右 card 5% (5vw)                */
+  /* 搜索框最右侧与中 card 文字最右侧对齐                      */
+  /* ======================================================== */
+  body[data-sidebar="closed"][data-panel="open"] #sidebar {
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  body[data-sidebar="closed"][data-panel="open"] #main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  body[data-sidebar="closed"][data-panel="open"] #topbar,
+  body[data-sidebar="closed"][data-panel="open"] main.col-12,
+  body[data-sidebar="closed"][data-panel="open"] #tail-wrapper {
+    flex: 0 0 calc(100% - clamp(320px, 26vw, 420px)) !important;
+    max-width: calc(100% - clamp(320px, 26vw, 420px)) !important;
+    width: calc(100% - clamp(320px, 26vw, 420px)) !important;
+    padding-right: var(--card-gutter) !important;
+  }
+
+  body[data-sidebar="closed"][data-panel="open"] #panel-wrapper {
+    display: block !important;
+    flex: 0 0 clamp(320px, 26vw, 420px) !important;
+    max-width: clamp(320px, 26vw, 420px) !important;
+    width: clamp(320px, 26vw, 420px) !important;
+    position: static !important;
+    height: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-left: 1px solid var(--main-border-color) !important;
+    padding: 0 0 0 1.25rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* ======================================================== */
+  /* State 3: 收起右 card 时，左中两个 card 自适应分配全部区域 */
+  /* Right = 0, Left takes 260px, Middle takes 100% of rest    */
+  /* 中 card 文字到左 card 5%，到最右边 5% (5vw)              */
+  /* 搜索框最右侧与中 card 文字最右侧对齐                      */
+  /* ======================================================== */
+  body[data-sidebar="open"][data-panel="closed"] #sidebar {
+    transform: translateX(0);
+    box-shadow: none;
+  }
+
+  body[data-sidebar="open"][data-panel="closed"] #main-wrapper {
+    margin-left: 260px !important;
+  }
+
+  @media (min-width: 1650px) {
+    body[data-sidebar="open"][data-panel="closed"] #main-wrapper {
+      margin-left: 320px !important;
+    }
+  }
+
+  body[data-sidebar="open"][data-panel="closed"] #topbar,
+  body[data-sidebar="open"][data-panel="closed"] main.col-12,
+  body[data-sidebar="open"][data-panel="closed"] #tail-wrapper {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-right: 0 !important;
+  }
+
+  body[data-sidebar="open"][data-panel="closed"] #panel-wrapper {
+    display: block !important;
+    flex: 0 0 0 !important;
+    max-width: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    border: none !important;
+    pointer-events: none !important;
+    visibility: hidden;
+  }
+
+  /* ======================================================== */
+  /* State 4: 左右两栏收起，中栏自适应分配全部区域             */
+  /* Left = 0, Right = 0, Middle takes 100% of screen         */
+  /* 中 card 文字到最左边 5%，到最右边 5% (5vw)               */
+  /* 正文左侧与顶部栏左侧 ☰ 按钮对齐                          */
+  /* 搜索框的最右侧，跟正文右侧对齐                           */
+  /* ======================================================== */
+  body[data-sidebar="closed"][data-panel="closed"] #sidebar {
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  body[data-sidebar="closed"][data-panel="closed"] #main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  body[data-sidebar="closed"][data-panel="closed"] #topbar,
+  body[data-sidebar="closed"][data-panel="closed"] main.col-12,
+  body[data-sidebar="closed"][data-panel="closed"] #tail-wrapper {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-right: 0 !important;
+  }
+
+  body[data-sidebar="closed"][data-panel="closed"] #panel-wrapper {
+    display: block !important;
+    flex: 0 0 0 !important;
+    max-width: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    border: none !important;
+    pointer-events: none !important;
+    visibility: hidden;
+  }
+
+  /* TOC triggers */
+  body[data-panel="closed"] #toc-solo-trigger {
+    display: inline-flex !important;
+  }
+
+  body[data-panel="closed"] #toc-bar {
+    display: flex !important;
+  }
+
+  body[data-panel="open"] #toc-solo-trigger {
+    display: none !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  #panel-wrapper {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 300px !important;
+    max-width: 85vw !important;
+    height: 100vh !important;
+    z-index: 1050 !important;
+    background-color: var(--main-bg) !important;
+    border-left: 1px solid var(--main-border-color) !important;
+    overflow-y: auto !important;
+    padding: 2rem 1.5rem 3rem !important;
+    margin: 0 !important;
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+    display: block !important;
+  }
+
+  body[panel-display] #panel-wrapper,
+  body[data-panel="open"] #panel-wrapper {
+    transform: translateX(0);
+    box-shadow: -5px 0 35px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@media (min-width: 1650px) {
+  body.layout-post.columns-expanded #main-wrapper {
+    margin-left: 320px !important;
+  }
+}
+
+/* Custom topbar button styles */
+.topbar-btn {
+  color: var(--text-muted-color) !important;
+  font-size: 1rem !important;
+  padding: 0.35rem 0.55rem !important;
+  border-radius: 0.5rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: all 0.2s ease !important;
+  margin-left: 0.25rem !important;
+}
+.topbar-btn:hover {
+  color: var(--link-color) !important;
+  background-color: var(--sidebar-hover-bg) !important;
+  border-color: var(--btn-border-color) !important;
+}
+.topbar-btn.active {
+  color: var(--link-color) !important;
+  background-color: var(--sidebar-hover-bg) !important;
+}
+
+/* Hide topbar buttons when search is active on mobile */
+#search-trigger.d-none ~ .topbar-btn,
+.search-active .topbar-btn {
+  display: none !important;
+}
+
