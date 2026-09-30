@@ -532,6 +532,9 @@ dialog.toc-dialog::backdrop {
 /* --- Back-to-Top Button Alignment: 圆心置于整个屏幕右侧 2.5% (2.5vw) 的垂直线上 --- */
 #back-to-top {
   right: calc(2.5vw - 1.375rem) !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 850px) {
