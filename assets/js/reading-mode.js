@@ -46,7 +46,7 @@
 
       if (layoutBtn) {
         var bothClosed = sidebarState === 'closed' && panelState === 'closed';
-        layoutBtn.title = bothClosed ? '展开两侧栏（三栏全貌）' : '收起两侧栏（专注阅读）';
+        layoutBtn.title = bothClosed ? '展开两侧栏（三栏全貌）(=)' : '收起两侧栏（专注阅读）(=)';
         layoutBtn.setAttribute('aria-label', layoutBtn.title);
         layoutBtn.classList.toggle('active', bothClosed);
       }
@@ -144,20 +144,24 @@
       }
     }
 
-    // 5. Layout Toggle Button
+    // 5. Layout Toggle Button (Reading Mode)
+    function toggleReadingMode() {
+      var sidebarState = body.getAttribute('data-sidebar');
+      var panelState = body.getAttribute('data-panel');
+      if (sidebarState === 'closed' && panelState === 'closed') {
+        body.setAttribute('data-sidebar', 'open');
+        body.setAttribute('data-panel', 'open');
+      } else {
+        body.setAttribute('data-sidebar', 'closed');
+        body.setAttribute('data-panel', 'closed');
+      }
+      updateButtons();
+    }
+
     if (layoutBtn) {
       layoutBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        var sidebarState = body.getAttribute('data-sidebar');
-        var panelState = body.getAttribute('data-panel');
-        if (sidebarState === 'closed' && panelState === 'closed') {
-          body.setAttribute('data-sidebar', 'open');
-          body.setAttribute('data-panel', 'open');
-        } else {
-          body.setAttribute('data-sidebar', 'closed');
-          body.setAttribute('data-panel', 'closed');
-        }
-        updateButtons();
+        toggleReadingMode();
       });
     }
 
@@ -219,6 +223,7 @@
     // 7. Keyboard Shortcuts:
     // [ -> Toggle left sidebar
     // ] -> Toggle right panel
+    // = -> Toggle reading mode (both sidebars)
     // \ -> Toggle article TOC modal
     // Escape -> Close popup or mobile drawers
     document.addEventListener('keydown', function (e) {
@@ -232,6 +237,9 @@
       } else if (e.key === ']' || e.key === '】' || e.code === 'BracketRight') {
         e.preventDefault();
         toggleRight();
+      } else if (e.key === '=' || e.key === '＝' || e.code === 'Equal') {
+        e.preventDefault();
+        toggleReadingMode();
       } else if (e.key === '\\' || e.key === '、' || e.key === '|' || e.code === 'Backslash') {
         if (isPost) {
           e.preventDefault();
