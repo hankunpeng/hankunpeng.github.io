@@ -122,9 +122,9 @@ Indeed, if you want to create the most [wealth](https://www.paulgraham.com/wealt
 
 \[1\] 概括而言。我在西瓜籽模型中所主张的关系，更接近于坚毅度与 $w d^m - k\lvert w - d\rvert^n$ 成正比，其中 $w$ 代表意志力（will），$d$ 代表自律（discipline）。
 
-\[2\] Which means one of the best ways to help a society generally is to create [events](http://startupschool.org/) and [institutions](http://ycombinator.com/) that bring ambitious people together. It's like pulling the control rods out of a reactor: the energy they emit encourages other ambitious people, instead of being absorbed by the normal people they're usually surrounded with.
+\[2\] Which means one of the best ways to help a society generally is to create [events](https://www.startupschool.org/) and [institutions](https://www.ycombinator.com/) that bring ambitious people together. It's like pulling the control rods out of a reactor: the energy they emit encourages other ambitious people, instead of being absorbed by the normal people they're usually surrounded with.
 
-\[2\] 这意味着，普惠整个社会最好的方式之一，就是创办能够将雄心勃勃的人凝聚在一起的[活动](http://startupschool.org/)和[机构](http://ycombinator.com/)。这好比抽掉核反应堆中的控制棒：他们散发出的充沛能量能够彼此激发激励，而不是被平日里围绕在身边的平庸人群白白吸收耗散。
+\[2\] 这意味着，普惠整个社会最好的方式之一，就是创办能够将雄心勃勃的人凝聚在一起的[活动](https://www.startupschool.org/)和[机构](https://www.ycombinator.com/)。这好比抽掉核反应堆中的控制棒：他们散发出的充沛能量能够彼此激发激励，而不是被平日里围绕在身边的平庸人群白白吸收耗散。
 
 Conversely, it's probably a mistake to do as some European countries have done and try to ensure none of your universities is significantly better than the others.
 
