@@ -372,15 +372,18 @@ main article,
   background: transparent !important;
   transition: all 0.2s ease !important;
   margin-left: 0.25rem !important;
+  text-decoration: none !important;
 }
 .topbar-btn:hover {
   color: var(--link-color) !important;
   background-color: var(--sidebar-hover-bg) !important;
   border-color: var(--btn-border-color) !important;
+  text-decoration: none !important;
 }
 .topbar-btn.active {
   color: var(--link-color) !important;
   background-color: var(--sidebar-hover-bg) !important;
+  text-decoration: none !important;
 }
 
 .topbar-btn .bracket-symbol {
@@ -427,6 +430,11 @@ body.layout-post.title-sticky #topbar-post-title {
 #search-trigger.d-none ~ .topbar-btn,
 .search-active .topbar-btn {
   display: none !important;
+}
+
+/* Spacing between Topbar TOC Trigger and Search bar */
+#topbar-toc-trigger {
+  margin-right: 0.65rem !important;
 }
 
 /* Article Table of Contents Floating Dialog Modal (\ key) */
