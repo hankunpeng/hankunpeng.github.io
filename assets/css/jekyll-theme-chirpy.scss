@@ -367,3 +367,104 @@ main article,
   display: none !important;
 }
 
+/* Article Table of Contents Floating Dialog Modal (\ key) */
+dialog.toc-dialog {
+  border: 1px solid var(--main-border-color);
+  background-color: var(--main-bg);
+  color: var(--text-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: min(480px, 90vw);
+  max-height: 80vh;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  margin: auto;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+}
+
+dialog.toc-dialog:not([open]) {
+  display: none;
+}
+
+dialog.toc-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.toc-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--main-border-color);
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.toc-dialog-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  color: var(--heading-color);
+}
+
+.toc-shortcut-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted-color);
+  font-weight: normal;
+}
+
+.toc-dialog-content {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 0.5rem;
+}
+
+.toc-dialog-content nav#toc,
+.toc-dialog-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.toc-dialog-content ul ul,
+.toc-dialog-content .toc-h3 {
+  padding-left: 1.25rem;
+}
+
+.toc-dialog-content .toc-h4 {
+  padding-left: 2.25rem;
+}
+
+.toc-dialog-content li {
+  line-height: 1.7;
+  margin-bottom: 0.35rem;
+}
+
+.toc-dialog-content a {
+  color: var(--text-muted-color);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  display: block;
+}
+
+.toc-dialog-content a:hover,
+.toc-dialog-content a.is-active-link {
+  color: var(--link-color);
+}
+
+.toc-empty-notice {
+  text-align: center;
+  color: var(--text-muted-color);
+  padding: 2.5rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+

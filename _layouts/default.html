@@ -17,7 +17,12 @@ layout: compress
 >
   {% include head.html lang=lang %}
 
-  <body class="layout-{{ page.layout | default: layout.layout }}" data-layout="{{ page.layout | default: layout.layout }}">
+  <body
+    class="layout-{{ page.layout | default: layout.layout }}"
+    data-layout="{{ page.layout | default: layout.layout }}"
+    data-sidebar="{% if page.layout == 'post' %}closed{% else %}open{% endif %}"
+    data-panel="{% if page.layout == 'post' %}closed{% else %}open{% endif %}"
+  >
     {% include sidebar.html lang=lang %}
 
     <div id="main-wrapper" class="d-flex justify-content-center">
