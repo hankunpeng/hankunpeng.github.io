@@ -311,19 +311,6 @@ main article,
     pointer-events: none !important;
     visibility: hidden;
   }
-
-  /* TOC triggers */
-  body[data-panel="closed"] #toc-solo-trigger {
-    display: inline-flex !important;
-  }
-
-  body[data-panel="closed"] #toc-bar {
-    display: flex !important;
-  }
-
-  body[data-panel="open"] #toc-solo-trigger {
-    display: none !important;
-  }
 }
 
 @media (max-width: 991.98px) {
@@ -1254,7 +1241,9 @@ dialog.toc-dialog {
   }
 }
 
-
-
-
+/* 6. Hide TOC Solo Trigger ("文章内容 >") & Redundant Mobile TOC Bar */
+#toc-solo-trigger,
+#toc-bar {
+  display: none !important;
+}
 
