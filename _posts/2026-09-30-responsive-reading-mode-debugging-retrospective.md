@@ -193,6 +193,96 @@ document.addEventListener('keydown', function (e) {
 
 ---
 
+## 代码块行号的三重陷阱：漂移、粘连与钉选
+
+在搭建阅读模式与重塑主题色彩时，代码块作为长文的核心载体，暴露出了一组极具代表性的排版缺陷：两三行的短代码框看似正常，但随着后续代码行数增加、出现中文注释与长语句时，行号开始逐渐脱离代码行、双位数被挤压遮挡，甚至在横向滚动时被直接裁切，呈现出「行号显示不全」的混乱状态。
+
+排查后发现，这不是单一的样式冲突，而是排版基准、表格盒模型与滚动机制三重叠加的结果。
+
+### 1. 行高微差引发的累积垂直漂移（Vertical Drift）
+
+这是长代码块行号错位最隐蔽的根因。
+
+在自定义字体排版时，我们为代码正文（`td.rouge-code pre`）定义了等宽字体与行高（`font-size: 0.88rem`，`line-height: 1.62`）；然而行号列（`td.rouge-gutter pre`, `.lineno`）却遗漏了同步声明，仍沿用主题默认的 `1.4rem` 行高。
+
+- 在 1 ~ 3 行的短代码中，每一行的微小高度差累积不足 1 px，肉眼几乎无法察觉；
+- 当行数来到 9 行、甚至 20+ 行时，每行 0.4 px ~ 0.8 px 的误差被逐级放大，累积错位高达 10 px。行号整体向上漂移脱节，到底部时甚至出现多行代码悬空而无对应行号的假象。
+
+### 2. 隐式盒模型造成的字符粘连与截断
+
+Jekyll 的语法高亮引擎 Rouge 会将代码生成为双列结构的 `<table class="rouge-table">`：左列 `td.rouge-gutter` 放置行号，右列 `td.rouge-code` 放置代码。
+
+在默认的流式布局中，行号列没有声明基准最小宽度。当某一行代码首字符是非缩进的标点或字母（如 `<script>`、`:root`、`});`）时，行号与代码字符会直接粘连甚至碰撞；在紧凑视口下，双位数（如 `10`、`23`）的十位数字更是紧贴甚至被外层圆角边界切掉半边。
+
+### 3. 横向滚动时的视口脱节
+
+对于包含长路径、内联注释或链式调用的代码，正文会超出容器宽度并触发水平滚动。在原生表格结构中，如果行号列没有粘性定位（Sticky Positioning），读者在向右滑动查看代码尾部时，行号就会随着整个表格整体左移，直接被滚出屏幕可见区。
+
+---
+
+### 一体化工程解法
+
+在 `assets/css/jekyll-theme-chirpy.scss` 中，我们通过三组规则重构了代码块的盒模型与排版契约：
+
+```scss
+/* 1. 统一代码正文与行号的字体度量基准，彻底消除垂直漂移 */
+.highlight code,
+.highlight .lineno,
+td.rouge-code pre,
+td.rouge-gutter pre {
+  font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.88rem !important;
+  line-height: 1.62 !important;
+  white-space: pre !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. 重构行号列：设立固定安全宽、双向内边距与横向滚动钉选 */
+td.rouge-gutter {
+  display: table-cell !important;
+  width: auto !important;
+  min-width: 2.8rem !important;
+  padding: 0.75rem 0.8rem 0.75rem 1.1rem !important;
+  margin: 0 !important;
+  text-align: right !important;
+  vertical-align: top !important;
+  position: sticky !important;
+  left: 0 !important;
+  background-color: var(--highlight-bg-color) !important;
+  z-index: 2 !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+
+  .lineno {
+    display: block !important;
+    text-align: right !important;
+    color: var(--highlight-lineno-color) !important;
+    width: 100% !important;
+  }
+}
+
+/* 3. 规范代码正文列内边距 */
+td.rouge-code {
+  display: table-cell !important;
+  padding: 0.75rem 1.5rem 0.75rem 0.5rem !important;
+  margin: 0 !important;
+  vertical-align: top !important;
+
+  pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: var(--code-color) !important;
+  }
+}
+```
+
+这组重构达成了三个核心收益：
+1. **绝对基线对齐**：行号与代码行高像素级 1:1 严格对齐，彻底告别随行数递增的垂直漂移；
+2. **充裕呼吸感**：`2.8rem` 最小宽度与 `1.1rem` 左侧边距为单/双位数留出充足空间，不再有任何边缘截断；
+3. **横向滚动钉选**：通过 `position: sticky; left: 0` 与主题背景色覆盖，长代码向右滑动时行号始终固定在左侧，保持清晰可辨。
+
+---
+
 ## 结语：端到端验证的敬畏之心
 
 这次从排错到上线的过程，给我最大的震撼在于：**本地运行良好并不代表线上交付成功，代码语法正确也不代表交互真正可用**。
