@@ -78,28 +78,23 @@ main article,
   #layout-toggle,
   #panel-trigger {
     display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
   }
 
-  #sidebar-trigger {
+  #sidebar-trigger,
+  #panel-trigger {
     margin-left: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0.25rem !important;
   }
 
   #layout-toggle {
     margin-left: 0.15rem !important;
     margin-right: 0.15rem !important;
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
-  }
-
-  #panel-trigger {
-    margin-left: 0 !important;
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
   }
 
   #topbar-wrapper {
@@ -350,8 +345,12 @@ main article,
 .topbar-btn {
   color: var(--text-muted-color) !important;
   font-size: 1rem !important;
-  padding: 0.35rem 0.55rem !important;
-  border-radius: 0.5rem !important;
+  padding: 0 !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  border-radius: 8px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -360,6 +359,18 @@ main article,
   transition: all 0.2s ease !important;
   margin-left: 0.25rem !important;
   text-decoration: none !important;
+  box-sizing: border-box !important;
+}
+
+#topbar-home-btn {
+  margin-left: 0 !important;
+}
+
+.topbar-btn svg {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  flex-shrink: 0;
 }
 .topbar-btn:hover {
   color: var(--link-color) !important;
@@ -371,6 +382,39 @@ main article,
   color: var(--link-color) !important;
   background-color: var(--sidebar-hover-bg) !important;
   text-decoration: none !important;
+}
+
+/* Topbar separator dot between Home button and view controls */
+#topbar .icon-border {
+  background-color: var(--sidebar-border-color) !important;
+  opacity: 0.9;
+  width: 3px !important;
+  height: 3px !important;
+  min-width: 3px !important;
+  min-height: 3px !important;
+  border-radius: 50% !important;
+  margin-left: 0.3rem !important;
+  margin-right: 0.3rem !important;
+  flex-shrink: 0;
+  display: inline-block !important;
+  pointer-events: none;
+}
+
+.search-active #topbar .icon-border {
+  display: none !important;
+}
+
+/* Hide Home button and its separator dot when left sidebar is displayed (左侧栏显示时) */
+@media (min-width: 992px) {
+  body[data-sidebar="open"] #topbar-home-btn,
+  body[data-sidebar="open"] #topbar .icon-border {
+    display: none !important;
+  }
+}
+
+body[sidebar-display] #topbar-home-btn,
+body[sidebar-display] #topbar .icon-border {
+  display: none !important;
 }
 
 

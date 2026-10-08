@@ -221,17 +221,26 @@
     }
 
     // 7. Keyboard Shortcuts:
+    // - -> Go to Home
     // [ -> Toggle left sidebar
     // ] -> Toggle right panel
     // = -> Toggle reading mode (both sidebars)
     // \ -> Toggle article TOC modal
     // Escape -> Close popup or mobile drawers
     document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
       var activeTag = document.activeElement ? document.activeElement.tagName : '';
       if (['INPUT', 'TEXTAREA'].indexOf(activeTag) !== -1) return;
       if (document.activeElement && document.activeElement.isContentEditable) return;
 
-      if (e.key === '[' || e.key === '【' || e.code === 'BracketLeft') {
+      if (e.key === '-' || e.key === '－' || e.key === '—' || e.code === 'Minus') {
+        var homeBtn = document.getElementById('topbar-home-btn');
+        if (homeBtn) {
+          e.preventDefault();
+          homeBtn.click();
+        }
+      } else if (e.key === '[' || e.key === '【' || e.code === 'BracketLeft') {
         e.preventDefault();
         toggleLeft();
       } else if (e.key === ']' || e.key === '】' || e.code === 'BracketRight') {

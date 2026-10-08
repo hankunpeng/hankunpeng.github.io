@@ -6,6 +6,20 @@
     class="d-flex align-items-center justify-content-between px-lg-3 h-100"
   >
     <div class="d-flex align-items-center overflow-hidden me-auto">
+      <a
+        href="{{ '/' | relative_url }}"
+        id="topbar-home-btn"
+        class="btn btn-link text-decoration-none topbar-btn"
+        aria-label="Home"
+        title="返回首页，按 - 键"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" aria-hidden="true">
+          <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
+        </svg>
+      </a>
+
+      <span class="icon-border"></span>
+
       <button
         type="button"
         id="sidebar-trigger"
@@ -13,7 +27,7 @@
         aria-label="Sidebar"
         title="左侧栏，按 [ 键"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="21" fill="currentColor" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" aria-hidden="true">
           <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm120-80v-560H200v560h120Zm80 0h360v-560H400v560Zm-80 0H200h120Z"/>
         </svg>
       </button>
@@ -25,7 +39,7 @@
         aria-label="Toggle Layout"
         title="专注阅读 / 三栏全貌，按 = 键"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="21" fill="currentColor" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" aria-hidden="true">
           <path d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z"/>
         </svg>
       </button>
@@ -37,14 +51,14 @@
         aria-label="Toggle Right Panel"
         title="右侧栏，按 ] 键"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="21" fill="currentColor" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" aria-hidden="true">
           <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm440-80h120v-560H640v560Zm-80 0v-560H200v560h360Zm80 0h120-120Z"/>
         </svg>
       </button>
 
       {% if page.layout == 'post' %}
         <span id="topbar-post-title" class="topbar-post-title" title="{{ page.title }}">{{ page.title }}</span>
-      {% elsif page.layout != 'home' %}
+      {% elsif page.layout != 'home' and page.collection != 'tabs' and page.layout != 'categories' and page.layout != 'tags' and page.layout != 'archives' and page.url != '/about/' %}
         <nav id="breadcrumb" aria-label="Breadcrumb">
           {% assign paths = page.url | split: '/' %}
           {% for item in paths %}
@@ -62,9 +76,9 @@
       {% endif %}
 
       <div id="topbar-title">
-        {% if page.layout == 'home' or page.layout == 'post' %}
+        {% if page.layout == 'home' or page.layout == 'post' or page.collection == 'tabs' or page.layout == 'categories' or page.layout == 'tags' or page.layout == 'archives' or page.url == '/about/' %}
           <!-- clean topbar, no static text -->
-        {% elsif page.collection == 'tabs' or page.layout == 'page' %}
+        {% elsif page.layout == 'page' %}
           {%- capture tab_key -%}{{ page.url | split: '/' }}{%- endcapture -%}
           {{- site.data.locales[include.lang].tabs[tab_key] | default: page.title -}}
         {% else %}
@@ -83,7 +97,7 @@
           aria-label="Table of Contents"
           title="文章目录，按 \ 键"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" height="21" viewBox="0 -960 960 960" width="21" fill="currentColor" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" aria-hidden="true">
             <path d="M120-280v-80h560v80H120Zm0-160v-80h560v80H120Zm0-160v-80h560v80H120Zm680 320q-17 0-28.5-11.5T760-320q0-17 11.5-28.5T800-360q17 0 28.5 11.5T840-320q0 17-11.5 28.5T800-280Zm0-160q-17 0-28.5-11.5T760-480q0-17 11.5-28.5T800-520q17 0 28.5 11.5T840-480q0 17-11.5 28.5T800-440Zm0-160q-17 0-28.5-11.5T760-640q0-17 11.5-28.5T800-680q17 0 28.5 11.5T840-640q0 17-11.5 28.5T800-600Z"/>
           </svg>
         </button>
