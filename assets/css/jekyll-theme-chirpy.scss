@@ -543,4 +543,718 @@ dialog.toc-dialog::backdrop {
   }
 }
 
+/* ======================================================== */
+/* --- Claude.com (Anthropic) Aesthetic Customization ---   */
+/* ======================================================== */
+
+/* 1. Light Mode (Warm Ivory & Terracotta Palette) */
+:root,
+:root[data-bs-theme='light'],
+:root[data-mode='light'] {
+  --main-bg: #faf9f5;
+  --mask-bg: rgba(20, 20, 19, 0.45);
+  --main-border-color: rgba(20, 20, 19, 0.08);
+
+  --text-color: #141413;
+  --text-muted-color: #6b6860;
+  --text-muted-highlight-color: #3a3935;
+  --heading-color: #141413;
+  --label-color: #6b6860;
+
+  /* Claude Signature Terracotta Accent */
+  --link-color: #c96442;
+  --link-hover-color: #b55434;
+  --link-underline-color: rgba(201, 100, 66, 0.28);
+
+  --blockquote-border-color: #c96442;
+  --blockquote-text-color: #3e3d39;
+  --blockquote-bg: rgba(201, 100, 66, 0.045);
+
+  --button-bg: #f6f4ee;
+  --btn-border-color: rgba(20, 20, 19, 0.1);
+  --btn-backtotop-color: #6b6860;
+  --btn-backtotop-border-color: rgba(20, 20, 19, 0.1);
+  --checkbox-color: #b0aea5;
+  --checkbox-checked-color: #c96442;
+
+  --menu-bg: #f6f4ee;
+  --menu-border-color: rgba(20, 20, 19, 0.08);
+  --menu-shadow-color: rgba(20, 20, 19, 0.07);
+  --menu-active-color: #141413;
+  --menu-highlight-bg: rgba(201, 100, 66, 0.06);
+
+  /* Soft Sand / Linen Sidebar */
+  --sidebar-bg: #f3f1ea;
+  --sidebar-border-color: rgba(20, 20, 19, 0.08);
+  --sidebar-muted-color: #6b6860;
+  --sidebar-active-color: #141413;
+  --sidebar-hover-bg: rgba(20, 20, 19, 0.05);
+  --sidebar-btn-bg: transparent;
+  --sidebar-btn-color: #6b6860;
+  --avatar-border-color: #f3f1ea;
+
+  /* Translucent Warm Ivory Topbar */
+  --topbar-bg: rgba(250, 249, 245, 0.88);
+  --topbar-text-color: #141413;
+  --search-border-color: rgba(20, 20, 19, 0.09);
+  --search-icon-color: #6b6860;
+  --input-focus-border-color: #c96442;
+
+  --post-list-text-color: #5e5d59;
+  --btn-patinator-text-color: #5e5d59;
+  --btn-paginator-hover-color: rgba(201, 100, 66, 0.06);
+
+  --toc-highlight: #c96442;
+  --toc-popup-border-color: rgba(20, 20, 19, 0.09);
+  --btn-share-color: #6b6860;
+  --btn-share-hover-color: #c96442;
+
+  /* Warm Linen Cards (Harmonious with Claude Theme) */
+  --card-bg: #f5f3ec;
+  --card-hover-bg: #ece8dc;
+  --card-shadow: 0 2px 14px rgba(20, 20, 19, 0.04), 0 0 0 1px rgba(20, 20, 19, 0.06);
+
+  /* Soft Framed Tables */
+  --tb-odd-bg: #f6f4ee;
+  --tb-border-color: rgba(20, 20, 19, 0.08);
+
+  --kbd-wrap-color: rgba(20, 20, 19, 0.16);
+  --kbd-text-color: #141413;
+  --kbd-bg-color: #f6f4ee;
+
+  --tag-border: rgba(20, 20, 19, 0.08);
+  --tag-shadow: transparent;
+  --tag-hover: rgba(201, 100, 66, 0.08);
+  --search-tag-bg: #eeebe3;
+
+  --categories-border: rgba(20, 20, 19, 0.08);
+  --categories-hover-bg: rgba(201, 100, 66, 0.05);
+
+  --timeline-color: rgba(20, 20, 19, 0.09);
+  --timeline-node-bg: #c96442;
+  --timeline-year-dot-color: #faf9f5;
+
+  /* Inline Code */
+  --inline-code-bg: rgba(20, 20, 19, 0.055);
+  --inline-code-color: #242320;
+
+  /* Code Blocks (Warm Claude Theme) */
+  --highlight-bg-color: #f2eee5;
+  --code-header-bg: #eae5d8;
+  --code-header-text-color: #7a766e;
+  --code-header-icon-color: #8c887f;
+  --code-header-muted-color: rgba(20, 20, 19, 0.12);
+  --language-border-color: rgba(20, 20, 19, 0.09);
+  --highlight-lineno-color: #9c978d;
+  --code-color: #1f1e1c;
+}
+
+/* 2. Dark Mode (Rich Warm Espresso & Clay Orange Palette) */
+:root[data-bs-theme='dark'],
+:root[data-mode='dark'] {
+  --main-bg: #181816;
+  --mask-bg: rgba(0, 0, 0, 0.7);
+  --main-border-color: rgba(236, 233, 226, 0.1);
+
+  --text-color: #ece9e2;
+  --text-muted-color: #9e9b93;
+  --text-muted-highlight-color: #dad6cb;
+  --heading-color: #f7f6f2;
+  --label-color: #b5b2a9;
+
+  /* Luminous Clay Orange for Dark Mode */
+  --link-color: #d97757;
+  --link-hover-color: #ebb09a;
+  --link-underline-color: rgba(217, 119, 87, 0.35);
+
+  --blockquote-border-color: #d97757;
+  --blockquote-text-color: #cfcbbf;
+  --blockquote-bg: rgba(217, 119, 87, 0.08);
+
+  --button-bg: #21211e;
+  --btn-border-color: rgba(236, 233, 226, 0.1);
+  --btn-backtotop-color: #9e9b93;
+  --btn-backtotop-border-color: rgba(236, 233, 226, 0.1);
+  --card-header-bg: #21211e;
+  --checkbox-color: #5c5a53;
+  --checkbox-checked-color: #d97757;
+
+  --menu-bg: #21211e;
+  --menu-border-color: rgba(236, 233, 226, 0.1);
+  --menu-shadow-color: rgba(0, 0, 0, 0.6);
+  --menu-active-color: #f7f6f2;
+  --menu-highlight-bg: rgba(217, 119, 87, 0.1);
+
+  /* Deep Warm Espresso Sidebar */
+  --sidebar-bg: #1f1f1d;
+  --sidebar-border-color: rgba(236, 233, 226, 0.1);
+  --sidebar-muted-color: #9e9b93;
+  --sidebar-active-color: #f7f6f2;
+  --sidebar-hover-bg: rgba(236, 233, 226, 0.05);
+  --sidebar-btn-bg: transparent;
+  --sidebar-btn-color: #9e9b93;
+  --avatar-border-color: rgba(236, 233, 226, 0.15);
+
+  /* Translucent Espresso Topbar */
+  --topbar-bg: rgba(24, 24, 22, 0.88);
+  --topbar-text-color: #ece9e2;
+  --search-border-color: rgba(236, 233, 226, 0.1);
+  --search-icon-color: #9e9b93;
+  --input-focus-border-color: #d97757;
+
+  --post-list-text-color: #b5b2a9;
+  --btn-patinator-text-color: #b5b2a9;
+  --btn-paginator-hover-color: rgba(217, 119, 87, 0.08);
+
+  --toc-highlight: #d97757;
+  --toc-popup-border-color: rgba(236, 233, 226, 0.1);
+  --btn-share-color: #9e9b93;
+  --btn-share-hover-color: #d97757;
+
+  /* Dark Cards */
+  --card-bg: #21211e;
+  --card-hover-bg: #282824;
+  --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(236, 233, 226, 0.08);
+
+  /* Framed Tables */
+  --tb-odd-bg: #20201d;
+  --tb-even-bg: #181816;
+  --tb-border-color: rgba(236, 233, 226, 0.1);
+
+  --kbd-wrap-color: rgba(236, 233, 226, 0.18);
+  --kbd-text-color: #ece9e2;
+  --kbd-bg-color: #21211e;
+
+  --tag-border: rgba(236, 233, 226, 0.1);
+  --tag-shadow: transparent;
+  --tag-hover: rgba(217, 119, 87, 0.12);
+  --search-tag-bg: #232320;
+
+  --categories-border: rgba(236, 233, 226, 0.1);
+  --categories-hover-bg: rgba(217, 119, 87, 0.08);
+
+  --timeline-color: rgba(236, 233, 226, 0.1);
+  --timeline-node-bg: #d97757;
+  --timeline-year-dot-color: #181816;
+
+  /* Inline Code */
+  --inline-code-bg: rgba(236, 233, 226, 0.08);
+  --inline-code-color: #f7f6f2;
+
+  /* Code Blocks (Warm Claude Theme) */
+  --highlight-bg-color: #131311;
+  --code-header-bg: #1c1c19;
+  --code-header-text-color: #8a8880;
+  --code-header-icon-color: #706e66;
+  --code-header-muted-color: rgba(236, 233, 226, 0.12);
+  --language-border-color: rgba(236, 233, 226, 0.1);
+  --highlight-lineno-color: #636159;
+  --code-color: #ece9e2;
+}
+
+/* System Dark Mode Fallback */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bs-theme]):not([data-mode]) {
+    --main-bg: #181816;
+    --mask-bg: rgba(0, 0, 0, 0.7);
+    --main-border-color: rgba(236, 233, 226, 0.1);
+    --text-color: #ece9e2;
+    --text-muted-color: #9e9b93;
+    --text-muted-highlight-color: #dad6cb;
+    --heading-color: #f7f6f2;
+    --label-color: #b5b2a9;
+    --link-color: #d97757;
+    --link-hover-color: #ebb09a;
+    --link-underline-color: rgba(217, 119, 87, 0.35);
+    --blockquote-border-color: #d97757;
+    --blockquote-text-color: #cfcbbf;
+    --blockquote-bg: rgba(217, 119, 87, 0.08);
+    --button-bg: #21211e;
+    --btn-border-color: rgba(236, 233, 226, 0.1);
+    --btn-backtotop-color: #9e9b93;
+    --btn-backtotop-border-color: rgba(236, 233, 226, 0.1);
+    --card-header-bg: #21211e;
+    --checkbox-color: #5c5a53;
+    --checkbox-checked-color: #d97757;
+    --menu-bg: #21211e;
+    --menu-border-color: rgba(236, 233, 226, 0.1);
+    --menu-shadow-color: rgba(0, 0, 0, 0.6);
+    --menu-active-color: #f7f6f2;
+    --menu-highlight-bg: rgba(217, 119, 87, 0.1);
+    --sidebar-bg: #1f1f1d;
+    --sidebar-border-color: rgba(236, 233, 226, 0.1);
+    --sidebar-muted-color: #9e9b93;
+    --sidebar-active-color: #f7f6f2;
+    --sidebar-hover-bg: rgba(236, 233, 226, 0.05);
+    --sidebar-btn-bg: transparent;
+    --sidebar-btn-color: #9e9b93;
+    --avatar-border-color: rgba(236, 233, 226, 0.15);
+    --topbar-bg: rgba(24, 24, 22, 0.88);
+    --topbar-text-color: #ece9e2;
+    --search-border-color: rgba(236, 233, 226, 0.1);
+    --search-icon-color: #9e9b93;
+    --input-focus-border-color: #d97757;
+    --post-list-text-color: #b5b2a9;
+    --btn-patinator-text-color: #b5b2a9;
+    --btn-paginator-hover-color: rgba(217, 119, 87, 0.08);
+    --toc-highlight: #d97757;
+    --toc-popup-border-color: rgba(236, 233, 226, 0.1);
+    --btn-share-color: #9e9b93;
+    --btn-share-hover-color: #d97757;
+    --card-bg: #21211e;
+    --card-hover-bg: #282824;
+    --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(236, 233, 226, 0.08);
+    --tb-odd-bg: #20201d;
+    --tb-even-bg: #181816;
+    --tb-border-color: rgba(236, 233, 226, 0.1);
+    --kbd-wrap-color: rgba(236, 233, 226, 0.18);
+    --kbd-text-color: #ece9e2;
+    --kbd-bg-color: #21211e;
+    --tag-border: rgba(236, 233, 226, 0.1);
+    --tag-shadow: transparent;
+    --tag-hover: rgba(217, 119, 87, 0.12);
+    --search-tag-bg: #232320;
+    --categories-border: rgba(236, 233, 226, 0.1);
+    --categories-hover-bg: rgba(217, 119, 87, 0.08);
+    --timeline-color: rgba(236, 233, 226, 0.1);
+    --timeline-node-bg: #d97757;
+    --timeline-year-dot-color: #181816;
+    --inline-code-bg: rgba(236, 233, 226, 0.08);
+    --inline-code-color: #f7f6f2;
+
+    /* Code Blocks (Warm Claude Theme) */
+    --highlight-bg-color: #131311;
+    --code-header-bg: #1c1c19;
+    --code-header-text-color: #8a8880;
+    --code-header-icon-color: #706e66;
+    --code-header-muted-color: rgba(236, 233, 226, 0.12);
+    --language-border-color: rgba(236, 233, 226, 0.1);
+    --highlight-lineno-color: #636159;
+    --code-color: #ece9e2;
+  }
+}
+
+/* 3. Typography: Claude's Dual System (Editorial Serif + Humanist UI Sans) */
+
+/* Global UI Font: Plus Jakarta Sans */
+body,
+#sidebar,
+#topbar,
+#panel-wrapper,
+.topbar-btn,
+.post-meta,
+.btn,
+dialog.toc-dialog {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Code Monospace */
+code, kbd, samp, pre {
+  font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
+}
+
+/* Literary Editorial Body: Lora Serif */
+.content,
+.content p,
+.content li,
+.content blockquote,
+#post-list .post-preview {
+  font-family: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif !important;
+  line-height: 1.88 !important;
+  font-size: 1.08rem !important;
+}
+
+.content p {
+  margin-bottom: 1.45rem !important;
+}
+
+/* Editorial Serif Headings (Warm, Literary Book Headings) */
+.content h1,
+.content h2,
+.content h3,
+.post-title,
+#topbar-post-title {
+  font-family: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.012em;
+}
+
+/* Organic Heading Spacing without Rigid Divider Lines */
+.content h1 {
+  font-size: 2.15rem !important;
+  margin-top: 2.9rem !important;
+  margin-bottom: 1.3rem !important;
+  border-bottom: none !important;
+}
+
+.content h2 {
+  font-size: 1.65rem !important;
+  margin-top: 2.6rem !important;
+  margin-bottom: 1.15rem !important;
+  border-bottom: none !important;
+}
+
+.content h3 {
+  font-size: 1.32rem !important;
+  margin-top: 2.1rem !important;
+  margin-bottom: 0.95rem !important;
+}
+
+/* 4. Organic Claude UI Shapes, Pill Badges & Gentle Tactility */
+
+/* Pill-Shaped Tags & Badges */
+.post-tag,
+.tag,
+.badge,
+.post-meta .categories a {
+  border-radius: 9999px !important;
+  padding: 0.28rem 0.72rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.post-tag:hover {
+  background-color: var(--tag-hover) !important;
+  color: var(--link-color) !important;
+  border-color: var(--link-color) !important;
+}
+
+/* Clean Single-Layer Warm Cards (Eliminate Double Line Artifact) */
+#post-list .card-wrapper,
+#post-list .card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.post-preview,
+#related-posts .card,
+.card.categories {
+  position: relative;
+  border-radius: 14px !important;
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--main-border-color) !important;
+  box-shadow: var(--card-shadow) !important;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease !important;
+}
+
+/* Disable Chirpy legacy overlay to prevent layer overlapping artifacts */
+.post-preview::before {
+  display: none !important;
+}
+
+/* Refined Editorial Hover: Smooth Lift, Terracotta Border, Title Accent */
+.post-preview:hover,
+#related-posts .card:hover,
+.card.categories:hover {
+  transform: translateY(-2.5px) !important;
+  background-color: var(--card-hover-bg) !important;
+  border-color: rgba(201, 100, 66, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(20, 20, 19, 0.06), 0 2px 6px rgba(20, 20, 19, 0.04) !important;
+  text-decoration: none !important;
+
+  .card-title {
+    color: var(--link-color) !important;
+    transition: color 0.18s ease;
+  }
+}
+
+:root[data-bs-theme='dark'] .post-preview:hover,
+:root[data-bs-theme='dark'] #related-posts .card:hover,
+:root[data-mode='dark'] .post-preview:hover,
+:root[data-mode='dark'] #related-posts .card:hover {
+  border-color: rgba(217, 119, 87, 0.4) !important;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+
+  .card-title {
+    color: var(--link-color) !important;
+  }
+}
+
+/* Terracotta Literary Blockquotes */
+blockquote {
+  border-left: 3.5px solid var(--blockquote-border-color) !important;
+  background-color: var(--blockquote-bg) !important;
+  border-radius: 0 10px 10px 0 !important;
+  padding: 1rem 1.4rem !important;
+  margin: 1.8rem 0 !important;
+}
+
+blockquote p {
+  color: var(--blockquote-text-color) !important;
+  margin-bottom: 0.5rem;
+}
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Rounded Framed Tables (Only standard markdown tables, excluding code highlighter tables) */
+.content table:not(.rouge-table) {
+  border: 1px solid var(--tb-border-color) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+  margin: 1.8rem 0 !important;
+}
+
+.content table:not(.rouge-table) th {
+  background-color: var(--sidebar-bg) !important;
+  border-bottom: 1px solid var(--tb-border-color) !important;
+  font-weight: 600;
+  color: var(--heading-color) !important;
+}
+
+.content table:not(.rouge-table) td {
+  border-bottom: 1px solid var(--tb-border-color) !important;
+}
+
+/* Ensure code table has NO inner frame, borders, or margins (Single Outer Box) */
+.content .highlight table,
+.highlight table,
+table.rouge-table {
+  border: none !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+.content .highlight table td,
+.highlight table td,
+table.rouge-table td {
+  border: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Warm Inline Code */
+p > code,
+li > code,
+td > code,
+h1 > code,
+h2 > code,
+h3 > code {
+  background-color: var(--inline-code-bg) !important;
+  color: var(--inline-code-color) !important;
+  border: 1px solid var(--main-border-color) !important;
+  padding: 0.18rem 0.44rem !important;
+  border-radius: 6px !important;
+  font-size: 0.88em !important;
+}
+
+/* Warm & Rounded Code Blocks (Seamless Claude Theme Integration) */
+div[class*='language-'],
+figure.highlight {
+  background-color: var(--highlight-bg-color) !important;
+  border: 1px solid var(--language-border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 14px rgba(20, 20, 19, 0.03) !important;
+  overflow: hidden !important;
+  margin: 1.8rem 0 !important;
+}
+
+/* Code Header Toolbar */
+div[class*='language-'] .code-header {
+  background-color: var(--code-header-bg) !important;
+  border-bottom: 1px solid var(--language-border-color) !important;
+  padding: 0 1rem !important;
+
+  span[data-label-text] {
+    color: var(--code-header-text-color) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.76rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  button {
+    color: var(--code-header-icon-color) !important;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--link-color) !important;
+    }
+  }
+}
+
+/* Code Highlight Surfaces (Override Chirpy #f6f8fa) */
+.highlight,
+.highlight .w,
+.highlight table,
+.highlight table td,
+.highlight pre,
+.highlight code,
+td.rouge-code,
+td.rouge-gutter {
+  background-color: var(--highlight-bg-color) !important;
+}
+
+/* Ensure code table takes full width and highlight scrolls smoothly */
+.highlight {
+  overflow-x: auto !important;
+  padding: 0 !important;
+
+  table {
+    width: max-content !important;
+    min-width: 100% !important;
+  }
+}
+
+/* Code Line Numbers Column (Gutter) */
+td.rouge-gutter {
+  display: table-cell !important;
+  width: auto !important;
+  min-width: 2.8rem !important;
+  padding: 0.75rem 0.8rem 0.75rem 1.1rem !important;
+  margin: 0 !important;
+  text-align: right !important;
+  vertical-align: top !important;
+  position: sticky !important;
+  left: 0 !important;
+  background-color: var(--highlight-bg-color) !important;
+  z-index: 2 !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  box-sizing: border-box !important;
+
+  pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: right !important;
+  }
+
+  .lineno {
+    display: block !important;
+    text-align: right !important;
+    color: var(--highlight-lineno-color) !important;
+    width: 100% !important;
+  }
+}
+
+/* Code Content Column */
+td.rouge-code {
+  display: table-cell !important;
+  padding: 0.75rem 1.5rem 0.75rem 0.5rem !important;
+  margin: 0 !important;
+  vertical-align: top !important;
+  box-sizing: border-box !important;
+
+  pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: var(--code-color) !important;
+  }
+}
+
+/* Unified Typography for both Code and Line Numbers (Eliminates Vertical Drift & Misalignment) */
+.highlight code,
+.highlight .lineno,
+td.rouge-code pre,
+td.rouge-gutter pre {
+  font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.88rem !important;
+  line-height: 1.62 !important;
+  white-space: pre !important;
+  box-sizing: border-box !important;
+}
+
+/* Hide gutter gracefully for blocks without line numbers */
+div.nolineno td.rouge-gutter,
+div.language-plaintext td.rouge-gutter,
+div.language-console td.rouge-gutter,
+div.language-terminal td.rouge-gutter {
+  display: none !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  width: 0 !important;
+}
+
+div.nolineno td.rouge-code,
+div.language-plaintext td.rouge-code,
+div.language-console td.rouge-code,
+div.language-terminal td.rouge-code {
+  padding-left: 1.1rem !important;
+}
+
+/* Soft Rounded Dialogs & Buttons */
+dialog.toc-dialog {
+  border-radius: 16px !important;
+}
+
+.topbar-btn {
+  border-radius: 8px !important;
+}
+
+/* 5. Sidebar Bottom Icons (Seamless Claude Theme Integration) */
+#sidebar .sidebar-bottom {
+  /* Separator dot */
+  .icon-border {
+    background-color: var(--sidebar-border-color) !important;
+    opacity: 0.9;
+  }
+
+  /* Bottom 4 Utility Icons: Mode switch (#mode-toggle) & Social links (> a) */
+  > a,
+  #mode-toggle {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: 1px solid var(--sidebar-border-color) !important;
+    color: var(--sidebar-muted-color) !important;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    &:hover {
+      background-color: var(--tag-hover) !important;
+      border-color: var(--link-color) !important;
+      color: var(--link-color) !important;
+      transform: translateY(-1.5px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+  }
+
+  /* Mode switch dropdown popup */
+  .dropdown-menu {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--main-border-color) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 12px !important;
+    padding: 0.35rem !important;
+
+    .dropdown-item {
+      border-radius: 8px !important;
+      color: var(--text-color) !important;
+      padding: 0.45rem 0.8rem !important;
+      font-size: 0.88rem !important;
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:hover,
+      &.active {
+        background-color: var(--menu-highlight-bg) !important;
+        color: var(--link-color) !important;
+      }
+
+      > i {
+        color: var(--text-muted-color) !important;
+      }
+
+      &:hover > i,
+      &.active > i {
+        color: var(--link-color) !important;
+      }
+    }
+  }
+}
+
+
+
+
 
