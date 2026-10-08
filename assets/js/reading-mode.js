@@ -32,21 +32,21 @@
 
       if (sidebarTrigger) {
         var sbOpen = sidebarState === 'open';
-        sidebarTrigger.title = sbOpen ? '收起左侧栏 ([)' : '呼出左侧栏 ([)';
+        sidebarTrigger.title = sbOpen ? '收起左侧栏，按 [ 键' : '呼出左侧栏，按 [ 键';
         sidebarTrigger.setAttribute('aria-label', sidebarTrigger.title);
         sidebarTrigger.classList.toggle('active', sbOpen);
       }
 
       if (panelTrigger) {
         var pnOpen = panelState === 'open';
-        panelTrigger.title = pnOpen ? '收起右侧栏 (])' : '呼出右侧栏 (])';
+        panelTrigger.title = pnOpen ? '收起右侧栏，按 ] 键' : '呼出右侧栏，按 ] 键';
         panelTrigger.setAttribute('aria-label', panelTrigger.title);
         panelTrigger.classList.toggle('active', pnOpen);
       }
 
       if (layoutBtn) {
         var bothClosed = sidebarState === 'closed' && panelState === 'closed';
-        layoutBtn.title = bothClosed ? '展开两侧栏（三栏全貌）(=)' : '收起两侧栏（专注阅读）(=)';
+        layoutBtn.title = bothClosed ? '展开两侧栏，三栏全貌，按 = 键' : '收起两侧栏，专注阅读，按 = 键';
         layoutBtn.setAttribute('aria-label', layoutBtn.title);
         layoutBtn.classList.toggle('active', bothClosed);
       }
