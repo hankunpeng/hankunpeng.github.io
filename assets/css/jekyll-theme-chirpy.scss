@@ -92,6 +92,10 @@ main article,
     margin-left: 0 !important;
   }
 
+  #panel-trigger {
+    margin-right: 0.3rem !important;
+  }
+
   #layout-toggle {
     margin-left: 0.15rem !important;
     margin-right: 0.15rem !important;
@@ -363,7 +367,21 @@ main article,
 }
 
 #topbar-home-btn {
-  margin-left: 0 !important;
+  margin-left: 0.3rem !important;
+}
+
+@media (min-width: 850px) {
+  body:not([data-sidebar="closed"]) #sidebar-trigger {
+    margin-left: 0.3rem !important;
+  }
+}
+
+body[sidebar-display] #sidebar-trigger {
+  margin-left: 0.3rem !important;
+}
+
+#panel-trigger {
+  margin-right: 0.3rem !important;
 }
 
 .topbar-btn svg {
@@ -372,7 +390,9 @@ main article,
   display: block !important;
   flex-shrink: 0;
 }
-.topbar-btn:hover {
+.topbar-btn:hover,
+.topbar-btn:focus,
+.topbar-btn:focus-visible {
   color: var(--link-color) !important;
   background-color: var(--sidebar-hover-bg) !important;
   border-color: var(--btn-border-color) !important;
@@ -405,9 +425,9 @@ main article,
 }
 
 /* Hide Home button and its separator dot when left sidebar is displayed (左侧栏显示时) */
-@media (min-width: 992px) {
-  body[data-sidebar="open"] #topbar-home-btn,
-  body[data-sidebar="open"] #topbar .icon-border {
+@media (min-width: 850px) {
+  body:not([data-sidebar="closed"]) #topbar-home-btn,
+  body:not([data-sidebar="closed"]) #topbar .icon-border {
     display: none !important;
   }
 }
