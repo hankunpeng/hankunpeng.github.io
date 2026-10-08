@@ -171,6 +171,32 @@
         </a>
       {% endif %}
     {% endfor %}
+
+    <div class="sidebar-bottom-info mt-3 w-100">
+      <div class="sidebar-copyright">
+        <span>© <time>{{ 'now' | date: '%Y' }}</time></span>
+        {% if site.social.links %}
+          <a href="{{ site.social.links[0] }}" target="_blank" rel="noopener">{{ site.social.name }}</a>
+        {% else %}
+          <span>{{ site.social.name }}</span>
+        {% endif %}
+        {% if site.data.locales[include.lang].copyright.brief %}
+          <span
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="{{ site.data.locales[include.lang].copyright.verbose }}"
+          >
+            {{- site.data.locales[include.lang].copyright.brief | remove: '。' -}}
+          </span>
+        {% endif %}
+      </div>
+      <div class="sidebar-powered">
+        <span>inspired by</span>
+        <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+        <span>and</span>
+        <a href="https://claude.com" target="_blank" rel="noopener">Claude</a>
+      </div>
+    </div>
   </div>
   <!-- .sidebar-bottom -->
 </aside>
