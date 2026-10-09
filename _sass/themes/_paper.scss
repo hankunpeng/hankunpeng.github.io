@@ -900,7 +900,7 @@ dialog.toc-dialog::backdrop {
 
 /* 3. Typography: Paper Dual System (Editorial Serif + Humanist UI Sans) */
 
-/* Global UI Font: Plus Jakarta Sans */
+/* Global UI Font: Plus Jakarta Sans + Noto Sans SC */
 body,
 #sidebar,
 #topbar,
@@ -909,7 +909,7 @@ body,
 .post-meta,
 .btn,
 dialog.toc-dialog {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei', sans-serif !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -925,7 +925,7 @@ code, kbd, samp, pre {
 /* Scheme 1 (Default): Garamond 古典书卷 (Cormorant Garamond 标题 + EB Garamond 正文) */
 :root,
 :root[data-font="garamond"] {
-  --reading-heading-font: 'Cormorant Garamond', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif;
+  --reading-heading-font: 'Cormorant Garamond', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', serif;
   --reading-body-font: 'EB Garamond', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif;
   --reading-font-size: 1.2rem;
   --reading-line-height: 1.88;
@@ -934,7 +934,7 @@ code, kbd, samp, pre {
 
 /* Scheme 2 (Optional): Lora 现代人文 (Lora 标题 + Lora 正文) */
 :root[data-font="lora"] {
-  --reading-heading-font: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif;
+  --reading-heading-font: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', serif;
   --reading-body-font: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif;
   --reading-font-size: 1.08rem;
   --reading-line-height: 1.88;
@@ -943,7 +943,7 @@ code, kbd, samp, pre {
 
 /* Scheme 3 (Optional): Crimson Pro 书卷自洽 (Crimson Pro 标题 + Crimson Pro 正文，全家族统一) */
 :root[data-font="crimson"] {
-  --reading-heading-font: 'Crimson Pro', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif;
+  --reading-heading-font: 'Crimson Pro', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', serif;
   --reading-body-font: 'Crimson Pro', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif;
   --reading-font-size: 1.15rem;
   --reading-line-height: 1.86;
@@ -1169,7 +1169,7 @@ div[class*='language-'] .code-header {
 
   span[data-label-text] {
     color: var(--code-header-text-color) !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-family: 'Plus Jakarta Sans', -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif !important;
     font-size: 0.76rem !important;
     font-weight: 600 !important;
     letter-spacing: 0.04em;
