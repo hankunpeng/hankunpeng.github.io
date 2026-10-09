@@ -1199,7 +1199,8 @@ td.rouge-gutter {
 /* Code Line Numbers Column (Gutter) */
 td.rouge-gutter {
   display: table-cell !important;
-  width: auto !important;
+  width: 1% !important;
+  white-space: nowrap !important;
   min-width: 2.8rem !important;
   padding: 0.75rem 0.8rem 0.75rem 1.1rem !important;
   margin: 0 !important;
@@ -1230,14 +1231,17 @@ td.rouge-gutter {
 /* Code Content Column */
 td.rouge-code {
   display: table-cell !important;
+  width: 99% !important;
   padding: 0.75rem 1.5rem 0.75rem 0.5rem !important;
   margin: 0 !important;
   vertical-align: top !important;
   box-sizing: border-box !important;
+  text-align: left !important;
 
   pre {
     margin: 0 !important;
     padding: 0 !important;
+    text-align: left !important;
     color: var(--code-color) !important;
   }
 }
