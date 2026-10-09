@@ -489,6 +489,10 @@ body.layout-post.title-sticky #topbar-post-title {
   font-family: 'Lora', serif;
 }
 
+:root[data-font="crimson"] #font-toggle .font-toggle-label {
+  font-family: 'Crimson Pro', serif;
+}
+
 /* Article Table of Contents Floating Dialog Modal (\ key) */
 dialog.toc-dialog {
   border: 1px solid var(--main-border-color);
@@ -935,6 +939,15 @@ code, kbd, samp, pre {
   --reading-font-size: 1.08rem;
   --reading-line-height: 1.88;
   --heading-letter-spacing: -0.012em;
+}
+
+/* Scheme 3 (Optional): Crimson Pro 书卷自洽 (Crimson Pro 标题 + Crimson Pro 正文，全家族统一) */
+:root[data-font="crimson"] {
+  --reading-heading-font: 'Crimson Pro', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif;
+  --reading-body-font: 'Crimson Pro', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif;
+  --reading-font-size: 1.15rem;
+  --reading-line-height: 1.86;
+  --heading-letter-spacing: -0.018em;
 }
 
 /* Literary Editorial Body */

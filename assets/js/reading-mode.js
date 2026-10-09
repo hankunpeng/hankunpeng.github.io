@@ -302,14 +302,18 @@
       }
     }
 
-    // 9. Font Scheme Switcher (Garamond <-> Lora)
+    // 9. Font Scheme Switcher (Garamond -> Lora -> Crimson Pro -> Garamond)
     var fontToggle = document.getElementById('font-toggle');
     var FONT_KEY = 'preferred-font';
     var FONT_GARAMOND = 'garamond';
     var FONT_LORA = 'lora';
+    var FONT_CRIMSON = 'crimson';
+
+    var SCHEMES = [FONT_GARAMOND, FONT_LORA, FONT_CRIMSON];
 
     function getSavedFont() {
-      return localStorage.getItem(FONT_KEY) || FONT_GARAMOND;
+      var saved = localStorage.getItem(FONT_KEY);
+      return SCHEMES.indexOf(saved) !== -1 ? saved : FONT_GARAMOND;
     }
 
     function applyFontScheme(font) {
@@ -317,16 +321,19 @@
       localStorage.setItem(FONT_KEY, font);
 
       if (fontToggle) {
+        fontToggle.classList.remove('font-active-garamond', 'font-active-lora', 'font-active-crimson');
         if (font === FONT_LORA) {
-          fontToggle.title = '当前字体：Lora 现代（点击切换为 Garamond 古典）';
+          fontToggle.title = '当前字体：Lora 现代（点击切换为 Crimson Pro 自洽）';
           fontToggle.setAttribute('aria-label', fontToggle.title);
           fontToggle.classList.add('font-active-lora');
-          fontToggle.classList.remove('font-active-garamond');
+        } else if (font === FONT_CRIMSON) {
+          fontToggle.title = '当前字体：Crimson Pro 自洽（点击切换为 Garamond 古典）';
+          fontToggle.setAttribute('aria-label', fontToggle.title);
+          fontToggle.classList.add('font-active-crimson');
         } else {
           fontToggle.title = '当前字体：Garamond 古典（点击切换为 Lora 现代）';
           fontToggle.setAttribute('aria-label', fontToggle.title);
           fontToggle.classList.add('font-active-garamond');
-          fontToggle.classList.remove('font-active-lora');
         }
       }
     }
@@ -337,7 +344,8 @@
       fontToggle.addEventListener('click', function (e) {
         e.preventDefault();
         var current = getSavedFont();
-        var next = current === FONT_GARAMOND ? FONT_LORA : FONT_GARAMOND;
+        var idx = SCHEMES.indexOf(current);
+        var next = SCHEMES[(idx + 1) % SCHEMES.length];
         applyFontScheme(next);
       });
     }
