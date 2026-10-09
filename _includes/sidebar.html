@@ -180,15 +180,15 @@
         {% else %}
           <span>{{ site.social.name }}</span>
         {% endif %}
-        {% if site.data.locales[include.lang].copyright.brief %}
-          <span
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="{{ site.data.locales[include.lang].copyright.verbose }}"
-          >
-            {{- site.data.locales[include.lang].copyright.brief | remove: '。' -}}
-          </span>
-        {% endif %}
+      </div>
+      <div class="sidebar-license">
+        <span
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="{{ site.data.locales[include.lang].copyright.verbose }}"
+        >
+          some rights reserved
+        </span>
       </div>
       <div class="sidebar-powered">
         <span>inspired by</span>

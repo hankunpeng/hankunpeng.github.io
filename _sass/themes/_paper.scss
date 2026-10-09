@@ -1339,13 +1339,14 @@ dialog.toc-dialog {
     }
   }
 
-  /* Bottom Copyright & Attribution */
+  /* Bottom Copyright & Attribution (Clean Three-Line Colophon) */
   .sidebar-bottom-info {
     font-size: 0.73rem;
-    line-height: 1.5;
+    line-height: 1.6;
     color: var(--sidebar-muted-color);
     opacity: 0.72;
     padding-top: 0.15rem;
+    text-align: left;
 
     a {
       color: inherit;
@@ -1359,23 +1360,28 @@ dialog.toc-dialog {
     }
 
     .sidebar-copyright,
+    .sidebar-license,
     .sidebar-powered {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      text-align: left;
+    }
+
+    .sidebar-license span[data-bs-toggle='tooltip'] {
+      cursor: pointer;
     }
   }
 }
 
-/* Hide main article footer on desktop when sidebar is open to avoid duplicate copyright */
-@media (min-width: 850px) {
-  body:not([data-sidebar="closed"]) footer[aria-label="Site Info"] {
-    display: none !important;
-  }
+/* Tail wrapper bottom spacing without footer */
+#tail-wrapper {
+  padding-bottom: 3.5rem !important;
+}
 
-  body:not([data-sidebar="closed"]) #tail-wrapper {
-    padding-bottom: 3.5rem;
-  }
+/* Hide main article footer completely */
+footer[aria-label="Site Info"] {
+  display: none !important;
 }
 
 /* 6. Hide TOC Solo Trigger ("文章内容 >") & Redundant Mobile TOC Bar */
