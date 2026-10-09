@@ -471,13 +471,33 @@ body.layout-post.title-sticky #topbar-post-title {
 
 /* Hide topbar buttons when search is active on mobile */
 #search-trigger.d-none ~ .topbar-btn,
-.search-active .topbar-btn {
+.search-active .topbar-btn,
+#topbar:has(#search-cancel.d-block) #font-toggle,
+#topbar:has(#search.d-flex) #font-toggle {
   display: none !important;
 }
 
-/* Spacing between Topbar TOC Trigger and Search bar */
+/* Spacing between Topbar buttons on the right */
 #topbar-toc-trigger {
-  margin-right: 0.65rem !important;
+  margin-right: 0.35rem !important;
+}
+
+#font-toggle {
+  margin-right: 0.55rem !important;
+
+  .font-toggle-label {
+    font-family: 'EB Garamond', 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    user-select: none;
+    display: inline-block;
+  }
+}
+
+:root[data-font="lora"] #font-toggle .font-toggle-label {
+  font-family: 'Lora', serif;
 }
 
 /* Article Table of Contents Floating Dialog Modal (\ key) */
@@ -907,30 +927,56 @@ code, kbd, samp, pre {
   font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
 }
 
-/* Literary Editorial Body: Lora Serif */
+/* --- Font Scheme Definitions --- */
+
+/* Scheme 1 (Default): Garamond 古典书卷 (Cormorant Garamond 标题 + EB Garamond 正文) */
+:root,
+:root[data-font="garamond"] {
+  --reading-heading-font: 'Cormorant Garamond', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif;
+  --reading-body-font: 'EB Garamond', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif;
+  --reading-font-size: 1.2rem;
+  --reading-line-height: 1.88;
+  --heading-letter-spacing: -0.01em;
+}
+
+/* Scheme 2 (Optional): Lora 现代人文 (Lora 标题 + Lora 正文) */
+:root[data-font="lora"] {
+  --reading-heading-font: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif;
+  --reading-body-font: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif;
+  --reading-font-size: 1.08rem;
+  --reading-line-height: 1.88;
+  --heading-letter-spacing: -0.012em;
+}
+
+/* Literary Editorial Body */
 .content,
 .content p,
 .content li,
 .content blockquote,
 #post-list .post-preview {
-  font-family: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Noto Serif SC', 'Georgia', -apple-system, 'PingFang SC', serif !important;
-  line-height: 1.88 !important;
-  font-size: 1.08rem !important;
+  font-family: var(--reading-body-font) !important;
+  line-height: var(--reading-line-height) !important;
+  font-size: var(--reading-font-size) !important;
 }
 
 .content p {
   margin-bottom: 1.45rem !important;
 }
 
-/* Editorial Serif Headings (Warm, Literary Book Headings) */
+/* Editorial Serif Headings */
+article header h1,
+h1.card-title,
 .content h1,
 .content h2,
 .content h3,
+.content h4,
+.content h5,
+.content h6,
 .post-title,
 #topbar-post-title {
-  font-family: 'Lora', 'Songti SC', 'Source Han Serif SC', 'Georgia', serif !important;
+  font-family: var(--reading-heading-font) !important;
   font-weight: 600 !important;
-  letter-spacing: -0.012em;
+  letter-spacing: var(--heading-letter-spacing);
 }
 
 /* Organic Heading Spacing without Rigid Divider Lines */

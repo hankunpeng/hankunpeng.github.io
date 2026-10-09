@@ -301,6 +301,46 @@
         updateStickyTitle();
       }
     }
+
+    // 9. Font Scheme Switcher (Garamond <-> Lora)
+    var fontToggle = document.getElementById('font-toggle');
+    var FONT_KEY = 'preferred-font';
+    var FONT_GARAMOND = 'garamond';
+    var FONT_LORA = 'lora';
+
+    function getSavedFont() {
+      return localStorage.getItem(FONT_KEY) || FONT_GARAMOND;
+    }
+
+    function applyFontScheme(font) {
+      document.documentElement.setAttribute('data-font', font);
+      localStorage.setItem(FONT_KEY, font);
+
+      if (fontToggle) {
+        if (font === FONT_LORA) {
+          fontToggle.title = '当前字体：Lora 现代（点击切换为 Garamond 古典）';
+          fontToggle.setAttribute('aria-label', fontToggle.title);
+          fontToggle.classList.add('font-active-lora');
+          fontToggle.classList.remove('font-active-garamond');
+        } else {
+          fontToggle.title = '当前字体：Garamond 古典（点击切换为 Lora 现代）';
+          fontToggle.setAttribute('aria-label', fontToggle.title);
+          fontToggle.classList.add('font-active-garamond');
+          fontToggle.classList.remove('font-active-lora');
+        }
+      }
+    }
+
+    applyFontScheme(getSavedFont());
+
+    if (fontToggle) {
+      fontToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        var current = getSavedFont();
+        var next = current === FONT_GARAMOND ? FONT_LORA : FONT_GARAMOND;
+        applyFontScheme(next);
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
