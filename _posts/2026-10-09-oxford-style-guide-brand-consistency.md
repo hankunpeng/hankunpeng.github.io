@@ -58,8 +58,6 @@ Chicago 手册是一家出版社出的书，Google 那份是产品文档团队�
 
 这份指南回答的问题是“这份文件看起来像不像大学发出的”，不是“这份文件写得好不好”。前一个问题它管到底，后一个问题它交给 OED，以及交给你自己。
 
-> 本文引用的 Oxford 页面在自动化访问时被 Cloudflare 拦下，实际读取的是 2026 年 10 月 4 日的存档快照；页面自述最后更新于 2026 年 5 月 18 日。
-
 ## 主要资料
 
 - [University of Oxford Style Guide](https://www.ox.ac.uk/about/the-university/brand/style-guide)
