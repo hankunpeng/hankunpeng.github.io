@@ -109,7 +109,7 @@ components:
 
 ## Overview
 
-Paper and Cursor are selectable appearances of the same article site. [PRODUCT.md](PRODUCT.md) owns the identity, content, and navigation constraints. Paper uses editorial serifs and warm clay accents. Cursor follows the approved Cursor website and blog reference: sans-serif type, restrained surfaces, fine boundaries, and centered prose.
+Paper and Cursor are selectable appearances of the same article site. [PRODUCT.md](PRODUCT.md) owns the identity, content, and navigation constraints. Paper uses editorial serifs and warm clay accents. Cursor follows the approved Cursor website and blog reference: sans-serif type, restrained surfaces, and fine boundaries. Both use the same responsive article width.
 
 **Appearance ownership.** [_paper.scss](_sass/themes/_paper.scss) applies under `:root:not([data-site-theme="cursor"])`; [_cursor.scss](_sass/themes/_cursor.scss) applies under `:root[data-site-theme='cursor']`. [_reading.scss](_sass/themes/_reading.scss) owns shared layout, and [_appearance.scss](_sass/themes/_appearance.scss) owns the picker. Extend the appropriate owner.
 
@@ -131,9 +131,9 @@ The Kai choice loads the local [LXGW WenKai Screen stylesheet](assets/fonts/lxgw
 
 At 992px and above, the shared layout uses collapsible columns. Articles start with both panels closed; other layouts start open. Below that breakpoint, drawers start closed and the controller permits one open at a time. The right drawer is 300px wide, capped at 85vw. Sources: [_reading.scss](_sass/themes/_reading.scss), [_layouts/default.html](_layouts/default.html), and [reading-mode.js](assets/js/reading-mode.js).
 
-Cursor centers article and tail content within 44rem. Paper follows the shared fluid columns. Below 850px (849.98px in CSS), Cursor body type becomes 1.0625rem, article titles 1.75rem, card padding 1.2rem, and container side gutters 1rem. Shared controls become 40px square, and the combined layout button disappears. Cursor hides the sticky title.
+Article and tail widths belong to the shared layout. Both appearances follow Paper's fluid columns, with 5vw outer gutters on desktop and the same inherited responsive container gutters below 992px. Sidebar state changes the available width; appearance selection does not. Scrollbar thickness is shared to keep the reserved space consistent. Below 850px (849.98px in CSS), Cursor body type becomes 1.0625rem, article titles 1.75rem, and card padding 1.2rem. Shared controls become 40px square; both appearances hide the combined layout button and sticky title so the controls fit.
 
-Below 360px (359.98px in CSS), Cursor gutters become 0.75rem; the shared picker tightens and hides its chevron. Paper card padding inherits 1rem below 768px, then uses its frontmatter padding. Sources: [_cursor.scss](_sass/themes/_cursor.scss), [_appearance.scss](_sass/themes/_appearance.scss), and Chirpy's `_sass/pages/_home.scss`, pinned by [Gemfile.lock](Gemfile.lock). Spacing tokens name observed uses rather than a universal scale.
+Below 360px (359.98px in CSS), the shared picker tightens and hides its chevron. Paper card padding inherits 1rem below 768px, then uses its frontmatter padding. Sources: [_reading.scss](_sass/themes/_reading.scss), [_cursor.scss](_sass/themes/_cursor.scss), [_appearance.scss](_sass/themes/_appearance.scss), and Chirpy's `_sass/pages/_home.scss`, pinned by [Gemfile.lock](Gemfile.lock). Spacing tokens name observed uses rather than a universal scale.
 
 ## Elevation & Depth
 
@@ -154,7 +154,7 @@ Article cards have one visible surface with transparent wrappers. Cursor uses in
 ## Do's and Don'ts
 
 - Do preserve each appearance's palette, font choices, and Chinese fallbacks.
-- Do keep Cursor prose centered and its cards stable on hover.
+- Do keep article width shared and Cursor cards stable on hover.
 - Do retain navigation, search, contents access, and keyboard controls.
 - Don't couple appearance selection to color mode or share one saved font key.
 - Don't add a second card surface or apply Paper's lift and pill geometry to Cursor.

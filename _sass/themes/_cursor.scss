@@ -92,7 +92,6 @@ $dark: (
   --reading-body-font: var(--cursor-ui-font);
   --reading-font-size: 1.125rem;
   --reading-line-height: 1.85;
-  --cursor-reading-width: 44rem;
   --heading-letter-spacing: -0.025em;
 
   &[data-font='kai'] {
@@ -105,14 +104,12 @@ $dark: (
   }
 
   scrollbar-color: var(--cursor-scrollbar) var(--main-bg);
-  scrollbar-width: thin;
 
   ::selection {
     background: var(--cursor-selection-bg);
     color: var(--cursor-selection-text);
   }
 
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--main-bg); }
   ::-webkit-scrollbar-thumb { border: 2px solid var(--main-bg); border-radius: 6px; background: var(--cursor-scrollbar); }
 
@@ -187,18 +184,6 @@ $dark: (
       .post-meta { padding-top: 0.4rem; font-size: 0.75rem; }
     }
   }
-
-  body.layout-post #main-wrapper main article,
-  body.layout-post #tail-wrapper {
-    width: 100% !important;
-    max-width: var(--cursor-reading-width) !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  #tail-wrapper .post-navigation { margin-left: 0; margin-right: 0; }
 
   article > header {
     padding-top: 1.4rem;
@@ -315,11 +300,6 @@ $dark: (
   @media (max-width: 849.98px) {
     --reading-font-size: 1.0625rem;
 
-    #main-wrapper > .container { padding-left: 1rem !important; padding-right: 1rem !important; }
-    body.layout-post #tail-wrapper { max-width: calc(100% - 1.5rem) !important; }
-    #related-posts nav.row { margin-left: 0; margin-right: 0; }
-    #related-posts nav.row > article { padding-left: 0; padding-right: 0; }
-
     #post-list {
       padding-top: 0.5rem;
       .post-preview .card-body { padding: 1.2rem !important; }
@@ -328,12 +308,7 @@ $dark: (
     }
     article > header { padding-top: 0.7rem; margin-bottom: 1.4rem; }
     article > header h1 { font-size: 1.75rem; }
-    #topbar-post-title { display: none; }
     .content h2 { font-size: 1.4rem; }
-  }
-
-  @media (max-width: 359.98px) {
-    #main-wrapper > .container { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
   }
 
   @media (prefers-reduced-motion: reduce) {

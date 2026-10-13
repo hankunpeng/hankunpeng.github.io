@@ -20,7 +20,7 @@ Paper and Cursor coexist as selectable appearances. Light, dark, and system colo
 
 ## Brand Commitments
 
-Keep the site name, avatar, article text, and existing navigation. Preserve Paper's visual identity. Cursor's website and blog are the approved reference for the additional appearance: sans-serif typography, restrained surfaces, fine boundaries, and a centered article measure.
+Keep the site name, avatar, article text, and existing navigation. Preserve Paper's visual identity. Cursor's website and blog are the approved reference for the additional appearance: sans-serif typography, restrained surfaces, and fine boundaries. Both appearances share Paper's responsive article width and side gutters.
 
 ## Evidence on Hand
 

@@ -9,6 +9,11 @@
 :root {
   /* 留白占屏幕总宽度的百分比 5% (5vw) */
   --card-gutter: 5vw;
+
+  /* Reserve the same scrollbar space in both appearances. */
+  scrollbar-width: thin;
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
 }
 
 /* --- Collapsible Sidebar & Panel (Reading Mode) --- */
