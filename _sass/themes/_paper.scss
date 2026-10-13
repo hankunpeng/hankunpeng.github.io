@@ -451,6 +451,11 @@
     }
   }
 
+  /* Sidebar access sections group content through titles and spacing. */
+  #panel-wrapper .access > section {
+    border-left: 0;
+  }
+
   /* Terracotta Literary Blockquotes */
   blockquote {
     border-left: 3.5px solid var(--blockquote-border-color) !important;
