@@ -24,6 +24,8 @@ colors:
   cursor-dark-text: "#e8e7df"
   cursor-dark-surface: "#1c1b14"
   cursor-dark-border: "#343228"
+  reading-drawer-shadow: "rgba(0, 0, 0, 0.35)"
+  reading-contents-backdrop: "rgba(0, 0, 0, 0.55)"
 typography:
   paper-ui:
     fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei', sans-serif"
@@ -67,6 +69,14 @@ typography:
     fontFamily: "'LXGW WenKai Screen', 'Kaiti SC', 'STKaiti', 'KaiTi', 'Noto Serif SC', serif"
     fontSize: "1.125rem"
     lineHeight: 1.9
+  reading-control:
+    fontSize: "1rem"
+  contents-shortcut-hint:
+    fontSize: "0.8rem"
+    fontWeight: 400
+  contents-empty-notice:
+    fontSize: "0.95rem"
+    lineHeight: 1.6
   code:
     fontFamily: "'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace"
     fontSize: "0.88rem"
@@ -78,6 +88,8 @@ rounded:
   picker: "6px"
   paper-control: "8px"
   paper-card: "14px"
+  reading-dialog-base: "1rem"
+  paper-dialog: "16px"
   paper-pill: "9999px"
 spacing:
   standard: "1rem"
@@ -117,11 +129,15 @@ Paper and Cursor are selectable appearances of the same article site. [PRODUCT.m
 
 The frontmatter records the reused core palettes. Paper pairs ivory and linen with clay accents; its dark mode uses espresso surfaces and pale text. Cursor uses warm ivory or black surfaces, brown or warm gold links, muted metadata, and thin boundaries. Components consume the active CSS custom properties.
 
+Shared overlay colors have distinct roles: `reading-drawer-shadow` supplies the opened mobile right drawer's shadow tint; `reading-contents-backdrop` dims the page behind the contents dialog. Both layers use the same color in light and dark modes. Their source is [_reading.scss](_sass/themes/_reading.scss).
+
 [_config.yml](_config.yml) defaults `visual_theme` to `paper`. Light, dark, and system color modes remain independent. Both stylesheets honor explicit `data-bs-theme` or `data-mode` attributes, then use the system preference when neither is present.
 
 ## Typography
 
 Paper's default Garamond scheme pairs Cormorant Garamond headings with EB Garamond body text. Lora and Crimson Pro use their selected family for both roles. The interface retains `paper-ui`. Cursor cycles through Inter with Chinese sans-serif fallbacks (`sans`), LXGW WenKai Screen (`kai`), and Lora with Chinese serif fallbacks (`serif`). These choices change the reading body; interface text, headings, tables, and code keep their existing faces and metrics. Kai uses 1.9 leading; the other two use 1.85. The body sizes remain equal across choices.
+
+Shared reading controls retain the active appearance's interface font. `reading-control` records the topbar buttons' base size; child SVG icons and the Aa label keep their own metrics. `contents-shortcut-hint` defines the normal-weight keyboard hint beside the dialog title. `contents-empty-notice` defines the explanation shown when an article has no heading directory. These roles describe auxiliary controls and messages, and their source is [_reading.scss](_sass/themes/_reading.scss).
 
 [_includes/metadata-hook.html](_includes/metadata-hook.html) requests the web fonts. [site-appearance.js](assets/js/site-appearance.js) stores appearance in `preferred-site-theme`, Paper fonts in `preferred-font`, and Cursor fonts in `preferred-cursor-font`. It applies the selection in the page head. The schemes retain separate preferences.
 
@@ -139,9 +155,13 @@ Below 360px (359.98px in CSS), the shared picker tightens and hides its chevron.
 
 **Cursor card stability.** Article, category, and related-post cards have no shadow or hover translation. Hover changes their surface tone. Cursor's topbar is opaque and removes the shared blur. Paper cards retain subtle shadows and a small lift. Shared drawers, menus, and the contents dialog retain overlay shadows. Exact shadows and motion belong to the sidecar.
 
+The `reading-drawer` shadow appears only on the opened right drawer below 992px. The contents dialog retains its own shadow; its backdrop covers the rest of the page with `reading-contents-backdrop` and a blur. Both effects belong to the shared reading layout.
+
 ## Shapes
 
 Paper retains rounded cards, pill tags, and soft table and code frames. Cursor uses small corners, straight blockquotes, and thin boundaries. Its controls and code frames use `cursor-detail`; tables and inline code use `compact`. Its contents dialog and the shared picker use `picker`. Sources: the three appearance stylesheets.
+
+The shared contents-dialog rule supplies `reading-dialog-base` as a fallback. Paper's appearance stylesheet overrides it with `paper-dialog` using `!important`; Cursor's appearance stylesheet overrides it with `picker`. Keep the fallback and appearance-specific corners distinct when extending the dialog.
 
 ## Components
 
