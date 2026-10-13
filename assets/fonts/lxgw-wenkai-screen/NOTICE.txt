@@ -1,0 +1,5 @@
+LXGW WenKai Screen
+Font author: https://github.com/lxgw/LxgwWenKai-Screen
+Webfont package: https://github.com/CMBill/lxgw-wenkai-screen-web (npm version 1.321.0)
+CSS and WOFF2 subsets supplied by the package; font files copied without modification.
+Font license: SIL Open Font License 1.1. See OFL.txt.

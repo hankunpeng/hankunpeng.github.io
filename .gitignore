@@ -48,3 +48,5 @@ Thumbs.db
 .vibe
 skills-lock.json
 .skills-lock.json
+# Local design tooling
+.impeccable/

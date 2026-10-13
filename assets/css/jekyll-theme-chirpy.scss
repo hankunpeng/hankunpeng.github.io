@@ -12,4 +12,7 @@
 {%- endif -%}
 ';
 
+@use 'themes/reading';
 @use 'themes/paper';
+@use 'themes/cursor';
+@use 'themes/appearance';

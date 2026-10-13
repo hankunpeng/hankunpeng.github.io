@@ -1,0 +1,114 @@
+/* Shared appearance picker; color mode remains in Chirpy's sidebar menu. */
+.site-theme-picker {
+  flex-shrink: 0;
+  margin-right: 0.65rem;
+
+  .site-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 36px;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--btn-border-color);
+    border-radius: 6px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    font: inherit;
+    font-size: 0.78rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover,
+    &[aria-expanded='true'] {
+      background: var(--sidebar-hover-bg);
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 9rem;
+    padding: 0.35rem;
+    border: 1px solid var(--menu-border-color);
+    border-radius: 6px;
+    background: var(--menu-bg);
+    box-shadow: 0 8px 24px var(--menu-shadow-color);
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3px;
+    color: var(--text-color);
+    font-size: 0.875rem;
+
+    &:hover,
+    &:focus,
+    &.active {
+      background: var(--menu-highlight-bg);
+      color: var(--text-color);
+    }
+
+    &.active::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+  }
+}
+
+.site-theme-picker button:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 3px;
+}
+
+#topbar:has(#search-cancel.d-block) .site-theme-picker {
+  display: none;
+}
+
+@media (max-width: 849.98px) {
+  .topbar-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    margin-left: 0 !important;
+  }
+
+  #topbar .icon-border,
+  #layout-toggle,
+  body.layout-home #topbar-home-btn {
+    display: none !important;
+  }
+
+  #font-toggle,
+  #panel-trigger,
+  #topbar-toc-trigger {
+    margin-right: 0 !important;
+  }
+
+  #topbar-home-btn { margin-left: 0 !important; }
+  #search-trigger { width: 36px; padding-left: 0; padding-right: 0; }
+
+  .site-theme-picker {
+    margin-right: 0.2rem;
+
+    .site-theme-toggle {
+      min-height: 40px;
+      padding: 0.3rem 0.45rem;
+      font-size: 0.73rem;
+    }
+  }
+}
+
+@media (max-width: 359.98px) {
+  .site-theme-picker .site-theme-toggle {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    svg { display: none; }
+  }
+}

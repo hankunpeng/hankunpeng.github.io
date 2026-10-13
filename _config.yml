@@ -93,6 +93,9 @@ pageviews:
 #
 theme_mode: # [light | dark]
 
+# Appearance for visitors without a saved selection. Independent of theme_mode.
+visual_theme: paper # [paper | cursor]
+
 # The CDN endpoint for media resources.
 # Notice that once it is assigned, the CDN url
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
@@ -226,6 +229,8 @@ exclude:
   - docs
   - tools
   - README.md
+  - PRODUCT.md
+  - DESIGN.md
   - LICENSE
   - purgecss.js
   - "*.config.js"

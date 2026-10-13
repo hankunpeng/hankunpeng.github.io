@@ -26,15 +26,31 @@
       body.setAttribute('data-panel', isPost ? 'closed' : 'open');
     }
 
+    var desktopQuery = window.matchMedia('(min-width: 992px)');
+    var desktopState = {
+      sidebar: body.getAttribute('data-sidebar'),
+      panel: body.getAttribute('data-panel')
+    };
+    if (!desktopQuery.matches) {
+      body.setAttribute('data-sidebar', 'closed');
+      body.setAttribute('data-panel', 'closed');
+    }
+
     function updateButtons() {
       var sidebarState = body.getAttribute('data-sidebar');
       var panelState = body.getAttribute('data-panel');
+
+      var mobile = !desktopQuery.matches;
+      body.toggleAttribute('sidebar-display', mobile && sidebarState === 'open');
+      body.toggleAttribute('panel-display', mobile && panelState === 'open');
+      if (mask) mask.classList.toggle('d-none', !mobile || (sidebarState === 'closed' && panelState === 'closed'));
 
       if (sidebarTrigger) {
         var sbOpen = sidebarState === 'open';
         sidebarTrigger.title = sbOpen ? '收起左侧栏，按 [ 键' : '呼出左侧栏，按 [ 键';
         sidebarTrigger.setAttribute('aria-label', sidebarTrigger.title);
         sidebarTrigger.classList.toggle('active', sbOpen);
+        sidebarTrigger.setAttribute('aria-expanded', String(sbOpen));
       }
 
       if (panelTrigger) {
@@ -42,6 +58,7 @@
         panelTrigger.title = pnOpen ? '收起右侧栏，按 ] 键' : '呼出右侧栏，按 ] 键';
         panelTrigger.setAttribute('aria-label', panelTrigger.title);
         panelTrigger.classList.toggle('active', pnOpen);
+        panelTrigger.setAttribute('aria-expanded', String(pnOpen));
       }
 
       if (layoutBtn) {
@@ -54,23 +71,26 @@
 
     updateButtons();
 
+    desktopQuery.addEventListener('change', function (event) {
+      if (event.matches) {
+        body.setAttribute('data-sidebar', desktopState.sidebar);
+        body.setAttribute('data-panel', desktopState.panel);
+      } else {
+        desktopState.sidebar = body.getAttribute('data-sidebar');
+        desktopState.panel = body.getAttribute('data-panel');
+        body.setAttribute('data-sidebar', 'closed');
+        body.setAttribute('data-panel', 'closed');
+      }
+      updateButtons();
+    });
+
     // 2. Toggle Left Sidebar
     function toggleLeft() {
       var current = body.getAttribute('data-sidebar') || 'closed';
       var next = current === 'open' ? 'closed' : 'open';
       body.setAttribute('data-sidebar', next);
 
-      if (window.innerWidth < 992) {
-        if (next === 'open') {
-          body.setAttribute('sidebar-display', '');
-          if (mask) mask.classList.remove('d-none');
-        } else {
-          body.removeAttribute('sidebar-display');
-          if (mask && body.getAttribute('data-panel') !== 'open') {
-            mask.classList.add('d-none');
-          }
-        }
-      }
+      if (!desktopQuery.matches && next === 'open') body.setAttribute('data-panel', 'closed');
       updateButtons();
     }
 
@@ -80,17 +100,7 @@
       var next = current === 'open' ? 'closed' : 'open';
       body.setAttribute('data-panel', next);
 
-      if (window.innerWidth < 992) {
-        if (next === 'open') {
-          body.setAttribute('panel-display', '');
-          if (mask) mask.classList.remove('d-none');
-        } else {
-          body.removeAttribute('panel-display');
-          if (mask && body.getAttribute('data-sidebar') !== 'open') {
-            mask.classList.add('d-none');
-          }
-        }
-      }
+      if (!desktopQuery.matches && next === 'open') body.setAttribute('data-sidebar', 'closed');
       updateButtons();
     }
 
@@ -150,7 +160,7 @@
       var panelState = body.getAttribute('data-panel');
       if (sidebarState === 'closed' && panelState === 'closed') {
         body.setAttribute('data-sidebar', 'open');
-        body.setAttribute('data-panel', 'open');
+        body.setAttribute('data-panel', desktopQuery.matches ? 'open' : 'closed');
       } else {
         body.setAttribute('data-sidebar', 'closed');
         body.setAttribute('data-panel', 'closed');
@@ -259,9 +269,9 @@
           popup.close();
         }
         if (window.innerWidth < 992) {
-          body.removeAttribute('sidebar-display');
-          body.removeAttribute('panel-display');
-          if (mask) mask.classList.add('d-none');
+          body.setAttribute('data-sidebar', 'closed');
+          body.setAttribute('data-panel', 'closed');
+          updateButtons();
         }
       }
     });
@@ -302,53 +312,35 @@
       }
     }
 
-    // 9. Font Scheme Switcher (Garamond -> Lora -> Crimson Pro -> Garamond)
+    // Each appearance owns its font choices and stored preference.
     var fontToggle = document.getElementById('font-toggle');
-    var FONT_KEY = 'preferred-font';
-    var FONT_GARAMOND = 'garamond';
-    var FONT_LORA = 'lora';
-    var FONT_CRIMSON = 'crimson';
+    var appearance = window.SiteAppearance;
+    var fontNames = {
+      garamond: 'Garamond 古典', lora: 'Lora 现代', crimson: 'Crimson Pro 自洽',
+      sans: 'Inter 现代', kai: '文楷人文', serif: 'Lora 书卷'
+    };
 
-    var SCHEMES = [FONT_GARAMOND, FONT_LORA, FONT_CRIMSON];
-
-    function getSavedFont() {
-      var saved = localStorage.getItem(FONT_KEY);
-      return SCHEMES.indexOf(saved) !== -1 ? saved : FONT_GARAMOND;
+    function updateFontButton() {
+      if (!fontToggle || !appearance) return;
+      var schemes = appearance.themes[appearance.getTheme()].fonts;
+      var font = document.documentElement.getAttribute('data-font');
+      var next = schemes[(schemes.indexOf(font) + 1) % schemes.length];
+      fontToggle.title = '当前字体：' + fontNames[font] + '（点击切换为 ' + fontNames[next] + '）';
+      fontToggle.setAttribute('aria-label', fontToggle.title);
+      fontToggle.classList.remove('font-active-garamond', 'font-active-lora', 'font-active-crimson', 'font-active-sans', 'font-active-kai', 'font-active-serif');
+      fontToggle.classList.add('font-active-' + font);
     }
 
-    function applyFontScheme(font) {
-      document.documentElement.setAttribute('data-font', font);
-      localStorage.setItem(FONT_KEY, font);
-
-      if (fontToggle) {
-        fontToggle.classList.remove('font-active-garamond', 'font-active-lora', 'font-active-crimson');
-        if (font === FONT_LORA) {
-          fontToggle.title = '当前字体：Lora 现代（点击切换为 Crimson Pro 自洽）';
-          fontToggle.setAttribute('aria-label', fontToggle.title);
-          fontToggle.classList.add('font-active-lora');
-        } else if (font === FONT_CRIMSON) {
-          fontToggle.title = '当前字体：Crimson Pro 自洽（点击切换为 Garamond 古典）';
-          fontToggle.setAttribute('aria-label', fontToggle.title);
-          fontToggle.classList.add('font-active-crimson');
-        } else {
-          fontToggle.title = '当前字体：Garamond 古典（点击切换为 Lora 现代）';
-          fontToggle.setAttribute('aria-label', fontToggle.title);
-          fontToggle.classList.add('font-active-garamond');
-        }
-      }
-    }
-
-    applyFontScheme(getSavedFont());
-
-    if (fontToggle) {
-      fontToggle.addEventListener('click', function (e) {
-        e.preventDefault();
-        var current = getSavedFont();
-        var idx = SCHEMES.indexOf(current);
-        var next = SCHEMES[(idx + 1) % SCHEMES.length];
-        applyFontScheme(next);
+    document.addEventListener('site-appearance-change', updateFontButton);
+    updateFontButton();
+    if (fontToggle && appearance) {
+      fontToggle.addEventListener('click', function () {
+        var schemes = appearance.themes[appearance.getTheme()].fonts;
+        var current = document.documentElement.getAttribute('data-font');
+        appearance.setFont(schemes[(schemes.indexOf(current) + 1) % schemes.length]);
       });
     }
+
   }
 
   if (document.readyState === 'loading') {

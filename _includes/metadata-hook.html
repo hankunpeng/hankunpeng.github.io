@@ -1,19 +1,12 @@
 <!-- Custom head metadata and styles -->
+<script src="{{ '/assets/js/site-appearance.js' | relative_url }}"></script>
 <!-- Google Fonts: Western Typefaces (Cormorant Garamond, Crimson Pro, EB Garamond, Lora, Plus Jakarta Sans, IBM Plex Mono) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Crimson+Pro:ital,wght@0,400..700;1,400..700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <!-- Google Fonts: Chinese Web Fonts (Noto Serif SC, Noto Sans SC) -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
-
-<script>
-  (function () {
-    var validFonts = ['garamond', 'lora', 'crimson'];
-    var font = localStorage.getItem('preferred-font') || 'garamond';
-    if (validFonts.indexOf(font) === -1) font = 'garamond';
-    document.documentElement.setAttribute('data-font', font);
-  })();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   #sidebar .profile-wrapper {

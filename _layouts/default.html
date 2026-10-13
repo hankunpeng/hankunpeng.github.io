@@ -11,6 +11,7 @@ layout: compress
 <!-- `site.alt_lang` can specify a language different from the UI -->
 <html
   lang="{{ page.lang | default: site.alt_lang | default: site.lang }}"
+  data-site-theme="{{ site.visual_theme | default: 'paper' }}"
   {%- if site.theme_mode == 'light' or site.theme_mode == 'dark' -%}
     data-bs-theme="{{ site.theme_mode }}"
   {%- endif -%}
