@@ -11,7 +11,7 @@
     min-height: 36px;
     padding: 0.35rem 0.65rem;
     border: 1px solid var(--btn-border-color);
-    border-radius: 6px;
+    border-radius: var(--appearance-control-radius, 6px);
     background: var(--button-bg);
     color: var(--text-color);
     font: inherit;
@@ -27,9 +27,9 @@
 
   .dropdown-menu {
     min-width: 9rem;
-    padding: 0.35rem;
+    padding: var(--appearance-menu-padding, 0.35rem);
     border: 1px solid var(--menu-border-color);
-    border-radius: 6px;
+    border-radius: var(--appearance-menu-radius, 6px);
     background: var(--menu-bg);
     box-shadow: 0 8px 24px var(--menu-shadow-color);
   }
@@ -40,7 +40,7 @@
     justify-content: space-between;
     min-height: 40px;
     padding: 0.5rem 0.7rem;
-    border-radius: 3px;
+    border-radius: var(--appearance-item-radius, 3px);
     color: var(--text-color);
     font-size: 0.875rem;
 

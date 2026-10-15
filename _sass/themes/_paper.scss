@@ -2,6 +2,15 @@
 
 // Paper appearance is isolated from the shared reading layout.
 :root:not([data-site-theme="cursor"]) {
+  --paper-radius-detail: 6px;
+  --paper-radius-control: 8px;
+  --paper-radius-panel: 12px;
+  --paper-radius-dialog: 16px;
+  --appearance-control-radius: var(--paper-radius-control);
+  --appearance-menu-radius: var(--paper-radius-panel);
+  --appearance-item-radius: var(--paper-radius-detail);
+  --appearance-menu-padding: 5px;
+
   /* ======================================================== */
   /* --- Paper Aesthetic Customization ---                   */
   /* ======================================================== */
@@ -425,14 +434,29 @@
     margin-bottom: 0.95rem !important;
   }
 
-  /* 4. Organic Paper UI Shapes, Pill Badges & Gentle Tactility */
+  /* 4. Coordinated Paper corners and gentle tactility */
 
-  /* Pill-Shaped Tags & Badges */
+  #search {
+    border-radius: var(--paper-radius-control);
+
+    &:focus-within {
+      border-color: var(--link-color);
+      outline: 2px solid var(--link-color);
+      outline-offset: 2px;
+    }
+
+    /* The complete search field supplies the visible focus indicator. */
+    #search-input:focus-visible {
+      outline: none !important;
+    }
+  }
+
+  /* Search, tag and toolbar controls share rectangular corners. */
   .post-tag,
   .tag,
   .badge,
   .post-meta .categories a {
-    border-radius: 9999px !important;
+    border-radius: var(--paper-radius-control) !important;
     padding: 0.28rem 0.72rem !important;
     font-size: 0.82rem !important;
     font-weight: 500;
@@ -448,6 +472,7 @@
   /* Clean Single-Layer Warm Cards (Eliminate Double Line Artifact) */
   #post-list .card-wrapper,
   #post-list .card {
+    border-radius: var(--paper-radius-panel) !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -458,7 +483,7 @@
   #related-posts .card,
   .card.categories {
     position: relative;
-    border-radius: 14px !important;
+    border-radius: var(--paper-radius-panel) !important;
     background-color: var(--card-bg) !important;
     border: 1px solid var(--main-border-color) !important;
     box-shadow: var(--card-shadow) !important;
@@ -470,6 +495,27 @@
     display: none !important;
   }
 
+  .preview-img,
+  .preview-img img,
+  .embed-video,
+  .embed-video iframe,
+  .embed-video video,
+  .embed-audio.spotify,
+  .rounded-10 {
+    border-radius: var(--paper-radius-panel) !important;
+  }
+
+  /* Framed cards clip their contents; internal seams stay square. */
+  #post-list .post-preview .preview-img,
+  #post-list .post-preview .preview-img img,
+  #related-posts .card .preview-img,
+  #related-posts .card .preview-img img,
+  .card.categories .card-header,
+  .card.categories .list-group,
+  .card.categories .list-group-item {
+    border-radius: 0 !important;
+  }
+
   /* Sidebar access sections group content through titles and spacing. */
   #panel-wrapper .access > section {
     border-left: 0;
@@ -479,7 +525,7 @@
   blockquote {
     border-left: 3.5px solid var(--blockquote-border-color) !important;
     background-color: var(--blockquote-bg) !important;
-    border-radius: 0 10px 10px 0 !important;
+    border-radius: 0 var(--paper-radius-panel) var(--paper-radius-panel) 0 !important;
     padding: 1rem 1.4rem !important;
     margin: 1.8rem 0 !important;
   }
@@ -497,7 +543,7 @@
     border: 1px solid var(--tb-border-color) !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
-    border-radius: 10px !important;
+    border-radius: var(--paper-radius-panel) !important;
     overflow: hidden;
     margin: 1.8rem 0 !important;
   }
@@ -529,7 +575,7 @@
     color: var(--inline-code-color) !important;
     border: 1px solid var(--main-border-color) !important;
     padding: 0.18rem 0.44rem !important;
-    border-radius: 6px !important;
+    border-radius: var(--paper-radius-detail) !important;
     font-size: 0.88em !important;
   }
 
@@ -538,7 +584,7 @@
   figure.highlight {
     background-color: var(--highlight-bg-color) !important;
     border: 1px solid var(--language-border-color) !important;
-    border-radius: 12px !important;
+    border-radius: var(--paper-radius-panel) !important;
     box-shadow: 0 2px 14px rgba(20, 20, 19, 0.03) !important;
     overflow: hidden !important;
     margin: 1.8rem 0 !important;
@@ -560,6 +606,7 @@
     }
 
     button {
+      border-radius: var(--paper-radius-control);
       color: var(--code-header-icon-color) !important;
       transition: color 0.15s ease;
 
@@ -578,13 +625,49 @@
     }
   }
 
-  /* Soft Rounded Dialogs & Buttons */
-  dialog.toc-dialog {
-    border-radius: 16px !important;
+  div[class*='language-'] > .highlight {
+    border-radius: 0 !important;
   }
 
-  .topbar-btn {
-    border-radius: 8px !important;
+  .content code.highlighter-rouge,
+  kbd {
+    border-radius: var(--paper-radius-detail) !important;
+  }
+
+  /* Soft Rounded Dialogs & Buttons */
+  dialog.toc-dialog,
+  #toc-popup {
+    border-radius: var(--paper-radius-dialog) !important;
+  }
+
+  .topbar-btn,
+  #search-trigger,
+  #search-cancel,
+  #sidebar nav .nav-link,
+  .pagination .page-link {
+    border-radius: var(--paper-radius-control) !important;
+  }
+
+  #reading-toc-close,
+  #toc-popup-close {
+    border-radius: var(--paper-radius-detail);
+  }
+
+  .post-navigation .btn:first-child {
+    border-radius: var(--paper-radius-control) 0 0 var(--paper-radius-control);
+  }
+
+  .post-navigation .btn:last-child {
+    border-radius: 0 var(--paper-radius-control) var(--paper-radius-control) 0;
+  }
+
+  #notification {
+    border-radius: var(--paper-radius-panel) !important;
+
+    .btn,
+    .btn-close {
+      border-radius: var(--paper-radius-detail) !important;
+    }
   }
 
   /* 5. Sidebar Bottom Icons (Paper Theme Integration) */
@@ -609,11 +692,11 @@
       background-color: var(--card-bg) !important;
       border: 1px solid var(--main-border-color) !important;
       box-shadow: var(--card-shadow) !important;
-      border-radius: 12px !important;
-      padding: 0.35rem !important;
+      border-radius: var(--paper-radius-panel) !important;
+      padding: var(--appearance-menu-padding) !important;
 
       .dropdown-item {
-        border-radius: 8px !important;
+        border-radius: var(--paper-radius-detail) !important;
         color: var(--text-color) !important;
         padding: 0.45rem 0.8rem !important;
         font-size: 0.88rem !important;

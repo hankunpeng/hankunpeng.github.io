@@ -89,11 +89,11 @@ rounded:
   cursor-detail: "4px"
   cursor-card: "5px"
   picker: "6px"
+  paper-detail: "6px"
   paper-control: "8px"
-  paper-card: "14px"
+  paper-card: "12px"
   reading-dialog-base: "1rem"
   paper-dialog: "16px"
-  paper-pill: "9999px"
 spacing:
   standard: "1rem"
   cursor-paragraph: "1.4rem"
@@ -170,7 +170,18 @@ The `reading-drawer` shadow appears only on the opened right drawer below 992px.
 
 ## Shapes
 
-Paper retains rounded cards, pill tags, and soft table and code frames. Cursor uses small corners, straight blockquotes, and thin boundaries. Its controls and code frames use `cursor-detail`; tables and inline code use `compact`. Its contents dialog and the shared picker use `picker`. Sources: the three appearance stylesheets.
+Paper uses four coordinated corner sizes. Its search field and tags are rounded rectangles rather than pills. Cursor retains its existing smaller rectangular corners, straight blockquotes, and thin boundaries. Its controls and code frames use `cursor-detail`; tables and inline code use `compact`. Its contents dialog and appearance picker use `picker`.
+
+| Paper role | Radius | Uses |
+| :--- | :--- | :--- |
+| Detail | 6px | Menu items, inline code, keyboard labels, dialog close buttons and small notification controls |
+| Control | 8px | Search, tags, sidebar navigation items, topbar buttons, appearance toggle, copy buttons and pagination |
+| Panel | 12px | Article cards, table and code frames, dropdown shells, media frames and notifications |
+| Dialog | 16px | Article contents dialogs |
+
+The four `--paper-radius-*` tokens in [_paper.scss](_sass/themes/_paper.scss) own these sizes. Dropdowns use a 5px inset and 1px border around 6px menu items, coordinating with the 12px outer corner. Card images, category sections and code interiors stay square where the rounded outer frame already clips them; joined navigation controls keep their shared inner edge square. Blockquotes retain a straight accent edge and use panel corners on the opposite side. Avatars, sidebar utility icons, selection dots and the back-to-top button remain circular.
+
+The complete Paper search field supplies its focus outline, so the indicator follows the same outer rounded rectangle instead of framing the inner text input separately.
 
 Paper's standard Markdown tables use the outer frame as the bottom edge. Only cells in the last row of a final `tbody` drop their bottom border; earlier rows and body groups retain their separators, and a following `tfoot` keeps the body/footer divider. Rouge code tables retain their separate border-free treatment.
 
@@ -179,6 +190,8 @@ The shared contents-dialog rule supplies `reading-dialog-base` as a fallback. Pa
 ## Components
 
 The topbar appearance picker offers Paper and Cursor. Its selected option has a round marker and `aria-pressed`; the toggle exposes `aria-expanded`. Hover and focus use the active palette. Mobile search hides the picker. [_includes/topbar.html](_includes/topbar.html) owns the markup; the sidecar previews the open state.
+
+The picker consumes per-appearance corner and padding variables. Paper supplies 8px for the toggle, 12px for the menu, 6px for items and 5px for menu padding. The shared 6px/6px/3px corner and `0.35rem` padding fallbacks retain Cursor's existing treatment.
 
 Paper uses a visible link-colored outline for keyboard focus, with an inset outline on code-copy buttons and scrollable directory links to avoid clipping. Attribution links keep the outline close to their text so it fits within each line. Cursor retains its own focus treatment. The shared reading controller marks closed navigation and article panels `inert`, so hidden links do not enter the Tab sequence; if a closing panel holds focus, focus returns to its toggle. Opening a panel restores its keyboard access.
 
@@ -196,4 +209,5 @@ Article cards have one visible surface with transparent wrappers. Cursor uses in
 - Do keep article width, hover movement, and hover timing shared across appearances.
 - Do retain navigation, search, contents access, and keyboard controls.
 - Don't couple appearance selection to color mode or share one saved font key.
-- Don't add a second card surface or apply Paper's pill geometry to Cursor.
+- Don't add a second card surface.
+- Don't reintroduce pill-shaped Paper search fields or tags.
