@@ -138,7 +138,7 @@ Paper's code labels, line numbers, and sidebar attribution use readable foregrou
 
 Shared overlay colors have distinct roles: `reading-drawer-shadow` supplies the opened mobile right drawer's shadow tint; `reading-contents-backdrop` dims the page behind the contents dialog. Both layers use the same color in light and dark modes. Their source is [_reading.scss](_sass/themes/_reading.scss).
 
-[_config.yml](_config.yml) defaults `visual_theme` to `paper`. Light, dark, and system color modes remain independent. Both stylesheets honor explicit `data-bs-theme` or `data-mode` attributes, then use the system preference when neither is present.
+[_config.yml](_config.yml) defaults `visual_theme` to `paper`. Light, dark, and system color modes remain independent. Both stylesheets honor `data-bs-theme` or `data-mode` attributes. Chirpy writes the resolved `data-bs-theme` even while following the system preference; these attributes alone do not identify a user-selected mode. When neither attribute is present, the stylesheets use the system media-query fallback.
 
 ## Typography
 
@@ -161,6 +161,8 @@ Below 360px (359.98px in CSS), the shared picker tightens and hides its chevron.
 ## Elevation & Depth
 
 **Cursor card stability.** Article, category, and related-post cards have no shadow or hover translation. Hover changes their surface tone. Cursor's topbar is opaque and removes the shared blur. Paper cards retain subtle shadows and a small lift. Shared drawers, menus, and the contents dialog retain overlay shadows. Exact shadows and motion belong to the sidecar.
+
+Paper's article, category, and related-post cards share `--card-hover-border` and `--card-hover-shadow`. Light mode, attribute-based dark mode, and the system dark fallback each supply these tokens, so every card receives the matching hover treatment even when the theme script does not run.
 
 The `reading-drawer` shadow appears only on the opened right drawer below 992px. The contents dialog retains its own shadow; its backdrop covers the rest of the page with `reading-contents-backdrop` and a blur. Both effects belong to the shared reading layout.
 

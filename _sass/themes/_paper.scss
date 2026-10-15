@@ -72,6 +72,8 @@
     --card-bg: #f5f3ec;
     --card-hover-bg: #ece8dc;
     --card-shadow: 0 2px 14px rgba(20, 20, 19, 0.04), 0 0 0 1px rgba(20, 20, 19, 0.06);
+    --card-hover-border: rgba(201, 100, 66, 0.35);
+    --card-hover-shadow: 0 8px 24px rgba(20, 20, 19, 0.06), 0 2px 6px rgba(20, 20, 19, 0.04);
 
     /* Soft Framed Tables */
     --tb-odd-bg: #f6f4ee;
@@ -177,6 +179,8 @@
     --card-bg: #21211e;
     --card-hover-bg: #282824;
     --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(236, 233, 226, 0.08);
+    --card-hover-border: rgba(217, 119, 87, 0.4);
+    --card-hover-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
 
     /* Framed Tables */
     --tb-odd-bg: #20201d;
@@ -269,6 +273,8 @@
       --card-bg: #21211e;
       --card-hover-bg: #282824;
       --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(236, 233, 226, 0.08);
+      --card-hover-border: rgba(217, 119, 87, 0.4);
+      --card-hover-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
       --tb-odd-bg: #20201d;
       --tb-even-bg: #181816;
       --tb-border-color: rgba(236, 233, 226, 0.1);
@@ -453,25 +459,13 @@
   .card.categories:hover {
     transform: translateY(-2.5px) !important;
     background-color: var(--card-hover-bg) !important;
-    border-color: rgba(201, 100, 66, 0.35) !important;
-    box-shadow: 0 8px 24px rgba(20, 20, 19, 0.06), 0 2px 6px rgba(20, 20, 19, 0.04) !important;
+    border-color: var(--card-hover-border) !important;
+    box-shadow: var(--card-hover-shadow) !important;
     text-decoration: none !important;
 
     .card-title {
       color: var(--link-color) !important;
       transition: color 0.18s ease;
-    }
-  }
-
-  &[data-bs-theme='dark'] .post-preview:hover,
-  &[data-bs-theme='dark'] #related-posts .card:hover,
-  &[data-mode='dark'] .post-preview:hover,
-  &[data-mode='dark'] #related-posts .card:hover {
-    border-color: rgba(217, 119, 87, 0.4) !important;
-    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-
-    .card-title {
-      color: var(--link-color) !important;
     }
   }
 
