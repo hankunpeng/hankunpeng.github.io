@@ -18,12 +18,14 @@
     --heading-color: #141413;
     --label-color: #6b6860;
 
-    /* Paper Signature Terracotta Accent */
-    --link-color: #c96442;
-    --link-hover-color: #b55434;
+    /* Keep the clay accent separate from accessible link text. */
+    --paper-clay: #c96442;
+    --paper-link-text: #a34a2b;
+    --link-color: var(--paper-link-text);
+    --link-hover-color: #8f3f24;
     --link-underline-color: rgba(201, 100, 66, 0.28);
 
-    --blockquote-border-color: #c96442;
+    --blockquote-border-color: var(--paper-clay);
     --blockquote-text-color: #3e3d39;
     --blockquote-bg: rgba(201, 100, 66, 0.045);
 
@@ -32,7 +34,7 @@
     --btn-backtotop-color: #6b6860;
     --btn-backtotop-border-color: rgba(20, 20, 19, 0.1);
     --checkbox-color: #b0aea5;
-    --checkbox-checked-color: #c96442;
+    --checkbox-checked-color: var(--paper-clay);
 
     --menu-bg: #f6f4ee;
     --menu-border-color: rgba(20, 20, 19, 0.08);
@@ -61,10 +63,10 @@
     --btn-patinator-text-color: #5e5d59;
     --btn-paginator-hover-color: rgba(201, 100, 66, 0.06);
 
-    --toc-highlight: #c96442;
+    --toc-highlight: var(--link-color);
     --toc-popup-border-color: rgba(20, 20, 19, 0.09);
     --btn-share-color: #6b6860;
-    --btn-share-hover-color: #c96442;
+    --btn-share-hover-color: var(--link-color);
 
     /* Warm Linen Cards (Harmonious with Paper Theme) */
     --card-bg: #f5f3ec;
@@ -88,7 +90,7 @@
     --categories-hover-bg: rgba(201, 100, 66, 0.05);
 
     --timeline-color: rgba(20, 20, 19, 0.09);
-    --timeline-node-bg: #c96442;
+    --timeline-node-bg: var(--paper-clay);
     --timeline-year-dot-color: #faf9f5;
 
     /* Inline Code */
@@ -120,11 +122,13 @@
     --label-color: #b5b2a9;
 
     /* Luminous Clay Orange for Dark Mode */
-    --link-color: #d97757;
+    --paper-clay: #d97757;
+    --paper-link-text: #d97757;
+    --link-color: var(--paper-link-text);
     --link-hover-color: #ebb09a;
     --link-underline-color: rgba(217, 119, 87, 0.35);
 
-    --blockquote-border-color: #d97757;
+    --blockquote-border-color: var(--paper-clay);
     --blockquote-text-color: #cfcbbf;
     --blockquote-bg: rgba(217, 119, 87, 0.08);
 
@@ -134,7 +138,7 @@
     --btn-backtotop-border-color: rgba(236, 233, 226, 0.1);
     --card-header-bg: #21211e;
     --checkbox-color: #5c5a53;
-    --checkbox-checked-color: #d97757;
+    --checkbox-checked-color: var(--paper-clay);
 
     --menu-bg: #21211e;
     --menu-border-color: rgba(236, 233, 226, 0.1);
@@ -163,10 +167,10 @@
     --btn-patinator-text-color: #b5b2a9;
     --btn-paginator-hover-color: rgba(217, 119, 87, 0.08);
 
-    --toc-highlight: #d97757;
+    --toc-highlight: var(--link-color);
     --toc-popup-border-color: rgba(236, 233, 226, 0.1);
     --btn-share-color: #9e9b93;
-    --btn-share-hover-color: #d97757;
+    --btn-share-hover-color: var(--link-color);
 
     /* Dark Cards */
     --card-bg: #21211e;
@@ -191,7 +195,7 @@
     --categories-hover-bg: rgba(217, 119, 87, 0.08);
 
     --timeline-color: rgba(236, 233, 226, 0.1);
-    --timeline-node-bg: #d97757;
+    --timeline-node-bg: var(--paper-clay);
     --timeline-year-dot-color: #181816;
 
     /* Inline Code */
@@ -220,10 +224,12 @@
       --text-muted-highlight-color: #dad6cb;
       --heading-color: #f7f6f2;
       --label-color: #b5b2a9;
-      --link-color: #d97757;
+      --paper-clay: #d97757;
+      --paper-link-text: #d97757;
+      --link-color: var(--paper-link-text);
       --link-hover-color: #ebb09a;
       --link-underline-color: rgba(217, 119, 87, 0.35);
-      --blockquote-border-color: #d97757;
+      --blockquote-border-color: var(--paper-clay);
       --blockquote-text-color: #cfcbbf;
       --blockquote-bg: rgba(217, 119, 87, 0.08);
       --button-bg: #21211e;
@@ -232,7 +238,7 @@
       --btn-backtotop-border-color: rgba(236, 233, 226, 0.1);
       --card-header-bg: #21211e;
       --checkbox-color: #5c5a53;
-      --checkbox-checked-color: #d97757;
+      --checkbox-checked-color: var(--paper-clay);
       --menu-bg: #21211e;
       --menu-border-color: rgba(236, 233, 226, 0.1);
       --menu-shadow-color: rgba(0, 0, 0, 0.6);
@@ -254,10 +260,10 @@
       --post-list-text-color: #b5b2a9;
       --btn-patinator-text-color: #b5b2a9;
       --btn-paginator-hover-color: rgba(217, 119, 87, 0.08);
-      --toc-highlight: #d97757;
+      --toc-highlight: var(--link-color);
       --toc-popup-border-color: rgba(236, 233, 226, 0.1);
       --btn-share-color: #9e9b93;
-      --btn-share-hover-color: #d97757;
+      --btn-share-hover-color: var(--link-color);
       --card-bg: #21211e;
       --card-hover-bg: #282824;
       --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(236, 233, 226, 0.08);
@@ -274,7 +280,7 @@
       --categories-border: rgba(236, 233, 226, 0.1);
       --categories-hover-bg: rgba(217, 119, 87, 0.08);
       --timeline-color: rgba(236, 233, 226, 0.1);
-      --timeline-node-bg: #d97757;
+      --timeline-node-bg: var(--paper-clay);
       --timeline-year-dot-color: #181816;
       --inline-code-bg: rgba(236, 233, 226, 0.08);
       --inline-code-color: #f7f6f2;
@@ -289,6 +295,21 @@
       --highlight-lineno-color: #636159;
       --code-color: #ece9e2;
     }
+  }
+
+  /* Replace Chirpy's fixed hover orange only within Paper. */
+  #page-category a:hover,
+  #page-tag a:hover,
+  #access-lastmod a:hover,
+  .post-tail-wrapper .license-wrapper > a:hover,
+  .post-edit > a:hover,
+  #search-results a:hover,
+  footer a:hover,
+  #topbar #breadcrumb a:hover,
+  .post-meta a:not([class]):hover,
+  .content a:not(.img-link):hover {
+    color: var(--link-hover-color) !important;
+    border-bottom-color: var(--link-hover-color);
   }
 
   /* --- Font Scheme Definitions --- */

@@ -3,12 +3,15 @@ name: "豆哥在此"
 description: "Paper and Cursor appearances for Chinese and English article reading."
 colors:
   paper-clay: "#c96442"
+  paper-link: "#a34a2b"
+  paper-link-hover: "#8f3f24"
   paper-ivory: "#faf9f5"
   paper-ink: "#141413"
   paper-muted: "#6b6860"
   paper-linen: "#f5f3ec"
   paper-border: "rgba(20, 20, 19, 0.08)"
   paper-dark-clay: "#d97757"
+  paper-dark-link-hover: "#ebb09a"
   paper-dark-background: "#181816"
   paper-dark-text: "#ece9e2"
   paper-dark-surface: "#21211e"
@@ -128,6 +131,8 @@ Paper and Cursor are selectable appearances of the same article site. [PRODUCT.m
 ## Colors
 
 The frontmatter records the reused core palettes. Paper pairs ivory and linen with clay accents; its dark mode uses espresso surfaces and pale text. Cursor uses warm ivory or black surfaces, brown or warm gold links, muted metadata, and thin boundaries. Components consume the active CSS custom properties.
+
+Paper keeps its clay accent separate from link text: light-mode links use `paper-link` and `paper-link-hover`, while blockquote borders, timeline nodes, and selected task markers retain `paper-clay`. Dark-mode link text retains `paper-dark-clay` with `paper-dark-link-hover` on hover. Paper overrides Chirpy's fixed hover orange for article and navigation links; directory highlights and text accents use the active link role. Both explicit color modes and the system fallback define these roles.
 
 Shared overlay colors have distinct roles: `reading-drawer-shadow` supplies the opened mobile right drawer's shadow tint; `reading-contents-backdrop` dims the page behind the contents dialog. Both layers use the same color in light and dark modes. Their source is [_reading.scss](_sass/themes/_reading.scss).
 
