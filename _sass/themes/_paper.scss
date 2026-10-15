@@ -513,6 +513,11 @@
     border-bottom: 1px solid var(--tb-border-color) !important;
   }
 
+  /* The table frame supplies the final bottom edge. Keep row-group separators. */
+  .content table:not(.rouge-table) > tbody:last-child > tr:last-child > td {
+    border-bottom: 0 !important;
+  }
+
   /* Warm Inline Code */
   p > code,
   li > code,

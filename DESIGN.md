@@ -172,6 +172,8 @@ The `reading-drawer` shadow appears only on the opened right drawer below 992px.
 
 Paper retains rounded cards, pill tags, and soft table and code frames. Cursor uses small corners, straight blockquotes, and thin boundaries. Its controls and code frames use `cursor-detail`; tables and inline code use `compact`. Its contents dialog and the shared picker use `picker`. Sources: the three appearance stylesheets.
 
+Paper's standard Markdown tables use the outer frame as the bottom edge. Only cells in the last row of a final `tbody` drop their bottom border; earlier rows and body groups retain their separators, and a following `tfoot` keeps the body/footer divider. Rouge code tables retain their separate border-free treatment.
+
 The shared contents-dialog rule supplies `reading-dialog-base` as a fallback. Paper's appearance stylesheet overrides it with `paper-dialog` using `!important`; Cursor's appearance stylesheet overrides it with `picker`. Keep the fallback and appearance-specific corners distinct when extending the dialog.
 
 ## Components
