@@ -33,7 +33,7 @@
     --btn-border-color: rgba(20, 20, 19, 0.1);
     --btn-backtotop-color: #6b6860;
     --btn-backtotop-border-color: rgba(20, 20, 19, 0.1);
-    --checkbox-color: #b0aea5;
+    --checkbox-color: #8c887f;
     --checkbox-checked-color: var(--paper-clay);
 
     --menu-bg: #f6f4ee;
@@ -100,11 +100,12 @@
     /* Code Blocks (Warm Paper Theme) */
     --highlight-bg-color: #f2eee5;
     --code-header-bg: #eae5d8;
-    --code-header-text-color: #7a766e;
-    --code-header-icon-color: #8c887f;
+    --code-header-text-color: #66625a;
+    --code-header-icon-color: #7a766e;
     --code-header-muted-color: rgba(20, 20, 19, 0.12);
     --language-border-color: rgba(20, 20, 19, 0.09);
-    --highlight-lineno-color: #9c978d;
+    --highlight-lineno-color: #6b6860;
+    --clipboard-checked-color: #38703b;
     --code-color: #1f1e1c;
   }
 
@@ -137,7 +138,7 @@
     --btn-backtotop-color: #9e9b93;
     --btn-backtotop-border-color: rgba(236, 233, 226, 0.1);
     --card-header-bg: #21211e;
-    --checkbox-color: #5c5a53;
+    --checkbox-color: #8c887f;
     --checkbox-checked-color: var(--paper-clay);
 
     --menu-bg: #21211e;
@@ -206,10 +207,11 @@
     --highlight-bg-color: #131311;
     --code-header-bg: #1c1c19;
     --code-header-text-color: #8a8880;
-    --code-header-icon-color: #706e66;
+    --code-header-icon-color: #8a8880;
     --code-header-muted-color: rgba(236, 233, 226, 0.12);
     --language-border-color: rgba(236, 233, 226, 0.1);
-    --highlight-lineno-color: #636159;
+    --highlight-lineno-color: #8a8880;
+    --clipboard-checked-color: #78b87a;
     --code-color: #ece9e2;
   }
 
@@ -237,7 +239,7 @@
       --btn-backtotop-color: #9e9b93;
       --btn-backtotop-border-color: rgba(236, 233, 226, 0.1);
       --card-header-bg: #21211e;
-      --checkbox-color: #5c5a53;
+      --checkbox-color: #8c887f;
       --checkbox-checked-color: var(--paper-clay);
       --menu-bg: #21211e;
       --menu-border-color: rgba(236, 233, 226, 0.1);
@@ -289,10 +291,11 @@
       --highlight-bg-color: #131311;
       --code-header-bg: #1c1c19;
       --code-header-text-color: #8a8880;
-      --code-header-icon-color: #706e66;
+      --code-header-icon-color: #8a8880;
       --code-header-muted-color: rgba(236, 233, 226, 0.12);
       --language-border-color: rgba(236, 233, 226, 0.1);
-      --highlight-lineno-color: #636159;
+      --highlight-lineno-color: #8a8880;
+      --clipboard-checked-color: #78b87a;
       --code-color: #ece9e2;
     }
   }
@@ -560,8 +563,17 @@
       color: var(--code-header-icon-color) !important;
       transition: color 0.15s ease;
 
+      i {
+        color: inherit;
+      }
+
+      &[timeout] i {
+        color: var(--clipboard-checked-color);
+      }
+
       &:hover {
         color: var(--link-color) !important;
+        background-color: var(--menu-highlight-bg);
       }
     }
   }
@@ -638,7 +650,6 @@
       font-size: 0.73rem;
       line-height: 1.6;
       color: var(--sidebar-muted-color);
-      opacity: 0.72;
       padding-top: 0.15rem;
       text-align: left;
 

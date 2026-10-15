@@ -134,6 +134,8 @@ The frontmatter records the reused core palettes. Paper pairs ivory and linen wi
 
 Paper keeps its clay accent separate from link text: light-mode links use `paper-link` and `paper-link-hover`, while blockquote borders, timeline nodes, and selected task markers retain `paper-clay`. Dark-mode link text retains `paper-dark-clay` with `paper-dark-link-hover` on hover. Paper overrides Chirpy's fixed hover orange for article and navigation links; directory highlights and text accents use the active link role. Both explicit color modes and the system fallback define these roles.
 
+Paper's code labels, line numbers, and sidebar attribution use readable foreground colors without reducing the attribution group's opacity. Treat line numbers used to explain code as text with a 4.5:1 contrast floor; task-state markers and copy icons use a 3:1 floor. Copy icons inherit the button's foreground on hover, and copy-success checks retain a separate green with sufficient contrast in each mode.
+
 Shared overlay colors have distinct roles: `reading-drawer-shadow` supplies the opened mobile right drawer's shadow tint; `reading-contents-backdrop` dims the page behind the contents dialog. Both layers use the same color in light and dark modes. Their source is [_reading.scss](_sass/themes/_reading.scss).
 
 [_config.yml](_config.yml) defaults `visual_theme` to `paper`. Light, dark, and system color modes remain independent. Both stylesheets honor explicit `data-bs-theme` or `data-mode` attributes, then use the system preference when neither is present.
