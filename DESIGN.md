@@ -126,7 +126,7 @@ components:
 
 Paper and Cursor are selectable appearances of the same article site. [PRODUCT.md](PRODUCT.md) owns the identity, content, and navigation constraints. Paper uses editorial serifs and warm clay accents. Cursor follows the approved Cursor website and blog reference: sans-serif type, restrained surfaces, and fine boundaries. Both use the same responsive article width.
 
-**Appearance ownership.** [_paper.scss](_sass/themes/_paper.scss) applies under `:root:not([data-site-theme="cursor"])`; [_cursor.scss](_sass/themes/_cursor.scss) applies under `:root[data-site-theme='cursor']`. [_reading.scss](_sass/themes/_reading.scss) owns shared layout, and [_appearance.scss](_sass/themes/_appearance.scss) owns the picker. Extend the appropriate owner.
+**Appearance ownership.** [_paper.scss](_sass/themes/_paper.scss) applies under `:root:not([data-site-theme="cursor"])`; [_cursor.scss](_sass/themes/_cursor.scss) applies under `:root[data-site-theme='cursor']`. [_reading.scss](_sass/themes/_reading.scss) owns shared layout, [_appearance.scss](_sass/themes/_appearance.scss) owns the picker, and [_hover.scss](_sass/themes/_hover.scss) supplies the shared card and sidebar utility hover behavior. Extend the appropriate owner.
 
 ## Colors
 
@@ -160,9 +160,11 @@ Below 360px (359.98px in CSS), the shared picker tightens and hides its chevron.
 
 ## Elevation & Depth
 
-**Cursor card stability.** Article, category, and related-post cards have no shadow or hover translation. Hover changes their surface tone. Cursor's topbar is opaque and removes the shared blur. Paper cards retain subtle shadows and a small lift. Shared drawers, menus, and the contents dialog retain overlay shadows. Exact shadows and motion belong to the sidecar.
+**Shared hover behavior.** Paper and Cursor article, category, and related-post cards rise by 2.5px on hover, with the same 220ms transition for movement, background, border, and shadow. Card titles use the active link color with a 180ms color transition. Sidebar utility links and the mode toggle rise by 1.5px with the same 220ms easing and background, border, color, and shadow feedback. The shared mixin owns these effects; each appearance retains its own palette, typography, corners, and resting surface treatment. Cursor utility controls reserve a transparent border so the hover outline appears without changing their size.
 
-Paper's article, category, and related-post cards share `--card-hover-border` and `--card-hover-shadow`. Light mode, attribute-based dark mode, and the system dark fallback each supply these tokens, so every card receives the matching hover treatment even when the theme script does not run.
+Both appearances supply `--card-hover-border` and `--card-hover-shadow` in light mode, attribute-based dark mode, and the system dark fallback, so every card receives the matching hover palette even when the theme script does not run. Cursor's topbar remains opaque and removes the shared blur. Shared drawers, menus, and the contents dialog retain overlay shadows.
+
+The current design keeps these small hover lifts in both appearances, including when `prefers-reduced-motion: reduce` is set. That preference still disables the shared reading-layout transitions; it does not disable the card and utility hover effects.
 
 The `reading-drawer` shadow appears only on the opened right drawer below 992px. The contents dialog retains its own shadow; its backdrop covers the rest of the page with `reading-contents-backdrop` and a blur. Both effects belong to the shared reading layout.
 
@@ -182,14 +184,14 @@ The custom article contents dialog uses `reading-toc-dialog`, `reading-toc-conte
 
 **Sidebar access grouping.** Recently Updated and Trending Tags use headings and whitespace, without section-level left borders. Both appearances keep the inherited `1rem` left inset and `4rem` gap between these modules. The shared right-panel divider separates the sidebar from article content.
 
-Article cards have one visible surface with transparent wrappers. Cursor uses interface type and muted metadata; Paper retains serif reading and a title accent on hover. The sidecar includes both card treatments. Technical code tables retain one outer frame, horizontal scrolling, and an aligned number gutter in [_reading.scss](_sass/themes/_reading.scss).
+Article cards have one visible surface with transparent wrappers. Cursor uses interface type and muted metadata; Paper retains serif reading. Both appearances share the hover lift and title accent through [_hover.scss](_sass/themes/_hover.scss). The sidecar includes both card treatments. Technical code tables retain one outer frame, horizontal scrolling, and an aligned number gutter in [_reading.scss](_sass/themes/_reading.scss).
 
 [reading-mode.js](assets/js/reading-mode.js) owns font cycling, drawers, sticky titles, and the contents dialog. Its shortcuts remain `-` for home, `[` and `]` for panels, `=` for the desktop reading layout, `\` for article contents, and Escape for dismissal. On narrow screens, `=` opens the navigation drawer or closes an open drawer. Shared navigation and search retain their existing structure. [_config.yml](_config.yml) excludes PRODUCT.md and DESIGN.md from the public build.
 
 ## Do's and Don'ts
 
 - Do preserve each appearance's palette, font choices, and Chinese fallbacks.
-- Do keep article width shared and Cursor cards stable on hover.
+- Do keep article width, hover movement, and hover timing shared across appearances.
 - Do retain navigation, search, contents access, and keyboard controls.
 - Don't couple appearance selection to color mode or share one saved font key.
-- Don't add a second card surface or apply Paper's lift and pill geometry to Cursor.
+- Don't add a second card surface or apply Paper's pill geometry to Cursor.

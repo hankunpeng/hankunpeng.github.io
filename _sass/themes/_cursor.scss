@@ -1,3 +1,5 @@
+@use 'hover';
+
 /* Cursor website-inspired reading appearance. All rules are opt-in. */
 $light: (
   main-bg: #f7f7f2, text-color: #25241e, heading-color: #181712,
@@ -19,6 +21,8 @@ $light: (
   toc-highlight: #735431, toc-popup-border-color: #d8d8cd,
   btn-share-color: #66645b, btn-share-hover-color: #25241e,
   card-bg: #eeeee6, card-hover-bg: #e7e7dc, card-shadow: none, card-header-bg: #eeeee6,
+  card-hover-border: rgba(115, 84, 49, 0.35),
+  card-hover-shadow: (0 8px 24px rgba(20, 20, 19, 0.06), 0 2px 6px rgba(20, 20, 19, 0.04)),
   tb-odd-bg: #eeeee6, tb-even-bg: #f7f7f2, tb-border-color: #dfdfd5,
   kbd-wrap-color: #c5c4b8, kbd-text-color: #25241e, kbd-bg-color: #eeeee6,
   tag-border: #d8d8cd, tag-shadow: none, tag-hover: #e7e7dc, search-tag-bg: #e7e7dc,
@@ -53,6 +57,8 @@ $dark: (
   toc-highlight: #d8b98a, toc-popup-border-color: #3c3a30,
   btn-share-color: #a09e91, btn-share-hover-color: #e8e7df,
   card-bg: #1c1b14, card-hover-bg: #242219, card-shadow: none, card-header-bg: #222119,
+  card-hover-border: rgba(216, 185, 138, 0.4),
+  card-hover-shadow: (0 8px 26px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4)),
   tb-odd-bg: #1c1b14, tb-even-bg: #14120b, tb-border-color: #343228,
   kbd-wrap-color: #555247, kbd-text-color: #e8e7df, kbd-bg-color: #222119,
   tag-border: #3c3a30, tag-shadow: none, tag-hover: #302e24, search-tag-bg: #302e24,
@@ -148,7 +154,7 @@ $dark: (
     .site-subtitle { margin-top: 0.75rem; font-size: 0.8rem; line-height: 1.65; font-style: normal !important; color: var(--text-muted-color); }
     .nav-link { border-radius: 4px; font-weight: 500; font-size: 0.875rem; letter-spacing: 0; }
     .sidebar-bottom > a,
-    #mode-toggle { border: 0; background: transparent; box-shadow: none; }
+    #mode-toggle { border: 1px solid transparent; background: transparent; box-shadow: none; }
     .sidebar-bottom-info { font-size: 0.7rem; line-height: 1.7; color: var(--text-muted-color); }
     .sidebar-bottom-info a { color: inherit; }
   }
@@ -174,10 +180,8 @@ $dark: (
       border-radius: 5px !important;
       background: var(--card-bg) !important;
       box-shadow: none !important;
-      transition: background-color 160ms ease;
 
       &::before { display: none; }
-      &:hover { background: var(--card-hover-bg) !important; transform: none; text-decoration: none; }
       .card-body { padding: 1.65rem !important; }
       .card-title { font-family: var(--cursor-ui-font); font-size: clamp(1.2rem, 1.5vw, 1.5rem); font-weight: 500; line-height: 1.5; letter-spacing: -0.025em; color: var(--heading-color); }
       .card-text.content { font-family: var(--cursor-ui-font); font-size: 0.95rem; line-height: 1.8; color: var(--post-list-text-color); }
@@ -287,7 +291,6 @@ $dark: (
     border-radius: 4px;
     background: var(--card-bg);
     box-shadow: none;
-    &:hover { background: var(--card-hover-bg); transform: none; }
     .card-title { font-family: var(--cursor-ui-font); font-weight: 500; }
   }
 
@@ -311,7 +314,5 @@ $dark: (
     .content h2 { font-size: 1.4rem; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    #post-list .post-preview { transition: none; }
-  }
+  @include hover.card-and-utility-hover;
 }

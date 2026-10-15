@@ -1,0 +1,36 @@
+/* Shared hover behavior; each appearance supplies its active palette. */
+@mixin card-and-utility-hover {
+  #post-list .post-preview,
+  #related-posts .card,
+  .card.categories {
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease !important;
+
+    &:hover {
+      transform: translateY(-2.5px) !important;
+      background-color: var(--card-hover-bg) !important;
+      border-color: var(--card-hover-border) !important;
+      box-shadow: var(--card-hover-shadow) !important;
+      text-decoration: none !important;
+
+      .card-title {
+        color: var(--link-color) !important;
+        transition: color 0.18s ease;
+      }
+    }
+  }
+
+  #sidebar .sidebar-bottom {
+    > a,
+    #mode-toggle {
+      transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s cubic-bezier(0.4, 0, 0.2, 1), color 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+      &:hover {
+        background-color: var(--tag-hover) !important;
+        border-color: var(--link-color) !important;
+        color: var(--link-color) !important;
+        transform: translateY(-1.5px) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+      }
+    }
+  }
+}

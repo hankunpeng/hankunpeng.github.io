@@ -1,3 +1,5 @@
+@use 'hover';
+
 // Paper appearance is isolated from the shared reading layout.
 :root:not([data-site-theme="cursor"]) {
   /* ======================================================== */
@@ -461,28 +463,11 @@
     border: 1px solid var(--main-border-color) !important;
     box-shadow: var(--card-shadow) !important;
     overflow: hidden;
-    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease !important;
   }
 
   /* Disable Chirpy legacy overlay to prevent layer overlapping artifacts */
   .post-preview::before {
     display: none !important;
-  }
-
-  /* Refined Editorial Hover: Smooth Lift, Terracotta Border, Title Accent */
-  .post-preview:hover,
-  #related-posts .card:hover,
-  .card.categories:hover {
-    transform: translateY(-2.5px) !important;
-    background-color: var(--card-hover-bg) !important;
-    border-color: var(--card-hover-border) !important;
-    box-shadow: var(--card-hover-shadow) !important;
-    text-decoration: none !important;
-
-    .card-title {
-      color: var(--link-color) !important;
-      transition: color 0.18s ease;
-    }
   }
 
   /* Sidebar access sections group content through titles and spacing. */
@@ -612,15 +597,6 @@
       box-shadow: none !important;
       border: 1px solid var(--sidebar-border-color) !important;
       color: var(--sidebar-muted-color) !important;
-      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
-
-      &:hover {
-        background-color: var(--tag-hover) !important;
-        border-color: var(--link-color) !important;
-        color: var(--link-color) !important;
-        transform: translateY(-1.5px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-      }
     }
 
     /* Mode switch dropdown popup */
@@ -689,4 +665,5 @@
     }
   }
 
+  @include hover.card-and-utility-hover;
 }
