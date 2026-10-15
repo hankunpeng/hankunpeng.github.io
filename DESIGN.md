@@ -176,6 +176,10 @@ The shared contents-dialog rule supplies `reading-dialog-base` as a fallback. Pa
 
 The topbar appearance picker offers Paper and Cursor. Its selected option has a round marker and `aria-pressed`; the toggle exposes `aria-expanded`. Hover and focus use the active palette. Mobile search hides the picker. [_includes/topbar.html](_includes/topbar.html) owns the markup; the sidecar previews the open state.
 
+Paper uses a visible link-colored outline for keyboard focus, with an inset outline on code-copy buttons and scrollable directory links to avoid clipping. Attribution links keep the outline close to their text so it fits within each line. Cursor retains its own focus treatment. The shared reading controller marks closed navigation and article panels `inert`, so hidden links do not enter the Tab sequence; if a closing panel holds focus, focus returns to its toggle. Opening a panel restores its keyboard access.
+
+The custom article contents dialog uses `reading-toc-dialog`, `reading-toc-content`, and `reading-toc-close` IDs, plus a dedicated `reading-toc-trigger` button class, to keep its controls distinct from Chirpy's built-in TOC popup. The reading shortcuts and topbar contents button target only this custom dialog, preventing two modals from opening together on mobile. Dismissing it preserves the browser's focus restoration; selecting a contents link lets the browser follow the heading anchor instead.
+
 **Sidebar access grouping.** Recently Updated and Trending Tags use headings and whitespace, without section-level left borders. Both appearances keep the inherited `1rem` left inset and `4rem` gap between these modules. The shared right-panel divider separates the sidebar from article content.
 
 Article cards have one visible surface with transparent wrappers. Cursor uses interface type and muted metadata; Paper retains serif reading and a title accent on hover. The sidecar includes both card treatments. Technical code tables retain one outer frame, horizontal scrolling, and an aligned number gutter in [_reading.scss](_sass/themes/_reading.scss).

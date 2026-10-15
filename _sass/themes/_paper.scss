@@ -321,6 +321,22 @@
     border-bottom-color: var(--link-hover-color);
   }
 
+  :where(a, button, input, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--link-color) !important;
+    outline-offset: 3px;
+  }
+
+  /* Keep focus inside clipped code frames and scrolling directories. */
+  .code-header button:focus-visible,
+  .toc-dialog-content a:focus-visible,
+  #toc a:focus-visible {
+    outline-offset: -3px;
+  }
+
+  #sidebar .sidebar-bottom-info a:focus-visible {
+    outline-offset: 0;
+  }
+
   /* --- Font Scheme Definitions --- */
 
   /* Scheme 1 (Default): Garamond 古典书卷 (Cormorant Garamond 标题 + EB Garamond 正文) */

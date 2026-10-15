@@ -13,10 +13,12 @@
     var layoutBtn = document.getElementById('layout-toggle');
     var sidebarTrigger = document.getElementById('sidebar-trigger');
     var panelTrigger = document.getElementById('panel-trigger');
+    var sidebar = document.getElementById('sidebar');
+    var panel = document.getElementById('panel-wrapper');
     var mask = document.getElementById('mask');
-    var popup = document.getElementById('toc-popup');
-    var popupContent = document.getElementById('toc-popup-content');
-    var popupClose = document.getElementById('toc-popup-close');
+    var popup = document.getElementById('reading-toc-dialog');
+    var popupContent = document.getElementById('reading-toc-content');
+    var popupClose = document.getElementById('reading-toc-close');
 
     // 1. Initialize Body Attributes if not already present
     if (!body.hasAttribute('data-sidebar')) {
@@ -36,9 +38,20 @@
       body.setAttribute('data-panel', 'closed');
     }
 
+    function syncPanelFocus(panelElement, open, trigger) {
+      if (!panelElement) return;
+      if (!open && panelElement.contains(document.activeElement) && trigger) {
+        trigger.focus({ preventScroll: true });
+      }
+      panelElement.inert = !open;
+    }
+
     function updateButtons() {
       var sidebarState = body.getAttribute('data-sidebar');
       var panelState = body.getAttribute('data-panel');
+
+      syncPanelFocus(sidebar, sidebarState === 'open', sidebarTrigger);
+      syncPanelFocus(panel, panelState === 'open', panelTrigger);
 
       var mobile = !desktopQuery.matches;
       body.toggleAttribute('sidebar-display', mobile && sidebarState === 'open');
@@ -191,7 +204,7 @@
       });
     }
 
-    document.querySelectorAll('.toc-trigger').forEach(function (btn) {
+    document.querySelectorAll('.reading-toc-trigger').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         toggleTocModal();
@@ -217,6 +230,7 @@
 
     if (popup) {
       popup.addEventListener('click', function (e) {
+        if (e.target !== popup) return;
         var rect = popup.getBoundingClientRect();
         var isInDialog = (
           rect.top <= e.clientY &&
