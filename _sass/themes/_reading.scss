@@ -114,12 +114,15 @@ main article,
     position: sticky !important;
     top: 0 !important;
     z-index: 1000 !important;
+    height: calc(3rem + var(--sidebar-card-inset)) !important;
     background-color: var(--topbar-bg) !important;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
 
   #topbar {
+    align-items: flex-start !important;
+    padding-top: var(--sidebar-card-inset) !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
     margin-left: 0 !important;

@@ -15,6 +15,7 @@
     var panelTrigger = document.getElementById('panel-trigger');
     var sidebar = document.getElementById('sidebar');
     var panel = document.getElementById('panel-wrapper');
+    var topbarWrapper = document.getElementById('topbar-wrapper');
     var mask = document.getElementById('mask');
     var popup = document.getElementById('reading-toc-dialog');
     var popupContent = document.getElementById('reading-toc-content');
@@ -305,8 +306,9 @@
         var ticking = false;
         function updateStickyTitle() {
           var rect = postHeading.getBoundingClientRect();
-          // When the bottom of h1 passes behind the topbar (~50px), show sticky title
-          if (rect.bottom < 50) {
+          // When the bottom of h1 passes behind the topbar, show sticky title
+          var topbarHeight = topbarWrapper ? topbarWrapper.getBoundingClientRect().height : 48;
+          if (rect.bottom < topbarHeight + 2) {
             body.classList.add('title-sticky');
           } else {
             body.classList.remove('title-sticky');
