@@ -762,6 +762,13 @@ div.language-terminal td.rouge-code {
 }
 
 
+/* Related posts: keep all recommendation cards on a single row from tablet width up. */
+@media (min-width: 768px) {
+  #related-posts nav.row > .col {
+    width: calc(100% / 3);
+  }
+}
+
 /* Tail wrapper bottom spacing without footer */
 #tail-wrapper {
   padding-bottom: 3.5rem !important;
