@@ -84,8 +84,11 @@ typography:
     fontSize: "0.88rem"
     lineHeight: 1.62
 rounded:
-  paper-ui: "10px"
+  paper-ui: "8px"
   cursor-ui: "6px"
+  detail: "4px"
+  paper-overlay: "10px"
+  cursor-overlay: "6px"
 spacing:
   standard: "1rem"
   cursor-paragraph: "1.4rem"
@@ -168,26 +171,27 @@ The right card keeps the same resting shadow as the left card, including when it
 
 ## Shapes
 
-Paper gives every rectangular surface and control a 10px radius; Cursor gives the same set 6px. Search fields and tags are rounded rectangles rather than pills. A single override layer in [_radius.scss](_sass/themes/_radius.scss) enforces the radius on cards, sidebars, buttons, menus, tags, pagination, code frames, inline code, tables, dialogs, media, and content images; `--ui-radius` carries the appearance value.
+Paper gives its base rectangular surfaces and controls an 8px radius; Cursor gives the same set 6px. Two exceptions keep very small and very large elements optically balanced. A single override layer in [_radius.scss](_sass/themes/_radius.scss) enforces the tiers on cards, sidebars, buttons, menus, tags, pagination, code, tables, dialogs, media, and content images; `--ui-radius`, `--detail-radius`, and `--overlay-radius` carry the values.
 
-| Appearance | Radius | Uses |
-| :--- | :--- | :--- |
-| Paper | 10px | All rectangular surfaces and controls |
-| Cursor | 6px | All rectangular surfaces and controls |
+| Role | Paper | Cursor | Uses |
+| :--- | :--- | :--- | :--- |
+| Base | 8px | 6px | Cards, sidebars, search, buttons, menus, pagination, code frames, tables, media, images |
+| Detail | 4px | 4px | Inline code, keyboard labels, small tags and badges |
+| Overlay | 10px | 6px | Article contents dialog, notification |
 
-Dropdowns keep their 5px inset; menu items and shells share the uniform radius. Card images, category sections and code interiors stay square where the rounded outer frame already clips them; joined navigation controls keep their shared inner edge square. Blockquotes retain a straight accent edge and use the 10px radius on the opposite side in Paper; Cursor blockquotes stay square. Avatars, sidebar utility icons, selection dots and the back-to-top button remain circular.
+Search fields remain rounded rectangles rather than pills. Dropdowns keep their 5px inset and use the base radius. Card images, category sections and code interiors stay square where the rounded outer frame already clips them; joined navigation controls keep their shared inner edge square. Blockquotes retain a straight accent edge and use the base radius on the opposite side in Paper; Cursor blockquotes stay square. Avatars, sidebar utility icons, selection dots and the back-to-top button remain circular.
 
 The complete search field supplies its focus outline, so the indicator follows the same outer rounded rectangle instead of framing the inner text input separately.
 
 Paper's standard Markdown tables use the outer frame as the bottom edge. Only cells in the last row of a final `tbody` drop their bottom border; earlier rows and body groups retain their separators, and a following `tfoot` keeps the body/footer divider. Rouge code tables retain their separate border-free treatment.
 
-The shared contents-dialog fallback and both appearance rules resolve to the same 10px/6px radius through the override layer. Keep the fallback aligned when extending the dialog.
+The contents dialog uses the overlay tier: 10px in Paper and 6px in Cursor. Keep the shared fallback aligned when extending the dialog.
 
 ## Components
 
 The topbar appearance picker offers Paper and Cursor. Its selected option has a round marker and `aria-pressed`; the toggle exposes `aria-expanded`. Hover and focus use the active palette. Mobile search hides the picker. [_includes/topbar.html](_includes/topbar.html) owns the markup; the sidecar previews the open state.
 
-The picker consumes the uniform corner value and a 5px menu inset. Its toggle, menu, and items use 10px in Paper and 6px in Cursor.
+The picker consumes the base corner value and a 5px menu inset. Its toggle, menu, and items use 8px in Paper and 6px in Cursor.
 
 Paper uses a visible link-colored outline for keyboard focus, with an inset outline on code-copy buttons and scrollable directory links to avoid clipping. Attribution links keep the outline close to their text so it fits within each line. Cursor retains its own focus treatment. The shared reading controller marks closed navigation and article panels `inert`, so hidden links do not enter the Tab sequence; if a closing panel holds focus, focus returns to its toggle. Opening a panel restores its keyboard access.
 

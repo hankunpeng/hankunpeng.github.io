@@ -2,7 +2,9 @@
 
 // Paper appearance is isolated from the shared reading layout.
 :root:not([data-site-theme="cursor"]) {
-  --ui-radius: 10px;
+  --ui-radius: 8px;
+  --detail-radius: 4px;
+  --overlay-radius: 10px;
   --paper-radius-detail: var(--ui-radius);
   --paper-radius-control: var(--ui-radius);
   --paper-radius-panel: var(--ui-radius);

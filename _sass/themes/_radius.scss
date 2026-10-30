@@ -1,4 +1,4 @@
-/* One rectangular corner radius for every visible surface and control. */
+/* Base radius for rectangular surfaces and controls. */
 @mixin uniform-radius {
   #sidebar,
   #panel-wrapper,
@@ -43,16 +43,16 @@
   .embed-video video,
   .embed-audio.spotify,
   .rounded-10 {
-    border-radius: var(--ui-radius, 10px) !important;
+    border-radius: var(--ui-radius, 8px) !important;
   }
 
   /* Joined navigation controls keep their shared inner edge square. */
   .post-navigation .btn:first-child {
-    border-radius: var(--ui-radius, 10px) 0 0 var(--ui-radius, 10px) !important;
+    border-radius: var(--ui-radius, 8px) 0 0 var(--ui-radius, 8px) !important;
   }
 
   .post-navigation .btn:last-child {
-    border-radius: 0 var(--ui-radius, 10px) var(--ui-radius, 10px) 0 !important;
+    border-radius: 0 var(--ui-radius, 8px) var(--ui-radius, 8px) 0 !important;
   }
 
   /* Round controls stay circular. */
@@ -67,12 +67,41 @@
   }
 }
 
+@mixin radius-tiers {
+  /* Inline code, keyboard labels, and small tags use the detail radius. */
+  .post-tag,
+  .tag,
+  .badge,
+  .post-meta .categories a,
+  p > code,
+  li > code,
+  td > code,
+  h1 > code,
+  h2 > code,
+  h3 > code,
+  code.highlighter-rouge,
+  .content code.highlighter-rouge,
+  kbd {
+    border-radius: var(--detail-radius, 4px) !important;
+  }
+
+  /* Dialogs and large overlays use the overlay radius. */
+  .toc-dialog,
+  dialog.toc-dialog,
+  #toc-popup,
+  #notification {
+    border-radius: var(--overlay-radius, 10px) !important;
+  }
+}
+
 :root:not([data-site-theme="cursor"]) {
   @include uniform-radius;
+  @include radius-tiers;
 }
 
 :root[data-site-theme="cursor"] {
   @include uniform-radius;
+  @include radius-tiers;
 }
 
 /* The outer category card supplies the visible corners. */

@@ -81,6 +81,8 @@ $dark: (
 
 :root[data-site-theme='cursor'] {
   --ui-radius: 6px;
+  --detail-radius: 4px;
+  --overlay-radius: 6px;
   --sidebar-card-radius: var(--ui-radius);
   --panel-card-radius: var(--ui-radius);
 

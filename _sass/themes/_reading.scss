@@ -27,7 +27,7 @@
   height: auto;
   background-color: var(--card-bg);
   border: 1px solid var(--main-border-color);
-  border-radius: var(--sidebar-card-radius, 12px);
+  border-radius: var(--sidebar-card-radius, 8px);
   box-shadow: var(--card-shadow);
 }
 
@@ -180,7 +180,7 @@ main article,
     padding: 2rem 1.5rem 1rem !important;
     background-color: var(--card-bg) !important;
     border: 1px solid var(--main-border-color) !important;
-    border-radius: var(--panel-card-radius, 10px) !important;
+    border-radius: var(--panel-card-radius, 8px) !important;
     box-shadow: var(--card-shadow) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
@@ -409,7 +409,7 @@ main article,
     z-index: 1050 !important;
     background-color: var(--card-bg) !important;
     border: 1px solid var(--main-border-color) !important;
-    border-radius: var(--panel-card-radius, 10px) !important;
+    border-radius: var(--panel-card-radius, 8px) !important;
     box-shadow: var(--card-shadow) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
