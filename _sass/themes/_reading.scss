@@ -152,6 +152,15 @@ main article,
     max-width: 100% !important;
   }
 
+  /* Pull the Home content band closer to the topbar controls. */
+  body.layout-home #post-list {
+    margin-top: 1.5rem !important;
+  }
+
+  body.layout-home #panel-wrapper .access {
+    margin-top: 2rem !important;
+  }
+
   /* ======================================================== */
   /* State 1: All 3 cards open (三 card 全貌)                 */
   /* Left takes 260px, Middle & Right share the rest          */
