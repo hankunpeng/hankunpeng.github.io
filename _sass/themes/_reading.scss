@@ -10,10 +10,25 @@
   /* 留白占屏幕总宽度的百分比 5% (5vw) */
   --card-gutter: 5vw;
 
+  /* Floating card inset for the left sidebar. */
+  --sidebar-card-inset: 1rem;
+
   /* Reserve the same scrollbar space in both appearances. */
   scrollbar-width: thin;
 
   ::-webkit-scrollbar { width: 8px; height: 8px; }
+}
+
+/* The left sidebar is a floating card, matching the article cards. */
+#sidebar {
+  top: var(--sidebar-card-inset);
+  bottom: var(--sidebar-card-inset);
+  left: var(--sidebar-card-inset);
+  height: auto;
+  background-color: var(--card-bg);
+  border: 1px solid var(--main-border-color);
+  border-radius: var(--sidebar-card-radius, 12px);
+  box-shadow: var(--card-shadow);
 }
 
 /* --- Collapsible Sidebar & Panel (Reading Mode) --- */
@@ -142,16 +157,15 @@ main article,
   /* ======================================================== */
   body[data-sidebar="open"][data-panel="open"] #sidebar {
     transform: translateX(0);
-    box-shadow: none;
   }
 
   body[data-sidebar="open"][data-panel="open"] #main-wrapper {
-    margin-left: 260px !important;
+    margin-left: calc(260px + var(--sidebar-card-inset)) !important;
   }
 
   @media (min-width: 1650px) {
     body[data-sidebar="open"][data-panel="open"] #main-wrapper {
-      margin-left: 320px !important;
+      margin-left: calc(320px + var(--sidebar-card-inset)) !important;
     }
   }
 
@@ -188,7 +202,7 @@ main article,
   /* 搜索框最右侧与中 card 文字最右侧对齐                      */
   /* ======================================================== */
   body[data-sidebar="closed"][data-panel="open"] #sidebar {
-    transform: translateX(-100%);
+    transform: translateX(calc(-100% - var(--sidebar-card-inset)));
     box-shadow: none;
   }
 
@@ -230,16 +244,15 @@ main article,
   /* ======================================================== */
   body[data-sidebar="open"][data-panel="closed"] #sidebar {
     transform: translateX(0);
-    box-shadow: none;
   }
 
   body[data-sidebar="open"][data-panel="closed"] #main-wrapper {
-    margin-left: 260px !important;
+    margin-left: calc(260px + var(--sidebar-card-inset)) !important;
   }
 
   @media (min-width: 1650px) {
     body[data-sidebar="open"][data-panel="closed"] #main-wrapper {
-      margin-left: 320px !important;
+      margin-left: calc(320px + var(--sidebar-card-inset)) !important;
     }
   }
 
@@ -274,7 +287,7 @@ main article,
   /* 搜索框的最右侧，跟正文右侧对齐                           */
   /* ======================================================== */
   body[data-sidebar="closed"][data-panel="closed"] #sidebar {
-    transform: translateX(-100%);
+    transform: translateX(calc(-100% - var(--sidebar-card-inset)));
     box-shadow: none;
   }
 
@@ -307,6 +320,18 @@ main article,
 }
 
 @media (max-width: 991.98px) {
+  #sidebar {
+    transform: translateX(calc(-100% - var(--sidebar-card-inset)));
+  }
+
+  body[sidebar-display] #sidebar {
+    transform: translateX(0);
+  }
+
+  body[sidebar-display] #main-wrapper {
+    transform: translateX(calc(260px + var(--sidebar-card-inset)));
+  }
+
   #panel-wrapper {
     position: fixed !important;
     top: 0 !important;

@@ -80,6 +80,8 @@ $dark: (
 }
 
 :root[data-site-theme='cursor'] {
+  --sidebar-card-radius: 5px;
+
   @include palette($light);
 
   &[data-bs-theme='dark'],
@@ -146,8 +148,6 @@ $dark: (
   }
 
   #sidebar {
-    border-right: 1px solid var(--sidebar-border-color);
-
     #avatar { width: 72px; height: 72px; }
     .profile-wrapper { margin-top: 2rem; }
     .site-title { font-family: var(--cursor-ui-font); font-size: 1.3rem; font-weight: 600; letter-spacing: -0.035em; }
