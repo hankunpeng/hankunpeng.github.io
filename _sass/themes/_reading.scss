@@ -161,6 +161,48 @@ main article,
     margin-top: 2rem !important;
   }
 
+  /* The fixed right card leaves the row, so keep the article column left-aligned. */
+  #main-wrapper > .container > .row {
+    justify-content: flex-start !important;
+  }
+
+  /* The right column is a floating card, mirroring the left sidebar. */
+  body[data-panel="open"] #panel-wrapper {
+    display: block !important;
+    position: fixed !important;
+    top: var(--sidebar-card-inset) !important;
+    bottom: var(--sidebar-card-inset) !important;
+    right: var(--sidebar-card-inset) !important;
+    left: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 2rem 1.5rem 1rem !important;
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--main-border-color) !important;
+    border-radius: var(--sidebar-card-radius, 12px) !important;
+    box-shadow: var(--card-shadow) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scrollbar-width: none;
+    z-index: 999 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-panel="open"] #panel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  body[data-panel="open"] #panel-wrapper .access {
+    position: static !important;
+    top: auto !important;
+    margin-top: 0 !important;
+  }
+
   /* ======================================================== */
   /* State 1: All 3 cards open (三 card 全貌)                 */
   /* Left takes 260px, Middle & Right share the rest          */
@@ -190,21 +232,20 @@ main article,
     padding-right: var(--card-gutter) !important;
   }
 
+  body[data-sidebar="open"][data-panel="open"] #topbar-wrapper {
+    width: calc(100% - 280px) !important;
+    max-width: calc(100% - 280px) !important;
+  }
+
+  body[data-sidebar="open"][data-panel="open"] #topbar {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
   body[data-sidebar="open"][data-panel="open"] #panel-wrapper {
-    display: block !important;
-    flex: 0 0 280px !important;
-    max-width: 280px !important;
-    width: 280px !important;
-    position: static !important;
-    height: auto !important;
-    transform: none !important;
-    box-shadow: none !important;
-    border-left: 1px solid var(--main-border-color) !important;
-    padding: 0 0 0 1rem !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    overflow: visible !important;
-    pointer-events: auto !important;
+    width: calc(280px + var(--card-gutter) - var(--sidebar-card-inset)) !important;
+    max-width: none !important;
   }
 
   /* ======================================================== */
@@ -231,21 +272,20 @@ main article,
     padding-right: var(--card-gutter) !important;
   }
 
+  body[data-sidebar="closed"][data-panel="open"] #topbar-wrapper {
+    width: calc(100% - clamp(320px, 26vw, 420px)) !important;
+    max-width: calc(100% - clamp(320px, 26vw, 420px)) !important;
+  }
+
+  body[data-sidebar="closed"][data-panel="open"] #topbar {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
   body[data-sidebar="closed"][data-panel="open"] #panel-wrapper {
-    display: block !important;
-    flex: 0 0 clamp(320px, 26vw, 420px) !important;
-    max-width: clamp(320px, 26vw, 420px) !important;
-    width: clamp(320px, 26vw, 420px) !important;
-    position: static !important;
-    height: auto !important;
-    transform: none !important;
-    box-shadow: none !important;
-    border-left: 1px solid var(--main-border-color) !important;
-    padding: 0 0 0 1.25rem !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    overflow: visible !important;
-    pointer-events: auto !important;
+    width: calc(clamp(320px, 26vw, 420px) + var(--card-gutter) - var(--sidebar-card-inset)) !important;
+    max-width: none !important;
   }
 
   /* ======================================================== */
@@ -331,6 +371,19 @@ main article,
   }
 }
 
+/* Recently Updated titles wrap instead of truncating. */
+#panel-wrapper #access-lastmod li.text-truncate {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the gap above Trending Tags at 2rem. */
+#panel-wrapper .access > section:not(:first-child) {
+  margin-top: 2rem !important;
+}
+
 @media (max-width: 991.98px) {
   #sidebar {
     transform: translateX(calc(-100% - var(--sidebar-card-inset)));
@@ -346,27 +399,42 @@ main article,
 
   #panel-wrapper {
     position: fixed !important;
-    top: 0 !important;
-    right: 0 !important;
+    top: var(--sidebar-card-inset) !important;
+    bottom: var(--sidebar-card-inset) !important;
+    right: var(--sidebar-card-inset) !important;
+    left: auto !important;
     width: 300px !important;
     max-width: 85vw !important;
-    height: 100vh !important;
+    height: auto !important;
     z-index: 1050 !important;
-    background-color: var(--main-bg) !important;
-    border-left: 1px solid var(--main-border-color) !important;
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--main-border-color) !important;
+    border-radius: var(--sidebar-card-radius, 12px) !important;
+    box-shadow: var(--card-shadow) !important;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
-    padding: 2rem 1.5rem 3rem !important;
+    scrollbar-width: none;
+    padding: 2rem 1.5rem 1rem !important;
     margin: 0 !important;
-    transform: translateX(100%);
+    transform: translateX(calc(100% + var(--sidebar-card-inset)));
     transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: none;
     display: block !important;
+    box-sizing: border-box !important;
+  }
+
+  #panel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  #panel-wrapper .access {
+    position: static !important;
+    top: auto !important;
+    margin-top: 0 !important;
   }
 
   body[panel-display] #panel-wrapper,
   body[data-panel="open"] #panel-wrapper {
     transform: translateX(0);
-    box-shadow: -5px 0 35px rgba(0, 0, 0, 0.35);
   }
 }
 

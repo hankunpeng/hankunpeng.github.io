@@ -27,7 +27,6 @@ colors:
   cursor-dark-text: "#e8e7df"
   cursor-dark-surface: "#1c1b14"
   cursor-dark-border: "#343228"
-  reading-drawer-shadow: "rgba(0, 0, 0, 0.35)"
   reading-contents-backdrop: "rgba(0, 0, 0, 0.55)"
 typography:
   paper-ui:
@@ -136,7 +135,7 @@ Paper keeps its clay accent separate from link text: light-mode links use `paper
 
 Paper's code labels, line numbers, and sidebar attribution use readable foreground colors without reducing the attribution group's opacity. Treat line numbers used to explain code as text with a 4.5:1 contrast floor; task-state markers and copy icons use a 3:1 floor. Copy icons inherit the button's foreground on hover, and copy-success checks retain a separate green with sufficient contrast in each mode.
 
-Shared overlay colors have distinct roles: `reading-drawer-shadow` supplies the opened mobile right drawer's shadow tint; `reading-contents-backdrop` dims the page behind the contents dialog. Both layers use the same color in light and dark modes. Their source is [_reading.scss](_sass/themes/_reading.scss).
+`reading-contents-backdrop` dims the page behind the contents dialog. The floating side cards and the mobile right drawer use the active appearance's resting `--card-shadow` instead of a dedicated drawer shadow. The backdrop uses the same color in light and dark modes; its source is [_reading.scss](_sass/themes/_reading.scss).
 
 [_config.yml](_config.yml) defaults `visual_theme` to `paper`. Light, dark, and system color modes remain independent. Both stylesheets honor `data-bs-theme` or `data-mode` attributes. Chirpy writes the resolved `data-bs-theme` even while following the system preference; these attributes alone do not identify a user-selected mode. When neither attribute is present, the stylesheets use the system media-query fallback.
 
@@ -152,11 +151,15 @@ The Kai choice loads the local [LXGW WenKai Screen stylesheet](assets/fonts/lxgw
 
 ## Layout
 
-At 992px and above, the shared layout uses collapsible columns. Articles start with both panels closed; other layouts start open. Below that breakpoint, drawers start closed and the controller permits one open at a time. The right drawer is 300px wide, capped at 85vw. Sources: [_reading.scss](_sass/themes/_reading.scss), [_layouts/default.html](_layouts/default.html), and [reading-mode.js](assets/js/reading-mode.js).
+At 992px and above, the shared layout uses collapsible columns. Articles start with both panels closed; other layouts start open. Below that breakpoint, drawers start closed and the controller permits one open at a time. The right drawer is 300px wide, capped at 85vw and inset `1rem` from the viewport edges like the left drawer. Sources: [_reading.scss](_sass/themes/_reading.scss), [_layouts/default.html](_layouts/default.html), and [reading-mode.js](assets/js/reading-mode.js).
 
 Article and tail widths belong to the shared layout. Both appearances follow Paper's fluid columns, with 5vw outer gutters on desktop and the same inherited responsive container gutters below 992px. Sidebar state changes the available width; appearance selection does not. Scrollbar thickness is shared to keep the reserved space consistent. Below 850px (849.98px in CSS), Cursor body type becomes 1.0625rem, article titles 1.75rem, and card padding 1.2rem. Shared controls become 40px square; both appearances hide the combined layout button and sticky title so the controls fit.
 
-**Left sidebar card.** The sidebar is one floating card inset `1rem` from the top, bottom, and left viewport edges. It uses the active appearance's card surface, border, shadow, and corner (Paper panel radius, Cursor card radius) and scrolls internally. The desktop column offsets and the drawer's hidden transform both include the inset, so the card neither overlaps the article column nor leaves a sliver when closed. On desktop the topbar reserves the same `1rem` above its controls, so the shortcut row's top edge lines up with the card's top edge; the sticky article-title threshold reads the rendered topbar height instead of a fixed offset. On Home, the post list starts `1.5rem` below the topbar and the right-panel access block starts at `2rem`; both are `1rem` tighter than the theme defaults so the first card sits closer to the toolbar row while staying aligned with the first panel heading. Sources: [_reading.scss](_sass/themes/_reading.scss), [_paper.scss](_sass/themes/_paper.scss), [_cursor.scss](_sass/themes/_cursor.scss), and [reading-mode.js](assets/js/reading-mode.js).
+**Floating sidebars.** The left sidebar is one floating card inset `1rem` from the top, bottom, and left viewport edges. It uses the active appearance's card surface, border, shadow, and corner (Paper panel radius, Cursor card radius) and scrolls internally. The desktop column offsets and the drawer's hidden transform both include the inset, so the card neither overlaps the article column nor leaves a sliver when closed.
+
+The right column mirrors it: a fixed card inset `1rem` from the top, bottom, and right viewport edges. It begins where the article column ends and spans the reserved panel width plus the outer gutter, preserving the 5vw article gap while reaching the viewport edge. It scrolls internally with the same surface, border, corner, and shadow as the left card. The desktop topbar background ends at the card's left edge, and the article row is left-aligned so the fixed card cannot cover it. Its padding is `2rem` top, `1.5rem` sides, and `1rem` bottom, with the top inset setting where the first access heading starts. Below 992px both drawers use the same card treatment; the right drawer stays 300px wide, capped at 85vw.
+
+On desktop the topbar reserves the same `1rem` above its controls, so the shortcut row's top edge lines up with the card's top edge; the sticky article-title threshold reads the rendered topbar height instead of a fixed offset. On Home the post list starts `1.5rem` below the topbar, `1rem` tighter than the theme default. Sources: [_reading.scss](_sass/themes/_reading.scss), [_paper.scss](_sass/themes/_paper.scss), [_cursor.scss](_sass/themes/_cursor.scss), and [reading-mode.js](assets/js/reading-mode.js).
 
 Below 360px (359.98px in CSS), the shared picker tightens and hides its chevron. Paper card padding inherits 1rem below 768px, then uses its frontmatter padding. Sources: [_reading.scss](_sass/themes/_reading.scss), [_cursor.scss](_sass/themes/_cursor.scss), [_appearance.scss](_sass/themes/_appearance.scss), and Chirpy's `_sass/pages/_home.scss`, pinned by [Gemfile.lock](Gemfile.lock). Spacing tokens name observed uses rather than a universal scale.
 
@@ -168,7 +171,7 @@ Both appearances supply `--card-hover-border` and `--card-hover-shadow` in light
 
 The current design keeps these small hover lifts in both appearances, including when `prefers-reduced-motion: reduce` is set. That preference still disables the shared reading-layout transitions; it does not disable the card and utility hover effects.
 
-The `reading-drawer` shadow appears only on the opened right drawer below 992px. The contents dialog retains its own shadow; its backdrop covers the rest of the page with `reading-contents-backdrop` and a blur. Both effects belong to the shared reading layout.
+The right card keeps the same resting shadow as the left card, including when it is the mobile drawer. The contents dialog retains its own shadow; its backdrop covers the rest of the page with `reading-contents-backdrop` and a blur. Both effects belong to the shared reading layout.
 
 ## Shapes
 
@@ -178,7 +181,7 @@ Paper uses four coordinated corner sizes. Its search field and tags are rounded 
 | :--- | :--- | :--- |
 | Detail | 6px | Menu items, inline code, keyboard labels, dialog close buttons and small notification controls |
 | Control | 8px | Search, tags, sidebar navigation items, topbar buttons, appearance toggle, copy buttons and pagination |
-| Panel | 12px | Article cards, table and code frames, dropdown shells, media frames and notifications |
+| Panel | 12px | Article cards, floating sidebars, table and code frames, dropdown shells, media frames and notifications |
 | Dialog | 16px | Article contents dialogs |
 
 The four `--paper-radius-*` tokens in [_paper.scss](_sass/themes/_paper.scss) own these sizes. Dropdowns use a 5px inset and 1px border around 6px menu items, coordinating with the 12px outer corner. Card images, category sections and code interiors stay square where the rounded outer frame already clips them; joined navigation controls keep their shared inner edge square. Blockquotes retain a straight accent edge and use panel corners on the opposite side. Avatars, sidebar utility icons, selection dots and the back-to-top button remain circular.
@@ -199,7 +202,7 @@ Paper uses a visible link-colored outline for keyboard focus, with an inset outl
 
 The custom article contents dialog uses `reading-toc-dialog`, `reading-toc-content`, and `reading-toc-close` IDs, plus a dedicated `reading-toc-trigger` button class, to keep its controls distinct from Chirpy's built-in TOC popup. The reading shortcuts and topbar contents button target only this custom dialog, preventing two modals from opening together on mobile. Dismissing it preserves the browser's focus restoration; selecting a contents link lets the browser follow the heading anchor instead.
 
-**Sidebar access grouping.** Recently Updated and Trending Tags use headings and whitespace, without section-level left borders. Both appearances keep the inherited `1rem` left inset and `4rem` gap between these modules. The shared right-panel divider separates the sidebar from article content.
+**Sidebar access grouping.** Recently Updated and Trending Tags use headings and whitespace, without section-level left borders. Both appearances keep the inherited `1rem` left inset and a `2rem` gap between these modules. They sit inside the floating right card; its border replaces the former right-panel divider, and the card's padding replaces the access block's former top margin. Recently Updated titles wrap to their complete text instead of truncating.
 
 Article cards have one visible surface with transparent wrappers. Cursor uses interface type and muted metadata; Paper retains serif reading. Both appearances share the hover lift and title accent through [_hover.scss](_sass/themes/_hover.scss). The sidecar includes both card treatments. Technical code tables retain one outer frame, horizontal scrolling, and an aligned number gutter in [_reading.scss](_sass/themes/_reading.scss).
 
