@@ -389,17 +389,19 @@ main article,
 }
 
 #topbar-home-btn {
-  margin-left: 0.3rem !important;
+  margin-left: 0 !important;
 }
 
 @media (min-width: 850px) {
   body:not([data-sidebar="closed"]) #sidebar-trigger {
-    margin-left: 0.3rem !important;
+    margin-left: 0 !important;
   }
 }
 
-body[sidebar-display] #sidebar-trigger {
-  margin-left: 0.3rem !important;
+@media (max-width: 849.98px) {
+  body[sidebar-display] #sidebar-trigger {
+    margin-left: 0.3rem !important;
+  }
 }
 
 #panel-trigger {
