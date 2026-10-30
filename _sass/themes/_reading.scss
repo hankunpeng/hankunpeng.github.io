@@ -89,10 +89,10 @@ main article,
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    min-height: 34px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
     padding: 0 !important;
   }
 
@@ -372,10 +372,10 @@ main article,
   color: var(--text-muted-color) !important;
   font-size: 1rem !important;
   padding: 0 !important;
-  width: 34px !important;
-  height: 34px !important;
-  min-width: 34px !important;
-  min-height: 34px !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
   border-radius: 8px !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -424,6 +424,14 @@ body[sidebar-display] #sidebar-trigger {
   color: var(--link-color) !important;
   background-color: var(--sidebar-hover-bg) !important;
   text-decoration: none !important;
+}
+
+/* The desktop search field shares the topbar controls' 36px height. */
+@media (min-width: 850px) {
+  #search {
+    height: 36px;
+    align-items: center;
+  }
 }
 
 /* Topbar separator dot between Home button and view controls */
