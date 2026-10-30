@@ -84,15 +84,8 @@ typography:
     fontSize: "0.88rem"
     lineHeight: 1.62
 rounded:
-  compact: "3px"
-  cursor-detail: "4px"
-  cursor-card: "5px"
-  picker: "6px"
-  paper-detail: "6px"
-  paper-control: "8px"
-  paper-card: "12px"
-  reading-dialog-base: "1rem"
-  paper-dialog: "16px"
+  paper-ui: "10px"
+  cursor-ui: "6px"
 spacing:
   standard: "1rem"
   cursor-paragraph: "1.4rem"
@@ -103,19 +96,19 @@ components:
   appearance-toggle:
     backgroundColor: "var(--button-bg)"
     textColor: "var(--text-color)"
-    rounded: "{rounded.picker}"
+    rounded: "{rounded.paper-ui}"
     padding: "0.35rem 0.65rem"
   appearance-option:
     textColor: "var(--text-color)"
-    rounded: "{rounded.compact}"
+    rounded: "{rounded.paper-ui}"
     padding: "0.5rem 0.7rem"
   cursor-article-card:
     backgroundColor: "var(--card-bg)"
-    rounded: "{rounded.cursor-card}"
+    rounded: "{rounded.cursor-ui}"
     padding: "{spacing.cursor-card-inset}"
   paper-article-card:
     backgroundColor: "var(--card-bg)"
-    rounded: "{rounded.paper-card}"
+    rounded: "{rounded.paper-ui}"
     padding: "1.75rem 1.75rem 1.25rem"
 ---
 
@@ -125,7 +118,7 @@ components:
 
 Paper and Cursor are selectable appearances of the same article site. [PRODUCT.md](PRODUCT.md) owns the identity, content, and navigation constraints. Paper uses editorial serifs and warm clay accents. Cursor follows the approved Cursor website and blog reference: sans-serif type, restrained surfaces, and fine boundaries. Both use the same responsive article width.
 
-**Appearance ownership.** [_paper.scss](_sass/themes/_paper.scss) applies under `:root:not([data-site-theme="cursor"])`; [_cursor.scss](_sass/themes/_cursor.scss) applies under `:root[data-site-theme='cursor']`. [_reading.scss](_sass/themes/_reading.scss) owns shared layout, [_appearance.scss](_sass/themes/_appearance.scss) owns the picker, and [_hover.scss](_sass/themes/_hover.scss) supplies the shared card and sidebar utility hover behavior. Extend the appropriate owner.
+**Appearance ownership.** [_paper.scss](_sass/themes/_paper.scss) applies under `:root:not([data-site-theme="cursor"])`; [_cursor.scss](_sass/themes/_cursor.scss) applies under `:root[data-site-theme='cursor']`. [_reading.scss](_sass/themes/_reading.scss) owns shared layout, [_appearance.scss](_sass/themes/_appearance.scss) owns the picker, [_radius.scss](_sass/themes/_radius.scss) applies the uniform corner radius last, and [_hover.scss](_sass/themes/_hover.scss) supplies the shared card and sidebar utility hover behavior. Extend the appropriate owner.
 
 ## Colors
 
@@ -175,28 +168,26 @@ The right card keeps the same resting shadow as the left card, including when it
 
 ## Shapes
 
-Paper uses four coordinated corner sizes. Its search field and tags are rounded rectangles rather than pills. Cursor retains its existing smaller rectangular corners, straight blockquotes, and thin boundaries. Its controls and code frames use `cursor-detail`; tables and inline code use `compact`. Its contents dialog and appearance picker use `picker`.
+Paper gives every rectangular surface and control a 10px radius; Cursor gives the same set 6px. Search fields and tags are rounded rectangles rather than pills. A single override layer in [_radius.scss](_sass/themes/_radius.scss) enforces the radius on cards, sidebars, buttons, menus, tags, pagination, code frames, inline code, tables, dialogs, media, and content images; `--ui-radius` carries the appearance value.
 
-| Paper role | Radius | Uses |
+| Appearance | Radius | Uses |
 | :--- | :--- | :--- |
-| Detail | 6px | Menu items, inline code, keyboard labels, dialog close buttons and small notification controls |
-| Control | 8px | Search, tags, sidebar navigation items, topbar buttons, appearance toggle, copy buttons and pagination |
-| Panel | 12px | Article cards, floating sidebars, table and code frames, dropdown shells, media frames and notifications |
-| Dialog | 16px | Article contents dialogs |
+| Paper | 10px | All rectangular surfaces and controls |
+| Cursor | 6px | All rectangular surfaces and controls |
 
-The four `--paper-radius-*` tokens in [_paper.scss](_sass/themes/_paper.scss) own these sizes. Dropdowns use a 5px inset and 1px border around 6px menu items, coordinating with the 12px outer corner. Card images, category sections and code interiors stay square where the rounded outer frame already clips them; joined navigation controls keep their shared inner edge square. Blockquotes retain a straight accent edge and use panel corners on the opposite side. Avatars, sidebar utility icons, selection dots and the back-to-top button remain circular.
+Dropdowns keep their 5px inset; menu items and shells share the uniform radius. Card images, category sections and code interiors stay square where the rounded outer frame already clips them; joined navigation controls keep their shared inner edge square. Blockquotes retain a straight accent edge and use the 10px radius on the opposite side in Paper; Cursor blockquotes stay square. Avatars, sidebar utility icons, selection dots and the back-to-top button remain circular.
 
-The complete Paper search field supplies its focus outline, so the indicator follows the same outer rounded rectangle instead of framing the inner text input separately.
+The complete search field supplies its focus outline, so the indicator follows the same outer rounded rectangle instead of framing the inner text input separately.
 
 Paper's standard Markdown tables use the outer frame as the bottom edge. Only cells in the last row of a final `tbody` drop their bottom border; earlier rows and body groups retain their separators, and a following `tfoot` keeps the body/footer divider. Rouge code tables retain their separate border-free treatment.
 
-The shared contents-dialog rule supplies `reading-dialog-base` as a fallback. Paper's appearance stylesheet overrides it with `paper-dialog` using `!important`; Cursor's appearance stylesheet overrides it with `picker`. Keep the fallback and appearance-specific corners distinct when extending the dialog.
+The shared contents-dialog fallback and both appearance rules resolve to the same 10px/6px radius through the override layer. Keep the fallback aligned when extending the dialog.
 
 ## Components
 
 The topbar appearance picker offers Paper and Cursor. Its selected option has a round marker and `aria-pressed`; the toggle exposes `aria-expanded`. Hover and focus use the active palette. Mobile search hides the picker. [_includes/topbar.html](_includes/topbar.html) owns the markup; the sidecar previews the open state.
 
-The picker consumes per-appearance corner and padding variables. Paper supplies 8px for the toggle, 12px for the menu, 6px for items and 5px for menu padding. The shared 6px/6px/3px corner and `0.35rem` padding fallbacks retain Cursor's existing treatment.
+The picker consumes the uniform corner value and a 5px menu inset. Its toggle, menu, and items use 10px in Paper and 6px in Cursor.
 
 Paper uses a visible link-colored outline for keyboard focus, with an inset outline on code-copy buttons and scrollable directory links to avoid clipping. Attribution links keep the outline close to their text so it fits within each line. Cursor retains its own focus treatment. The shared reading controller marks closed navigation and article panels `inert`, so hidden links do not enter the Tab sequence; if a closing panel holds focus, focus returns to its toggle. Opening a panel restores its keyboard access.
 

@@ -2,14 +2,16 @@
 
 // Paper appearance is isolated from the shared reading layout.
 :root:not([data-site-theme="cursor"]) {
-  --paper-radius-detail: 6px;
-  --paper-radius-control: 8px;
-  --paper-radius-panel: 12px;
-  --paper-radius-dialog: 16px;
-  --sidebar-card-radius: var(--paper-radius-panel);
-  --appearance-control-radius: var(--paper-radius-control);
-  --appearance-menu-radius: var(--paper-radius-panel);
-  --appearance-item-radius: var(--paper-radius-detail);
+  --ui-radius: 10px;
+  --paper-radius-detail: var(--ui-radius);
+  --paper-radius-control: var(--ui-radius);
+  --paper-radius-panel: var(--ui-radius);
+  --paper-radius-dialog: var(--ui-radius);
+  --sidebar-card-radius: var(--ui-radius);
+  --panel-card-radius: var(--ui-radius);
+  --appearance-control-radius: var(--ui-radius);
+  --appearance-menu-radius: var(--ui-radius);
+  --appearance-item-radius: var(--ui-radius);
   --appearance-menu-padding: 5px;
 
   /* ======================================================== */

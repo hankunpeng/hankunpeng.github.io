@@ -80,7 +80,9 @@ $dark: (
 }
 
 :root[data-site-theme='cursor'] {
-  --sidebar-card-radius: 5px;
+  --ui-radius: 6px;
+  --sidebar-card-radius: var(--ui-radius);
+  --panel-card-radius: var(--ui-radius);
 
   @include palette($light);
 

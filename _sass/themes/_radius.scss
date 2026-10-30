@@ -1,0 +1,87 @@
+/* One rectangular corner radius for every visible surface and control. */
+@mixin uniform-radius {
+  #sidebar,
+  #panel-wrapper,
+  #post-list .post-preview,
+  #related-posts .card,
+  .card.categories,
+  #search,
+  .btn,
+  .btn-group,
+  .btn-close,
+  .topbar-btn,
+  .post-tag,
+  .tag,
+  .badge,
+  .post-meta .categories a,
+  #sidebar nav .nav-link,
+  .pagination .page-link,
+  .site-theme-picker .site-theme-toggle,
+  .dropdown-menu,
+  .dropdown-item,
+  #notification,
+  .tooltip-inner,
+  #reading-toc-close,
+  #toc-popup-close,
+  .toc-dialog,
+  #toc-popup,
+  .content table:not(.rouge-table),
+  div[class*='language-'],
+  figure.highlight,
+  .code-header button,
+  p > code,
+  li > code,
+  td > code,
+  h1 > code,
+  h2 > code,
+  h3 > code,
+  code.highlighter-rouge,
+  kbd,
+  .content img,
+  .embed-video,
+  .embed-video iframe,
+  .embed-video video,
+  .embed-audio.spotify,
+  .rounded-10 {
+    border-radius: var(--ui-radius, 10px) !important;
+  }
+
+  /* Joined navigation controls keep their shared inner edge square. */
+  .post-navigation .btn:first-child {
+    border-radius: var(--ui-radius, 10px) 0 0 var(--ui-radius, 10px) !important;
+  }
+
+  .post-navigation .btn:last-child {
+    border-radius: 0 var(--ui-radius, 10px) var(--ui-radius, 10px) 0 !important;
+  }
+
+  /* Round controls stay circular. */
+  #back-to-top,
+  #mode-toggle,
+  #sidebar .sidebar-bottom > a,
+  #sidebar .icon-border,
+  #topbar .icon-border,
+  #avatar,
+  .rounded-circle {
+    border-radius: 50% !important;
+  }
+}
+
+:root:not([data-site-theme="cursor"]) {
+  @include uniform-radius;
+}
+
+:root[data-site-theme="cursor"] {
+  @include uniform-radius;
+}
+
+/* The outer category card supplies the visible corners. */
+.card.categories {
+  overflow: hidden;
+}
+
+.card.categories .card-header,
+.card.categories .list-group,
+.card.categories .list-group-item {
+  border-radius: 0 !important;
+}
