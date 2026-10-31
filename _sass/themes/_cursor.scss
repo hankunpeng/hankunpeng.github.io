@@ -211,6 +211,14 @@ $dark: (
     overflow-wrap: anywhere;
 
     p { margin-bottom: 1.4rem; }
+    /* Mermaid lays out its own labels; keep the article's paragraph
+       typography (serif face, larger type, paragraph margins) out of the SVG. */
+    .mermaid p {
+      margin: 0;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
     li { line-height: var(--reading-line-height); }
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--cursor-ui-font);

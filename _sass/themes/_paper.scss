@@ -400,6 +400,15 @@
     margin-bottom: 1.45rem !important;
   }
 
+  /* Mermaid lays out its own labels; keep the article's paragraph
+     typography (serif face, 1.2rem, paragraph margins) out of the SVG. */
+  .content .mermaid p {
+    margin: 0 !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
   /* Editorial Serif Headings */
   article header h1,
   h1.card-title,

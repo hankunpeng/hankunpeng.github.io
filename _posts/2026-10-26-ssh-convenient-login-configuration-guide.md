@@ -4,7 +4,7 @@ date: 2026-10-26 17:40:00 +0800
 categories: [技术, 系统工程]
 tags: [ssh, linux, macos, terminal, devops, security]
 description: 详细梳理从本地 Ed25519 密钥生成、公钥分发、~/.ssh/config 别名管理到远程初始密码修改与安全加固的完整 SSH 便捷登录配置流程。
-mermaid: true
+mermaid: false
 ---
 
 日常开发与服务器运维中，频繁通过 `ssh username@192.168.x.x` 并手动输入长密码既低效又容易出错。通过**非对称密钥认证（Public Key Authentication）**与 **SSH Client Config 配置文件**，可以将原本繁琐的连接命令缩减为单单词别名（例如 `ssh myserver`），同时大幅提升连接安全性。
@@ -17,23 +17,8 @@ mermaid: true
 
 配置 SSH 便捷登录的核心逻辑分为公钥认证与别名映射两部分：
 
-```mermaid
-flowchart TD
-    subgraph Local["本地机器 (Local Client)"]
-        A["1. 生成密钥对 (ssh-keygen)\n私钥 id_ed25519 / 公钥 id_ed25519.pub"]
-        B["3. 配置 ~/.ssh/config 别名\nHost myserver -> IP / User / Port"]
-        E["4. 终端执行 ssh myserver"]
-    end
-
-    subgraph Remote["远程服务器 (Remote Server)"]
-        C["2. 接收公钥写入\n~/.ssh/authorized_keys"]
-        D["5. 校验公钥成功\n无感免密进入 Shell"]
-    end
-
-    A -->|ssh-copy-id 部署公钥| C
-    B -.-> E
-    E -->|非对称密钥挑战-应答| D
-```
+<img src="/assets/img/posts/ssh-login-flow-light.svg" alt="SSH 免密登录核心流程：本地生成密钥对、部署公钥至远程、配置别名、免密连接" class="mermaid-light" loading="lazy">
+<img src="/assets/img/posts/ssh-login-flow-dark.svg" alt="SSH 免密登录核心流程：本地生成密钥对、部署公钥至远程、配置别名、免密连接" class="mermaid-dark" loading="lazy">
 
 ---
 
@@ -94,7 +79,7 @@ cat ~/.ssh/id_ed25519.pub | ssh <remote_user>@<remote_ip> "mkdir -p ~/.ssh && ch
    ```
 
 2. 追加以下主机配置块：
-   ```ssh-config
+   ```text
    # 远程服务器别名，可随意命名（如 dev, lab, server-a）
    Host myserver
        HostName 192.168.1.100

@@ -2,6 +2,11 @@
 /* --- Shared reading layout and controls ---  */
 /* ======================================================== */
 
+/* Static diagram images: show the variant matching the color mode. */
+.mermaid-dark { display: none; }
+[data-bs-theme="dark"] .mermaid-light { display: none; }
+[data-bs-theme="dark"] .mermaid-dark { display: block; }
+
 #sidebar .profile-wrapper {
   margin-bottom: 2.5rem !important;
 }
