@@ -1,5 +1,5 @@
 ---
-title: SSH 免密与别名登录配置全指南：从密钥对生成到自动化连接
+title: SSH 免密登录与别名配置
 date: 2026-10-26 17:40:00 +0800
 categories: [技术, 系统工程]
 tags: [ssh, linux, macos, terminal, devops, security]
@@ -7,9 +7,9 @@ description: 详细梳理从本地 Ed25519 密钥生成、公钥分发、~/.ssh/
 mermaid: false
 ---
 
-日常开发与服务器运维中，频繁通过 `ssh username@192.168.x.x` 并手动输入长密码既低效又容易出错。通过**非对称密钥认证（Public Key Authentication）**与 **SSH Client Config 配置文件**，可以将原本繁琐的连接命令缩减为单单词别名（例如 `ssh myserver`），同时大幅提升连接安全性。
+我最近开始频繁通过 `ssh username@192.168.x.x` 登录远程服务器搞开发，手动输入长密码又慢又累又容易出错。通过**非对称密钥认证（Public Key Authentication）**与 **SSH Client Config 配置文件**，可以将原本繁琐的连接命令缩减为单单词别名（例如 `ssh myserver`），同时大幅提升连接安全性。
 
-本文整理一套标准的配置流程，涵盖密钥对生成、公钥部署、客户端别名配置、权限规范以及远程初始密码修改与安全加固。
+本文记录这一套配置小连招，涵盖密钥对生成、公钥部署、客户端别名配置、权限规范以及远程初始密码修改与安全加固。
 
 ---
 
@@ -44,7 +44,7 @@ ssh-keygen -t ed25519 -C "developer@workstation"
 
 ### 方式一：使用 `ssh-copy-id` 自动写入（推荐）
 
-macOS 与大部分 Linux 发行版均自带 `ssh-copy-id` 命令。运行以下指令：
+macOS 与绝大部分 Linux 发行版均自带 `ssh-copy-id` 命令。运行以下指令：
 
 ```bash
 # 请将 <remote_user> 替换为远程服务器实际用户名，<remote_ip> 替换为目标主机 IP
@@ -68,7 +68,7 @@ cat ~/.ssh/id_ed25519.pub | ssh <remote_user>@<remote_ip> "mkdir -p ~/.ssh && ch
 
 ---
 
-## 第三步：配置本地 SSH 别名（SSH Config）
+## 第三步：配置本地 SSH 别名
 
 完成公钥上传后虽然可以免密，但每次仍需记忆长 IP 和用户名。通过本地客户端配置文件 `~/.ssh/config`，可以为远程主机创建易记的短别名。
 
