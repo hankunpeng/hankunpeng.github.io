@@ -389,6 +389,15 @@ main article,
   margin-top: 2rem !important;
 }
 
+/* Card summaries and metadata share one gap in both appearances. */
+#post-list .post-preview .card-text.content p {
+  margin-bottom: 0 !important;
+}
+
+.post-preview .post-meta {
+  padding-top: 0.4rem !important;
+}
+
 @media (max-width: 991.98px) {
   #sidebar {
     transform: translateX(calc(-100% - var(--sidebar-card-inset)));
