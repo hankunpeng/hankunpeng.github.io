@@ -39,6 +39,87 @@
       body.setAttribute('data-panel', 'closed');
     }
 
+    // Home: the left rail is sized by its own content, so publish that content width as
+    // --sidebar-w. The shared layout uses it to offset the middle card and to place the
+    // right card, which CSS cannot read from a fixed-positioned element on its own.
+    var isHome = body.classList.contains('layout-home') || body.getAttribute('data-layout') === 'home';
+    var RAIL_SEEDS = '.site-title, #avatar, .nav-item, .sidebar-copyright, .sidebar-license, .sidebar-powered';
+    var RAIL_ROW = '.sidebar-bottom';
+    var RAIL_ROW_WRAP = '.sidebar-bottom-info';
+    var railTries = 0;
+
+    function intrinsicWidth(el, hide) {
+      if (!el) return 0;
+      var style = el.style;
+      var width = style.getPropertyValue('width');
+      var priority = style.getPropertyPriority('width');
+      var display = hide ? hide.style.display : '';
+      // Bootstrap's .w-100 sets width: 100% !important on the icon row, so the probe
+      // has to be important too or it would measure the current rail width back at us.
+      style.setProperty('width', 'max-content', 'important');
+      if (hide) hide.style.display = 'none';
+      var w;
+      try {
+        w = el.getBoundingClientRect().width;
+      } finally {
+        if (hide) hide.style.display = display;
+        if (width) {
+          style.setProperty('width', width, priority);
+        } else {
+          style.removeProperty('width');
+        }
+      }
+      return w;
+    }
+
+    function syncRailWidth() {
+      if (!sidebar || !isHome) return;
+      var cs = window.getComputedStyle(sidebar);
+      var frame = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) +
+                  parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+      var widest = 0;
+      var seeds = sidebar.querySelectorAll(RAIL_SEEDS);
+      for (var i = 0; i < seeds.length; i++) {
+        var w = intrinsicWidth(seeds[i]);
+        if (w > widest) widest = w;
+      }
+      // The icon row has to stay on one line, so measure it without the wrapped
+      // copyright block that shares the same flex container.
+      var row = sidebar.querySelector(RAIL_ROW);
+      if (row) {
+        var rowWidth = intrinsicWidth(row, row.querySelector(RAIL_ROW_WRAP));
+        if (rowWidth > widest) widest = rowWidth;
+      }
+      if (widest > 0) {
+        // One spare pixel keeps sub-pixel content from tipping the row into a second line.
+        document.documentElement.style.setProperty('--sidebar-w', (Math.ceil(widest) + frame + 1).toFixed(2) + 'px');
+        railTries = 0;
+      } else if (railTries < 20) {
+        // The rail is not laid out yet (fonts or first paint still settling): try again.
+        railTries++;
+        window.requestAnimationFrame(syncRailWidth);
+      }
+    }
+
+    var railFrame = null;
+    function requestRailWidth() {
+      if (railFrame) return;
+      railFrame = window.requestAnimationFrame(function () {
+        railFrame = null;
+        syncRailWidth();
+      });
+    }
+
+    if (isHome) {
+      syncRailWidth();
+      window.addEventListener('resize', requestRailWidth);
+      window.addEventListener('load', syncRailWidth);
+      document.addEventListener('site-appearance-change', syncRailWidth);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncRailWidth);
+      }
+    }
+
     function syncPanelFocus(panelElement, open, trigger) {
       if (!panelElement) return;
       if (!open && panelElement.contains(document.activeElement) && trigger) {

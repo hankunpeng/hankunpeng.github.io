@@ -18,6 +18,20 @@
   /* Floating card inset for the left sidebar. */
   --sidebar-card-inset: 1rem;
 
+  /* Home column recipe: each card carries its own 1rem outer margin, so neighbouring
+     cards sit 2rem apart: 1rem | rail | 2rem | middle | 2rem | right card | 1rem.
+     --sidebar-w is the rail's own content width, published by reading-mode.js;
+     --rail-min keeps a slim rail readable, --rail-cap keeps the middle card intact. */
+  --rail-gap: 1rem;
+  --rail-min: 12rem;
+  --rail-cap: 22vw;
+  --mid-w: 62vw;
+  --sidebar-w: 0px;
+
+  /* Shared gap between an open side card and the article on non-Home layouts
+     (1rem from the card + 1rem from the article column). */
+  --card-gap: 2rem;
+
   /* Reserve the same scrollbar space in both appearances. */
   scrollbar-width: thin;
 
@@ -86,6 +100,22 @@ main article,
     margin: 0 !important;
     padding-left: var(--card-gutter) !important;
     padding-right: var(--card-gutter) !important;
+  }
+
+  /* With the left card open, its 1rem outer margin plus the article column's own 1rem
+     make the visible gap 2rem instead of the 5vw reading gutter. */
+  body[data-sidebar="open"] #main-wrapper > .container {
+    padding-left: var(--card-gap) !important;
+  }
+
+  /* With a side card collapsed the article column keeps a 2rem inset from the viewport
+     edge (the card's 1rem plus the article column's own 1rem). */
+  body[data-sidebar="closed"] #main-wrapper > .container {
+    padding-left: var(--card-gap) !important;
+  }
+
+  body[data-panel="closed"] #main-wrapper > .container {
+    padding-right: var(--card-gap) !important;
   }
 
   #sidebar-trigger,
@@ -157,9 +187,9 @@ main article,
     max-width: 100% !important;
   }
 
-  /* Pull the Home content band closer to the topbar controls. */
+  /* The Home content band pulls its top gap from the first post card's own margin. */
   body.layout-home #post-list {
-    margin-top: 1.5rem !important;
+    margin-top: 0 !important;
   }
 
   body.layout-home #panel-wrapper .access {
@@ -234,7 +264,7 @@ main article,
     flex: 0 0 calc(100% - 280px) !important;
     max-width: calc(100% - 280px) !important;
     width: calc(100% - 280px) !important;
-    padding-right: var(--card-gutter) !important;
+    padding-right: var(--card-gap) !important;
   }
 
   body[data-sidebar="open"][data-panel="open"] #topbar-wrapper {
@@ -274,7 +304,7 @@ main article,
     flex: 0 0 calc(100% - clamp(320px, 26vw, 420px)) !important;
     max-width: calc(100% - clamp(320px, 26vw, 420px)) !important;
     width: calc(100% - clamp(320px, 26vw, 420px)) !important;
-    padding-right: var(--card-gutter) !important;
+    padding-right: var(--card-gap) !important;
   }
 
   body[data-sidebar="closed"][data-panel="open"] #topbar-wrapper {
@@ -374,6 +404,123 @@ main article,
     pointer-events: none !important;
     visibility: hidden;
   }
+
+  /* ======================================================== */
+  /* Home 专属栏式：中栏自身没有左右边距，间距全部由两侧卡片   */
+  /* 与中栏内每篇文章卡片的外边距相加而成。                     */
+  /* 1rem | 左栏 | 1rem | 文章卡片 | 1rem | 右栏 | 1rem        */
+  /* --mid-x / --mid-end 就是文章卡片的左右边缘（卡片左右无   */
+  /* 边距，中栏宽度即卡片宽度）。卡片上下各 0.5rem。左栏宽度   */
+  /* 由内容决定（--sidebar-w）。收起左栏中栏向左扩展，收起右  */
+  /* 栏向右扩展，另一侧保持不动。                              */
+  /* ======================================================== */
+  body.layout-home {
+    --rail-w: min(var(--rail-cap), max(var(--rail-min), var(--sidebar-w)));
+  }
+
+  /* Viewport inset, the rail, then the rail's own 1rem outer margin. */
+  body.layout-home[data-sidebar="open"] {
+    --mid-x: calc(var(--sidebar-card-inset) + var(--rail-w) + var(--rail-gap));
+  }
+
+  body.layout-home[data-sidebar="closed"] {
+    --mid-x: var(--rail-gap);
+  }
+
+  /* The card edge is pinned while the right card is open, so collapsing the left card
+     widens the middle column instead of moving the right one; collapsing the right card
+     lets the cards run to 1rem from the viewport edge. */
+  body.layout-home[data-panel="open"] {
+    --mid-end: calc(var(--sidebar-card-inset) + var(--rail-w) + var(--rail-gap) + var(--mid-w));
+  }
+
+  body.layout-home[data-panel="closed"] {
+    --mid-end: calc(100vw - var(--rail-gap));
+  }
+
+  /* The left rail is a floating card with one 1rem inset and one 1rem inner gap, so its
+     own blocks carry no extra side padding and the long tagline wraps inside the card. */
+  body.layout-home #sidebar {
+    box-sizing: border-box !important;
+    width: var(--rail-w) !important;
+    padding: 1rem !important;
+    /* A row that briefly outgrows the rail (webfont swap) must not add a second scrollbar. */
+    overflow-x: hidden !important;
+  }
+
+  body.layout-home #sidebar .profile-wrapper,
+  body.layout-home #sidebar nav,
+  body.layout-home #sidebar ul li.nav-item,
+  body.layout-home #sidebar .sidebar-bottom,
+  body.layout-home #sidebar .sidebar-bottom-info {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Post cards carry 0.5rem above and below (1rem between cards) and no side margin. */
+  body.layout-home #post-list {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body.layout-home #post-list .card-wrapper {
+    width: auto !important;
+    max-width: none !important;
+    margin: calc(var(--rail-gap) / 2) 0 !important;
+  }
+
+  body.layout-home[data-layout="home"] #main-wrapper > .container {
+    padding-left: var(--mid-x) !important;
+    padding-right: 0 !important;
+  }
+
+  body.layout-home[data-layout="home"][data-sidebar][data-panel] #main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  body.layout-home[data-layout="home"][data-sidebar][data-panel] main.col-12 {
+    flex: 0 0 calc(var(--mid-end) - var(--mid-x)) !important;
+    width: calc(var(--mid-end) - var(--mid-x)) !important;
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* The topbar keeps 1rem above and below its controls and has no side margin, so its
+     search box ends exactly on the post cards' right edge. The upper 1rem is padding
+     inside the strip rather than a margin, which lets the frosted backdrop reach the
+     viewport top the way it does on article pages, with the controls still 1rem down. */
+  body.layout-home[data-layout="home"][data-sidebar][data-panel] #topbar-wrapper {
+    flex: 0 0 auto !important;
+    width: calc(var(--mid-end) - var(--mid-x)) !important;
+    max-width: none !important;
+    height: auto !important;
+    margin: 0 0 var(--rail-gap) !important;
+    padding-top: var(--rail-gap) !important;
+    top: 0 !important;
+  }
+
+  body.layout-home[data-layout="home"][data-sidebar][data-panel] #topbar {
+    padding: 0 !important;
+  }
+
+  body.layout-home[data-layout="home"][data-sidebar][data-panel] #tail-wrapper {
+    flex: 0 0 calc(var(--mid-end) - var(--mid-x)) !important;
+    width: calc(var(--mid-end) - var(--mid-x)) !important;
+    max-width: none !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  /* The right card keeps its own 1rem on the side facing the post cards and the 1rem
+     inset from the viewport edge, instead of the shared 2rem/1.5rem/1rem padding. */
+  body.layout-home[data-layout="home"][data-sidebar][data-panel="open"] #panel-wrapper {
+    left: calc(var(--mid-end) + var(--rail-gap)) !important;
+    right: var(--sidebar-card-inset) !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: var(--rail-gap) !important;
+  }
 }
 
 /* Recently Updated titles wrap instead of truncating. */
@@ -384,6 +531,11 @@ main article,
   overflow-wrap: anywhere;
 }
 
+/* Space the Recently Updated entries 0.5rem apart on top of their line height. */
+#panel-wrapper #access-lastmod li:not(:last-child) {
+  margin-bottom: calc(var(--rail-gap) / 2) !important;
+}
+
 /* Keep the gap above Trending Tags at 2rem. */
 #panel-wrapper .access > section:not(:first-child) {
   margin-top: 2rem !important;
@@ -392,6 +544,15 @@ main article,
 /* Card summaries and metadata share one gap in both appearances. */
 #post-list .post-preview .card-text.content p {
   margin-bottom: 0 !important;
+}
+
+/* Home cards: the summary sits 0.5rem above the date row. */
+#post-list .post-preview .card-text {
+  margin-bottom: calc(var(--rail-gap) / 2) !important;
+}
+
+#post-list .post-preview .post-meta {
+  padding-top: 0 !important;
 }
 
 .post-preview .post-meta {
@@ -505,17 +666,24 @@ main article,
   display: block !important;
   flex-shrink: 0;
 }
-.topbar-btn:hover,
-.topbar-btn:focus,
-.topbar-btn:focus-visible {
-  color: var(--link-color) !important;
+/* The accent colour means "this state is on": hover only tints the surface and keyboard
+   focus draws an outline, so a closed panel reads as off even while the pointer rests on
+   its trigger. */
+.topbar-btn:hover {
   background-color: var(--sidebar-hover-bg) !important;
   border-color: var(--btn-border-color) !important;
   text-decoration: none !important;
 }
+
+.topbar-btn:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
 .topbar-btn.active {
   color: var(--link-color) !important;
   background-color: var(--sidebar-hover-bg) !important;
+  border-color: var(--btn-border-color) !important;
   text-decoration: none !important;
 }
 
