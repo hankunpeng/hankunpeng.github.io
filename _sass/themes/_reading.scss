@@ -523,17 +523,43 @@ main article,
   }
 }
 
-/* Recently Updated titles wrap instead of truncating. */
-#panel-wrapper #access-lastmod li.text-truncate {
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  overflow-wrap: anywhere;
+/* Recently Updated titles keep one line. The link is the clip box, so it can show an
+   ellipsis at rest; a row whose title overflows (reading-mode.js publishes
+   --lastmod-shift) slides exactly that far while hovered or focused, and never on its
+   own because the panel is fixed on screen. */
+#panel-wrapper #access-lastmod li {
+  overflow: hidden !important;
+  white-space: nowrap !important;
 }
 
-/* Space the Recently Updated entries 0.5rem apart on top of their line height. */
+#panel-wrapper #access-lastmod li a {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#panel-wrapper #access-lastmod li[data-overflow]:hover a,
+#panel-wrapper #access-lastmod li[data-overflow]:focus-within a {
+  text-overflow: clip;
+  animation: lastmod-slide 6s ease-in-out infinite alternate;
+}
+
+@keyframes lastmod-slide {
+  from { text-indent: 0; }
+  to { text-indent: calc(-1 * var(--lastmod-shift, 0px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #panel-wrapper #access-lastmod li[data-overflow]:hover a,
+  #panel-wrapper #access-lastmod li[data-overflow]:focus-within a {
+    animation: none !important;
+  }
+}
+
+/* Space the Recently Updated entries 0.2rem apart on top of their line height. */
 #panel-wrapper #access-lastmod li:not(:last-child) {
-  margin-bottom: calc(var(--rail-gap) / 2) !important;
+  margin-bottom: 0.2rem !important;
 }
 
 /* Keep the gap above Trending Tags at 2rem. */

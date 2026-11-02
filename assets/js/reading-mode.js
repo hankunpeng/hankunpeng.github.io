@@ -120,6 +120,56 @@
       }
     }
 
+    // Recently Updated: publish how far each title overflows its single-line box, so a
+    // hovered or focused row slides exactly to its end and a title that already fits
+    // stays put. Runs on every layout because the panel is shared.
+    var lastmodFrame = null;
+
+    function syncLastmodShift() {
+      var links = document.querySelectorAll('#access-lastmod li a');
+      for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        var row = link.parentElement;
+        if (!row) continue;
+        // A closed panel has no laid-out width to compare against; the opening
+        // transition re-runs this once the panel has its final width.
+        var shift = link.clientWidth > 0 ? Math.max(0, link.scrollWidth - link.clientWidth) : 0;
+        row.style.setProperty('--lastmod-shift', shift + 'px');
+        if (shift > 0) {
+          row.setAttribute('data-overflow', 'true');
+          // The visible text is clipped, so keep the full title reachable as a tooltip.
+          if (!link.title) link.title = link.textContent.trim();
+        } else {
+          row.removeAttribute('data-overflow');
+          link.removeAttribute('title');
+        }
+      }
+    }
+
+    function requestLastmodShift() {
+      if (lastmodFrame) return;
+      lastmodFrame = window.requestAnimationFrame(function () {
+        lastmodFrame = null;
+        syncLastmodShift();
+      });
+    }
+
+    syncLastmodShift();
+    window.addEventListener('resize', requestLastmodShift);
+    window.addEventListener('load', syncLastmodShift);
+    document.addEventListener('site-appearance-change', syncLastmodShift);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncLastmodShift);
+    }
+    if (panel) {
+      // The panel animates from width 0 when it opens, so measure again once it settles.
+      panel.addEventListener('transitionend', function (event) {
+        if (event.propertyName === 'width' || event.propertyName === 'max-width') {
+          requestLastmodShift();
+        }
+      });
+    }
+
     function syncPanelFocus(panelElement, open, trigger) {
       if (!panelElement) return;
       if (!open && panelElement.contains(document.activeElement) && trigger) {
@@ -139,6 +189,9 @@
       body.toggleAttribute('sidebar-display', mobile && sidebarState === 'open');
       body.toggleAttribute('panel-display', mobile && panelState === 'open');
       if (mask) mask.classList.toggle('d-none', !mobile || (sidebarState === 'closed' && panelState === 'closed'));
+
+      // A panel that just opened needs its Recently Updated widths re-measured.
+      requestLastmodShift();
 
       if (sidebarTrigger) {
         var sbOpen = sidebarState === 'open';
