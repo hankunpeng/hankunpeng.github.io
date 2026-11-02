@@ -457,6 +457,29 @@ main article,
     padding-right: 0 !important;
   }
 
+  /* The avatar sits in an even pocket of whitespace: the gap above it and on both sides
+     equals (rail − avatar) / 2, and the site title starts the same distance below it.
+     The title and the tagline are centred. */
+  body.layout-home #sidebar .profile-wrapper {
+    /* The 1px card border sits between the rail edge and the padding. */
+    margin-top: calc((var(--rail-w) - 7rem) / 2 - var(--rail-gap) - 1px) !important;
+  }
+
+  body.layout-home #sidebar #avatar {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  body.layout-home #sidebar .site-title {
+    margin-top: calc((var(--rail-w) - 7rem) / 2) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  body.layout-home #sidebar .site-subtitle {
+    text-align: center;
+  }
+
   /* Post cards carry 0.5rem above and below (1rem between cards) and no side margin. */
   body.layout-home #post-list {
     display: flex !important;
