@@ -3,10 +3,7 @@ title: 重新审视 GPT-6 Astra 的技能与提示词设计：中英双语对照
 date: 2026-09-15 10:00:00 +0800
 categories: [技术, 智能体工程]
 tags: [openai, gpt-6, astra, codex, skills, agents-md, prompt-engineering, context-management]
-image:
-  path: /assets/img/posts/2026-09-15-rethinking-skills-and-prompts-for-gpt-6-astra/img-001-cover-zh.webp
-  alt: 重新审视 GPT-6 Astra 的技能与提示词设计
-mermaid: true
+mermaid: false
 ---
 
 > **导读与背景**  
@@ -46,25 +43,6 @@ mermaid: true
 
 <img src="/assets/img/posts/2026-09-15-rethinking-skills-and-prompts-for-gpt-6-astra/astra-instruction-tiers-light.svg" alt="代码库三层指令体系：AGENTS.md 全局规则常驻注入、Skills 集合条件命中时按需加载、Task Prompts 单次对话驱动，三者共同汇入 GPT-6 Astra 智能体" class="mermaid-light" loading="lazy">
 <img src="/assets/img/posts/2026-09-15-rethinking-skills-and-prompts-for-gpt-6-astra/astra-instruction-tiers-dark.svg" alt="代码库三层指令体系：AGENTS.md 全局规则常驻注入、Skills 集合条件命中时按需加载、Task Prompts 单次对话驱动，三者共同汇入 GPT-6 Astra 智能体" class="mermaid-dark" loading="lazy">
-
-```mermaid
-flowchart TD
-    subgraph RepoLevel["代码库全局层 (Repository Level)"]
-        AGENTS["AGENTS.md / 全局规则（常驻上下文，影响每一次编辑，必须极致克制）"]
-    end
-
-    subgraph ModuleLevel["领域与工具层 (Workflow / Domain Level)"]
-        SKILLS["Skills 集合（按需加载，提供特定工具、CLI与外部工作流指引）"]
-    end
-
-    subgraph TaskLevel["单次交互层 (Session / Turn Level)"]
-        PROMPTS["Task Prompts / 任务提示词（临时下发，定义具体目标、探索范围与完工验收标准）"]
-    end
-
-    AGENTS -->|系统常驻注入| MODEL["GPT-6 Astra 智能体"]
-    SKILLS -->|条件命中时按需加载| MODEL
-    PROMPTS -->|单次对话驱动| MODEL
-```
 
 ---
 
@@ -170,28 +148,6 @@ flowchart TD
 
 <img src="/assets/img/posts/2026-09-15-rethinking-skills-and-prompts-for-gpt-6-astra/astra-progressive-disclosure-light.svg" alt="Skill 渐进式披露三层架构：Layer 0 技能索引常驻系统上下文，命中后读取 Layer 1 的 SKILL.md 极简路由器，再按部署、回滚、本地校验三个分支二次调用 Layer 2 的专项文档与脚本" class="mermaid-light" loading="lazy">
 <img src="/assets/img/posts/2026-09-15-rethinking-skills-and-prompts-for-gpt-6-astra/astra-progressive-disclosure-dark.svg" alt="Skill 渐进式披露三层架构：Layer 0 技能索引常驻系统上下文，命中后读取 Layer 1 的 SKILL.md 极简路由器，再按部署、回滚、本地校验三个分支二次调用 Layer 2 的专项文档与脚本" class="mermaid-dark" loading="lazy">
-
-```mermaid
-flowchart TD
-    subgraph Tier0["Layer 0: 技能索引（常驻系统上下文）"]
-        T0["SKILL 元数据 (name + 1 句话 description)，约 20-30 词，纯动作触发条件"]
-    end
-
-    subgraph Tier1["Layer 1: 技能入口（按需读取）"]
-        T1["SKILL.md 极简路由器 (Minimal Router)：高层决策树 / 分支判断 / 核心契约"]
-    end
-
-    subgraph Tier2["Layer 2: 专项支持物料（二次按需调用）"]
-        T2A["references/deploy-workflow.md"]
-        T2B["references/rollback-guide.md"]
-        T2C["scripts/validate_schema.py"]
-    end
-
-    T0 -->|命中触发条件，读取主入口| T1
-    T1 -->|分支 A: 部署任务| T2A
-    T1 -->|分支 B: 回滚排查| T2B
-    T1 -->|分支 C: 本地校验执行| T2C
-```
 
 ---
 
