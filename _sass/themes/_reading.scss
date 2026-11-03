@@ -25,7 +25,6 @@
   --rail-gap: 1rem;
   --rail-min: 12rem;
   --rail-cap: 22vw;
-  --mid-w: 62vw;
   --sidebar-w: 0px;
 
   /* Shared gap between an open side card and the article on non-Home layouts
@@ -411,9 +410,10 @@ main article,
   /* 与中栏内每篇文章卡片的外边距相加而成。                     */
   /* 1rem | 左栏 | 1rem | 文章卡片 | 1rem | 右栏 | 1rem        */
   /* --mid-x / --mid-end 就是文章卡片的左右边缘（卡片左右无   */
-  /* 边距，中栏宽度即卡片宽度）。卡片上下各 0.5rem。左栏宽度   */
-  /* 由内容决定（--sidebar-w）。收起左栏中栏向左扩展，收起右  */
-  /* 栏向右扩展，另一侧保持不动。                              */
+  /* 边距，中栏宽度即卡片宽度）。卡片上下各 0.5rem。左右两栏   */
+  /* 等宽（均为 --rail-w，由左栏内容宽度 --sidebar-w 决定），  */
+  /* 剩余宽度全部分配给中栏。收起左栏中栏向左扩展，收起右栏向  */
+  /* 右扩展，另一侧保持不动。                                  */
   /* ======================================================== */
   body.layout-home {
     --rail-w: min(var(--rail-cap), max(var(--rail-min), var(--sidebar-w)));
@@ -428,11 +428,12 @@ main article,
     --mid-x: var(--rail-gap);
   }
 
-  /* The card edge is pinned while the right card is open, so collapsing the left card
-     widens the middle column instead of moving the right one; collapsing the right card
-     lets the cards run to 1rem from the viewport edge. */
+  /* The right rail shares --rail-w with the left rail, so the middle column takes the
+     remaining width; collapsing the left card widens the middle column to the left while
+     the right rail stays put, and collapsing the right card lets the cards run to 1rem
+     from the viewport edge. */
   body.layout-home[data-panel="open"] {
-    --mid-end: calc(var(--sidebar-card-inset) + var(--rail-w) + var(--rail-gap) + var(--mid-w));
+    --mid-end: calc(100vw - var(--sidebar-card-inset) - var(--rail-w) - var(--rail-gap));
   }
 
   body.layout-home[data-panel="closed"] {
@@ -536,12 +537,13 @@ main article,
     padding-left: 0 !important;
   }
 
-  /* The right card keeps its own 1rem on the side facing the post cards and the 1rem
-     inset from the viewport edge, instead of the shared 2rem/1.5rem/1rem padding. */
+  /* The right card matches the left rail's width (--rail-w), keeps its own 1rem on the
+     side facing the post cards and the 1rem inset from the viewport edge, and pads itself
+     1rem on every side instead of the shared 2rem/1.5rem/1rem padding. */
   body.layout-home[data-layout="home"][data-sidebar][data-panel="open"] #panel-wrapper {
     left: calc(var(--mid-end) + var(--rail-gap)) !important;
     right: var(--sidebar-card-inset) !important;
-    width: auto !important;
+    width: var(--rail-w) !important;
     max-width: none !important;
     padding: var(--rail-gap) !important;
   }

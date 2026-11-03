@@ -94,6 +94,7 @@
         // One spare pixel keeps sub-pixel content from tipping the row into a second line.
         document.documentElement.style.setProperty('--sidebar-w', (Math.ceil(widest) + frame + 1).toFixed(2) + 'px');
         railTries = 0;
+        requestLastmodShift();
       } else if (railTries < 20) {
         // The rail is not laid out yet (fonts or first paint still settling): try again.
         railTries++;
