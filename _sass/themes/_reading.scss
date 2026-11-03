@@ -48,6 +48,7 @@
   border: 1px solid var(--main-border-color);
   border-radius: var(--sidebar-card-radius, 8px);
   box-shadow: var(--card-shadow);
+  z-index: 999;
 }
 
 /* --- Collapsible Sidebar & Panel (Reading Mode) --- */
@@ -611,6 +612,7 @@ main article,
 @media (max-width: 991.98px) {
   #sidebar {
     transform: translateX(calc(-100% - var(--sidebar-card-inset)));
+    z-index: 1050;
   }
 
   body[sidebar-display] #sidebar {
