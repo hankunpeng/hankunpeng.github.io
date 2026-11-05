@@ -174,13 +174,13 @@ lrwxr-xr-x@  1 alex  staff    48 Sep 16 06:09 pptx -> /Users/alex/github/anthrop
 ```text
 Global Skills
 
-archify               ~/.agents/skills/archify              
+archify               ~/.agents/skills/archify
   Agents: AiderDesk, Antigravity, Antigravity CLI, AstrBot...  Source: tt-a1i/archify
-conventional-commits  ~/.agents/skills/conventional-commits 
+conventional-commits  ~/.agents/skills/conventional-commits
   Agents: Antigravity, Antigravity CLI, Claude Code, Codex...  Source: hankunpeng/skills
 playwright-use-chrome ~/.agents/skills/playwright-use-chrome
   Agents: Antigravity, Antigravity CLI, Claude Code, Codex...  Source: hankunpeng/skills
-pptx                  ~/.agents/skills/pptx                 
+pptx                  ~/.agents/skills/pptx
   Agents: Antigravity, Antigravity CLI, Codex, Cursor...       Source: untracked
 ```
 
