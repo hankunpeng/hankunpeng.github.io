@@ -20,7 +20,7 @@ description: 记录一次执行 npx skills update -g 时意外拉取并向多个
 drwxr-xr-x alex staff 192 B 2026-08-23 09:00:10  conventional-commits
 lrwxr-xr-x alex staff  48 B 2026-09-16 06:09:08  pptx ⇒ /Users/github/anthropics/skills/skills/pptx
 drwxr-xr-x alex staff 128 B 2026-10-19 17:14:59  playwright-use-chrome
-drwxr-xr-x alex staff 736 B 2026-10-27 11:25:14 archify
+drwxr-xr-x alex staff 736 B 2026-10-27 11:25:14  archify
 ```
 
 为了保持这些技能处于最新版本，在终端执行了官方推荐的全局更新命令：
