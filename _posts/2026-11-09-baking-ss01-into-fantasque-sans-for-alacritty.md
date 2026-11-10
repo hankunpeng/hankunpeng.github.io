@@ -1,5 +1,5 @@
 ---
-title: 把 ss01 烘进字体轮廓：在 Alacritty 里用上 FantasqueSansM 的无环 k
+title: 记一次字体烘焙
 date: 2026-11-09 10:38:00 +0800
 categories: [技术, 环境配置]
 tags: [alacritty, font, opentype, nerd-fonts, fonttools, macos, terminal]
