@@ -3,7 +3,7 @@ title: 我看 The Most Lucrative AI Business to Start in 2027
 date: 2026-11-09 16:35:00 +0800
 categories: [思考, 创业与心智]
 tags: [ai, creator-economy, personal-brand, content-strategy, dan-koe, translation]
-description: Dan Koe 深度长文《The most lucrative AI business to start in 2027》中英双语逐段对照与祛魅批注：在 1000 人创作、900 人不赚钱、99 人微薄收入、1 人暴富的幂律残酷现实下，拆解海外顶级网红如何搭建“卖铲子”变现漏斗，并提炼剥掉水分后真正可用的品牌定位与乙方服务方法论。
+description: 边看边批注了《The most lucrative AI business to start in 2027》，拆解网红 Dan Koe 如何搭建「卖铲子」变现漏斗，并提炼挤掉水分后真正可用的品牌定位与乙方服务方法论。
 image:
   path: /assets/img/posts/2026-11-09-the-most-lucrative-ai-business-to-start-in-2027/cover.jpg
   alt: 2027 年最赚钱的 AI 商业模式（The Most Lucrative AI Business to Start in 2027）
