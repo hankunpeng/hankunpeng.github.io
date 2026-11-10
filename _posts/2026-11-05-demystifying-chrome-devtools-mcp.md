@@ -1,13 +1,12 @@
 ---
-title: 给 AI 递过去一台按了 F12 的电脑：通俗易懂聊聊 Chrome DevTools MCP
+title: 聊聊 Chrome DevTools MCP
 date: 2026-11-05 11:45:00 +0800
 categories: [技术, 前端工程]
 tags: [chrome, devtools, mcp, ai-agent, debugging, web-development]
-description: 用通俗生动的比喻拆解 Chrome DevTools MCP 的技术本质：为什么以往 AI 写前端总在“盲人摸象”，它如何通过 CDP 协议将真实的 Console、Elements、Network 与 Performance 面板开放给 AI Agent，实现从“人肉传话调试”到“自主运行时闭环修复”的范式跃迁。
+description: 如何通过 CDP 协议将真实的 Console、Elements、Network 与 Performance 面板开放给 AI Agent，实现从「人肉传话调试」到「自主运行时闭环修复」的范式跃迁。
 ---
 
-如果把 AI Agent 比作一个全栈程序员，那么普通的 AI 编程体验，大致就像是**让一个被蒙着眼睛的人凭空脑补写前端**；  
-而 **Chrome DevTools MCP**，就是**直接给 AI 递过去了一台打开了「F12 开发者工具」的真实电脑**。
+如果把 AI Agent 比作一个全栈程序员，那么普通的 AI 编程体验，大致就像是让一个被蒙着眼睛的人凭空脑补写前端，而 **Chrome DevTools MCP 直接给 AI 递过去一台打开了 F12 开发者工具的真实电脑**。
 
 ---
 
@@ -27,7 +26,7 @@ description: 用通俗生动的比喻拆解 Chrome DevTools MCP 的技术本质�
 
 ## 二、 Chrome DevTools MCP 到底是什么？
 
-要搞懂它，我们只需要把它拆成两半来看：
+要了解它，我们只需要把它拆成两半来看：
 
 * **MCP（Model Context Protocol）** ：Anthropic 牵头、现已成为跨平台行业标准的“大模型上下文协议”。如果把大模型比作一台电脑主机，MCP 就是给它配的 **Type-C 标准扩展坞**，任何外部软件只要符合这个协议，就能把自己的能力插进 AI 的大脑里。
 * **Chrome DevTools**：每一个 Web 开发者最熟悉不过的工具箱——只要在 Chrome 里按下 `F12`，或者右键点击“检查”，弹出来的那个掌控一切的开发者控制台。
