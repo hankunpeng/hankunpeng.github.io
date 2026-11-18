@@ -4,18 +4,18 @@ date: 2026-11-18 16:18:00 +0800
 categories: [技术, 效率工具]
 tags: [antigravity, cli, statusline, golang, reverse-engineering, shell, debugging]
 mermaid: true
-description: 记录一次 Antigravity CLI（agy）自定义 statusline 右侧 5H / 7D 配额不更新的完整排查与修复过程：先定位到 statusline.sh 中模型名匹配将 Orchestrator (Argon) 误归入 3p 配额桶的脚本 Bug，随后通过解析 Go 1.18+ __lrodata_gopcln 符号表并反汇编 arm64 机器码，摸清 agy 内部「回合结束触发 + 60 秒客户端节流 + cache 缓存失效」的完整配额刷新链路。
+description: 记录一次 Antigravity CLI（agy）自定义 statusline 右侧配额显示异常的完整排查与修复过程：先定位到 statusline.sh 中模型名正则把 Orchestrator (Argon) 误归入 3p 桶的 Bug，接着通过解析 Go 1.18+ __lrodata_gopcln 符号表并反汇编 arm64 机器码摸清 agy 内部「回合结束触发 + 60 秒客户端节流 + cache 缓存失效」链路，最后捕获实时 JSON 发现 GEMINI 4 ARGON 使用独立的 gemini-argon-wtu-weekly 配额桶且无 5H 窗口，完成三分流与条件渲染修复。
 ---
 
-在日常使用 Antigravity CLI（`agy`）时，我给终端状态栏配置了一个自定义脚本 `~/.gemini/antigravity-cli/statusline.sh`。正常情况下，状态栏会把当前工作目录、模型名称、上下文窗口占用率，以及 **5 小时 / 7 天** 两个配额桶的剩余比例与倒计时整整齐齐地铺满终端底部：
+在日常使用 Antigravity CLI（`agy`）时，我给终端状态栏配置了一个自定义脚本 `~/.gemini/antigravity-cli/statusline.sh`。正常情况下，状态栏会把当前工作目录、模型名称、上下文窗口占用率，以及对应模型的 **5 小时（`5H`）/ 7 天（`7D`）** 配额剩余比例与刷新倒计时铺满终端底部：
 
 ```text
 ? for shortcuts    📂 ~/tools | ● Orchestrator (Argon) | 📜 12.4% (24k/1000k) | ⏳ 2h 0m | 5H: 82% | ⏳ 2d 0h | 7D: 65%
 ```
 
-但今天连续跑了好几轮复杂任务，我突然发现一个怪现象：**状态栏左侧的上下文窗口数字（`📜`）每轮都在老老实实上涨，可右侧的 `5H` 和 `7D` 配额百分比却纹丝不动，始终停留在 `100%`**。
+但今天连续跑了好几轮复杂任务，我突然发现一个怪现象：**状态栏左侧的上下文窗口数字（`📜`）每轮都在老老实实上涨，可右侧的 `5H` 和 `7D` 配额百分比却纹丝不动，始终停留在 `100%`**；更让人困惑的是，把正则粗略改成默认走 `gemini-*` 后，状态栏又变成了显示 `GEMINI MODELS` 的配额，和 `/usage` 面板里看到的 **`GEMINI 4 ARGON`** 余量完全对不上号。
 
-起初我以为只是服务端缓存或者刷新延迟，但查了一整套日志、脚本和二进制汇编之后，才发现背后其实叠了 **3 层原因** —— 既有状态栏脚本里隐藏的模型分流 Bug，也顺带摸清了 `agy` 底层 Go 二进制对配额刷新的全部节流与缓存策略。
+排查了一整套日志、脚本、实时 JSON 负载和 Go 二进制汇编之后，才发现背后其实叠了 **多层原因** —— 既有模型分流正则先后踩中的两重坑，也顺带摸清了 `agy` 底层对配额刷新的全部节流与缓存策略。
 
 ---
 
@@ -195,51 +195,150 @@ quota_weekly_pct=$(echo "$JSON_INPUT" | jq -r ".quota[\"${quota_prefix}-weekly\"
 
 ---
 
-## 4. 修复与验证
+## 4. 踩中二号坑：`Orchestrator (Argon)` 用的是独立的 `GEMINI 4 ARGON` 配额池
 
-搞清楚全部因果后，主因已经锁定在第一步的模型分流逻辑上。随着模型家族不断扩展，各种内部命名、Router / Orchestrator 模型名层出不穷，再用“包含 `Gemini` 才走 `gemini` 桶”的白名单写法注定会反复踩坑。
+刚开始想到最省事的改法是把第 12 行的判断反转过来：**显式匹配 Claude / GPT 等第三方模型走 `3p`，其余默认全部归入 `gemini`**。改完之后，状态栏确实不再卡在 `100%` 了，但很快又发现了新问题：
 
-更稳妥的做法是把判断反转过来：**显式匹配第三方模型标识进入 `3p`，其余所有模型默认归入 `gemini` 配额桶**。
+> 在 `agy` 里执行 `/usage`，明明可以看到 `GEMINI MODELS`（剩余约 `86%`）和 **`GEMINI 4 ARGON`**（剩余约 `42.68%`）是两个完全独立的配额组。当前使用的模型是 `Orchestrator (Argon)`，它消耗的是 **`GEMINI 4 ARGON`**，状态栏却显示成了 `GEMINI MODELS` 的数字！
 
-修改 `~/.gemini/antigravity-cli/statusline.sh` 第 11–16 行：
+为了拿到精确的 key 命名，我直接查看了 `store.BuildStatusLineData`（`0x102f41c60 .. 0x102f42ee0`）的反汇编逻辑：它并不会硬编码配额 key，而是直接遍历内存里 `s.QuotaSummary` 中的每一个 Group 与 Bucket，原封不动地把每个 `bucket.Key` 塞进 JSON 的 `.quota` map 里。
+
+通过让 `statusline.sh` 临时落盘一次真实的 `$JSON_INPUT`，终于看到了 `agy` v1.5.10 在 `Orchestrator (Argon)` 会话下吐出的完整 `.quota` 结构：
+
+```json
+{
+  "model": {
+    "id": "Orchestrator (Argon)",
+    "display_name": "Orchestrator (Argon)"
+  },
+  "quota": {
+    "3p-5h": {
+      "remaining_fraction": 1,
+      "reset_time": "2026-11-18T14:00:56Z",
+      "reset_in_seconds": 16914
+    },
+    "3p-weekly": {
+      "remaining_fraction": 1,
+      "reset_time": "2026-11-25T09:00:56Z",
+      "reset_in_seconds": 603714
+    },
+    "gemini-5h": {
+      "remaining_fraction": 0.86316276,
+      "reset_time": "2026-11-18T09:19:52Z",
+      "reset_in_seconds": 50
+    },
+    "gemini-argon-wtu-weekly": {
+      "remaining_fraction": 0.42682213,
+      "reset_time": "2026-11-25T04:14:43Z",
+      "reset_in_seconds": 586541
+    },
+    "gemini-weekly": {
+      "remaining_fraction": 0.9565535,
+      "reset_time": "2026-11-25T04:19:52Z",
+      "reset_in_seconds": 586850
+    }
+  }
+}
+```
+
+这份实时数据一下子揭示了两个此前完全靠猜想不到的事实：
+
+1. **三组独立的配额桶 key 命名**：
+   - **`GEMINI 4 ARGON`**（对应 `Orchestrator (Argon)`、`Gemini 4 Argon (High/Medium/Low)`）：key 叫做 **`gemini-argon-wtu-weekly`**。
+   - **`GEMINI MODELS`**（对应 `Gemini 4 Hydrogen`、`Gemini 3.8 Flash` 等）：key 是 **`gemini-5h`** 与 **`gemini-weekly`**。
+   - **`3P`**（对应 `Claude Opus/Sonnet 5.5`、`GPT-OSS 120B` 等第三方模型）：key 是 **`3p-5h`** 与 **`3p-weekly`**。
+2. **`GEMINI 4 ARGON` 目前只有周配额桶，没有 5 小时桶**：  
+   在上面的 `.quota` 对象中，只有 `gemini-argon-wtu-weekly`（剩余 `0.42682213`，即约 `43%`），并不存在 `gemini-argon-wtu-5h`。如果继续沿用旧脚本里 `.remaining_fraction // 1` 的兜底逻辑，找不到 `5H` 桶就会凭空伪造出一个不存在的 `5H: 100%`；而在使用 `GEMINI_API_KEY`（`.quota` 为空对象 `{}`）时，同样会误打印出虚假的 `5H: 100% | 7D: 100%`。
+
+---
+
+## 5. 最终修复与多模型回归验证
+
+摸清三套配额池的真实映射关系后，最终对 `~/.gemini/antigravity-cli/statusline.sh` 做了两处关键改造（并同步更新到配套 Skill 仓库）：
+
+1. **三分流路由**：优先匹配 `[Aa]rgon` 进入 `argon` 组，其次匹配第三方模型（`[Cc]laude|[Ss]onnet|[Oo]pus|[Hh]aiku|[Gg][Pp][Tt]|[Oo][Ss][Ss]|3[Pp]`）进入 `3p` 组，其余 Gemini 模型（如 Hydrogen、Flash、Carbon 等）归入 `gemini` 组。
+2. **按实际存在的 bucket 条件渲染**：先检查 `bucket != null`，只有当某个时间窗口在 `.quota` 中确实存在时才计算百分比、倒计时与着色；若 `GEMINI 4 ARGON` 只有周配额，就只展示 `⏳ 6d 18h | 7D: 43%`，不再凑数显示假的 `5H: 100%`。
+
+核心片段如下：
 
 ```bash
-# Determine the quota prefix based on the model name
-if [[ "$model_name" =~ [Cc]laude|[Ss]onnet|[Oo]pus|[Hh]aiku|[Gg][Pp][Tt]|3[Pp] ]]; then
-  quota_prefix="3p"
+# Determine the quota group based on the model name
+if [[ "$model_name" =~ [Aa]rgon ]]; then
+  quota_group="argon"
+elif [[ "$model_name" =~ [Cc]laude|[Ss]onnet|[Oo]pus|[Hh]aiku|[Gg][Pp][Tt]|[Oo][Ss][Ss]|3[Pp] ]]; then
+  quota_group="3p"
 else
-  quota_prefix="gemini"
+  quota_group="gemini"
+fi
+
+case "$quota_group" in
+  argon)
+    bucket_5h_expr='.quota["gemini-argon-wtu-5h"] // .quota["gemini-argon-5h"] // ([.quota // {} | to_entries[] | select(.key | test("argon.*5h$")) | .value][0])'
+    bucket_weekly_expr='.quota["gemini-argon-wtu-weekly"] // .quota["gemini-argon-weekly"] // ([.quota // {} | to_entries[] | select(.key | test("argon.*weekly$")) | .value][0])'
+    ;;
+  3p)
+    bucket_5h_expr='.quota["3p-5h"]'
+    bucket_weekly_expr='.quota["3p-weekly"]'
+    ;;
+  *)
+    bucket_5h_expr='.quota["gemini-5h"]'
+    bucket_weekly_expr='.quota["gemini-weekly"]'
+    ;;
+esac
+
+# 仅当对应 bucket 存在时才渲染 5H / 7D 段
+has_5h_quota=$(echo "$JSON_INPUT" | jq -r "if (${bucket_5h_expr}) != null then 1 else 0 end")
+if [ "$has_5h_quota" -eq 1 ]; then
+  quota_5h_pct=$(echo "$JSON_INPUT" | jq -r "(${bucket_5h_expr}).remaining_fraction // 0 | . * 100 | round")
+  quota_5h_reset_sec=$(echo "$JSON_INPUT" | jq -r "(${bucket_5h_expr}).reset_in_seconds // 0")
+  # ... 计算 5H 倒计时与图标 ...
+fi
+
+has_weekly_quota=$(echo "$JSON_INPUT" | jq -r "if (${bucket_weekly_expr}) != null then 1 else 0 end")
+if [ "$has_weekly_quota" -eq 1 ]; then
+  quota_weekly_pct=$(echo "$JSON_INPUT" | jq -r "(${bucket_weekly_expr}).remaining_fraction // 0 | . * 100 | round")
+  quota_weekly_reset_sec=$(echo "$JSON_INPUT" | jq -r "(${bucket_weekly_expr}).reset_in_seconds // 0")
+  # ... 计算 7D 倒计时与图标 ...
 fi
 ```
 
-构造两份带有显著区分度配额数值的模拟 JSON（设定 `gemini-*` 为 `82% / 65%`，`3p-*` 为 `11% / 22%`）直接通过管道喂给脚本做回归测试：
+随后在 `build_right` 宽度计算与 `right_colored` 渲染拼接阶段，均严格依据 `has_5h_quota` 和 `has_weekly_quota` 动态拼接分隔符与配额段，确保窄终端下的逐级降级计算宽度与最终 ANSI 渲染保持完全一致。
 
-```bash
-# Test 1: Orchestrator (Argon)
-echo '{"cwd":"/Users/alex/tools","model":{"display_name":"Orchestrator (Argon)"},"terminal_width":140,"agent_state":"idle","quota":{"gemini-5h":{"remaining_fraction":0.82,"reset_in_seconds":7200},"gemini-weekly":{"remaining_fraction":0.65,"reset_in_seconds":172800},"3p-5h":{"remaining_fraction":0.11,"reset_in_seconds":3600},"3p-weekly":{"remaining_fraction":0.22,"reset_in_seconds":86400}}}' | /Users/alex/.gemini/antigravity-cli/statusline.sh | sed -E $'s/\x1b\\[[0-9;]*m//g'
-
-# Test 2: Claude 3.7 Sonnet
-echo '{"cwd":"/Users/alex/tools","model":{"display_name":"Claude 3.7 Sonnet"},"terminal_width":140,"agent_state":"idle","quota":{"gemini-5h":{"remaining_fraction":0.82,"reset_in_seconds":7200},"gemini-weekly":{"remaining_fraction":0.65,"reset_in_seconds":172800},"3p-5h":{"remaining_fraction":0.11,"reset_in_seconds":3600},"3p-weekly":{"remaining_fraction":0.22,"reset_in_seconds":86400}}}' | /Users/alex/.gemini/antigravity-cli/statusline.sh | sed -E $'s/\x1b\\[[0-9;]*m//g'
-```
-
-实测输出：
+用本次真实捕获的 JSON 负载以及切换 `model.display_name`、清空 `.quota` 等多组用例喂给 `~/.gemini/antigravity-cli/statusline.sh` 进行回归测试，去色后的实测输出如下：
 
 ```text
-=== Test 1: Orchestrator (Argon) ===
-? for shortcuts                                📂 ~/tools | ● Orchestrator (Argon) | 📜 0% (0k/0k) | ⏳ 2h 0m | 5H: 82% | ⏳ 2d 0h | 7D: 65%
+[Live Orchestrator (Argon)]
+working...   📂 ~/tools | ● Orchestrator (Argon) | 📜 14% (147k/1M) | ⏳ 6d 18h | 7D: 43%
 
-=== Test 2: Claude 3.7 Sonnet ===
-? for shortcuts                                   📂 ~/tools | ● Claude 3.7 Sonnet | 📜 0% (0k/0k) | ⏳ 1h 0m | 5H: 11% | ⏳ 1d 0h | 7D: 22%
+[Gemini 4 Argon (High)]
+working...   📂 ~/tools | ● Gemini 4 Argon (High) | 📜 14% (147k/1M) | ⏳ 6d 18h | 7D: 43%
+
+[Gemini 4 Hydrogen (High)]
+working...   📂 ~/tools | ● Gemini 4 Hydrogen (High) | 📜 14% (147k/1M) | ⌛ 0h 0m | 5H: 86% | ⏳ 6d 19h | 7D: 96%
+
+[Claude Opus 5.5 (High)]
+working...   📂 ~/tools | ● Claude Opus 5.5 (High) | 📜 14% (147k/1M) | ⏳ 4h 41m | 5H: 100% | ⏳ 6d 23h | 7D: 100%
+
+[GPT-OSS 120B (Medium)]
+working...   📂 ~/tools | ● GPT-OSS 120B (Medium) | 📜 14% (147k/1M) | ⏳ 4h 41m | 5H: 100% | ⏳ 6d 23h | 7D: 100%
+
+[Empty quota (API Key)]
+working...   📂 ~/tools | ● Gemini 4 Carbon (High) | 📜 14% (147k/1M)
 ```
 
-`Orchestrator (Argon)` 已经能够正确命中 `gemini-5h` 和 `gemini-weekly`，第三方模型 `Claude 3.7 Sonnet` 也准确保留在 `3p-*` 分支上。
+可以看到：
+- `Orchestrator (Argon)` 和 `Gemini 4 Argon (High)` 精准命中 `gemini-argon-wtu-weekly`，直接展示 `⏳ 6d 18h | 7D: 43%`，与 `/usage` 面板中的 **`GEMINI 4 ARGON`** 完全对齐；
+- `Gemini 4 Hydrogen (High)` 依然显示 **`GEMINI MODELS`** 的 `5H: 86%` 与 `7D: 96%`；
+- `Claude Opus 5.5`、`GPT-OSS 120B` 稳定归入 `3p-*` 分支；
+- 无 `.quota` 数据的 API Key 模式也不再误报虚假的 `100%`。
 
 ---
 
 ## 小结
 
-回过头看，这次看似“数据卡死”的问题，其实是由 **脚本正则假设过窄** 与 **客户端节流/缓存机制** 共同造成的可观测性错觉：
+回过头看，这次排查过程算得上一波三折，但也把 `agy` 状态栏和配额系统的细节一次摸透了：
 
-1. 在编写状态栏等外围工具时，如果业务端在不断推出新代号（例如 `Orchestrator (Argon)`），用黑名单过滤明确的第三方模型，往往比白名单穷举第一方模型更抗变化。
-2. 当遇到 stripped 的 Go 二进制工具行为不符合直觉时，通过 `otool -l` 找到 `__lrodata_gopcln` 并按 Go 1.18+ 的 `<IBBBBQQQQQQQQ` 结构恢复符号表，只需要十几行 Python 就能配合 `objdump` 定位出精确的状态机条件。
-3. 至于日常使用的小技巧：因为 `agy` 仅在启动或切换模型时触发 `force=true` 刷新配额，如果某次实在急着确认精确余量，手动切一下模型（哪怕切到同模型配置再切回）就能立刻跳过 **60 秒** 节流与内存缓存拿到最新值。
+1. **不要靠猜枚举配额桶 key**：最初我以为所有 Gemini 模型共享 `gemini-5h` / `gemini-weekly`，实际上 `Orchestrator (Argon)` 与 `Gemini 4 Argon` 使用的是独立的 **`gemini-argon-wtu-weekly`**，而且没有 `5H` 桶。遇到外围脚本与主程序对不上账时，直接捕获一次真实传入的 JSON 比反复猜正则省事得多。
+2. **缺失字段不该无脑兜底成 `100%`**：只有对应 bucket 真实存在于 `.quota` 中时才应该渲染；否则一旦遇到仅周配额模型或 `GEMINI_API_KEY` 模式，就会制造出“配额永远 `100%`”的假象。
+3. **Stripped Go 二进制并非黑盒**：通过 `otool -l` 找到 `__lrodata_gopcln` 并按 Go 1.18+ 的 `<IBBBBQQQQQQQQ` 结构恢复符号表，只需要十几行 Python 就能配合 `objdump` 定位出精确的状态机条件（如 **60 秒** 节流与 `quotaSummaryCache` 行为）。
+4. **日常刷新小技巧**：因为 `agy` 仅在启动、登录或切换模型时触发 `force=true` 击穿缓存，如果哪次实在急着确认实时余量，用 `/model` 快速切换一下模型配置就能立刻跳过 **60 秒** 节流与内存缓存拿到最新值。
