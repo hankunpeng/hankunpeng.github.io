@@ -44,9 +44,11 @@ Thumbs.db
 .kiro/
 .pi/
 .qoder/
+.workbuddy/
 .rovodev/
 .vibe
 skills-lock.json
 .skills-lock.json
+
 # Local design tooling
 .impeccable/
