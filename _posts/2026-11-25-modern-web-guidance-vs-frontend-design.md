@@ -1,5 +1,5 @@
 ---
-title: Modern Web Guidance 与 frontend-design 的异同：Web 平台规范与视觉设计分工
+title: Modern Web Guidance 与 Frontend Design 的异同：Web 平台规范与视觉设计分工
 date: 2026-11-25 15:39:00 +0800
 categories: [技术, 前端工程]
 tags: [frontend, ai-agent, skills, chrome-extensions, ui-design, css]
@@ -8,7 +8,7 @@ description: 对照 Google Chrome 的 modern-web-guidance-plugin 与 Anthropic �
 
 让编程智能体编写前端界面时，产出往往在两件事上同时跑偏。第一件是平台实现过时。由于训练语料沉淀了大量陈旧代码，模型容易手写 JavaScript 去定位浮层，或者生成早已被废弃的 Chrome 扩展 Manifest V2 接口。第二件是视觉长相趋同。不管产品属于哪个行业，页面都会滑向类似的暖米色背景、全大写眉题与均匀排列的圆角卡片。
 
-针对这两类问题，Google Chrome 团队与 Anthropic 分别给出了定位完全不同的智能体技能方案。Google Chrome 联合 Microsoft Edge、Mozilla Firefox 与 MDN 团队维护了 `modern-web-guidance-plugin`，专注解决现代 Web 平台 API 与扩展规范的落地准确度。Anthropic 在官方技能库里提供了 `frontend-design`，专门处理视觉识别与版面表达，剔除生成式界面的模板套路。两条路线在前端开发链路里一内一外，分工几乎正交。[Modern Web Guidance 文档](https://developer.chrome.com/docs/modern-web-guidance) · [frontend-design 仓库](https://github.com/anthropics/skills/tree/main/skills/frontend-design)
+针对这两类问题，Google Chrome 团队与 Anthropic 分别给出了定位完全不同的智能体技能方案。Google Chrome 联合 Microsoft Edge、Mozilla Firefox 与 MDN 团队维护了 `modern-web-guidance-plugin`，专注解决现代 Web 平台 API 与扩展规范的落地准确度。Anthropic 在官方技能库里提供了 `frontend-design`，专门处理视觉识别与版面表达，剔除生成式界面的模板套路。两条路线在前端开发链路里一内一外，分工几乎正交。[Modern Web Guidance 文档](https://developer.chrome.com/docs/modern-web-guidance) · [Frontend Design 仓库](https://github.com/anthropics/skills/tree/main/skills/frontend-design)
 
 ## 全景对照：检索型插件与主创型提示词
 
@@ -23,7 +23,7 @@ description: 对照 Google Chrome 的 modern-web-guidance-plugin 与 Anthropic �
 | 加载机制 | 通过 `npx` 按需检索，只将命中指南拉进当前上下文 | 触发后整份 `SKILL.md` 常驻提示词上下文 |
 | 新特性态度 | 依据 Baseline 划分兼容性，实验特性默认拦截 | 在符合需求简报的前提下鼓励审美冒险 |
 
-体积悬殊背后是不同的知识组织思路。`frontend-design` 把设计工作室主创的工作习惯浓缩在几十行原则里，依赖模型本身的通用设计能力去发挥。`modern-web-guidance-plugin` 面对的是快速演进、细节琐碎的浏览器规范，无法靠几十行口诀覆盖上百个接口的边界条件，所以拆成了两个独立子技能，并在 `policies/modern-web-guidance.toml` 中为 `plan` 模式设置命令行执行确认策略，把庞杂的指南语料放进离线包里按需读取。
+知识组织思路的不同也拉开了体量差距。`frontend-design` 把设计工作室主创的工作习惯浓缩在几十行原则里，依赖模型本身的通用设计能力去发挥。`modern-web-guidance-plugin` 面对的是快速演进、细节琐碎的浏览器规范，无法靠几十行口诀覆盖上百个接口的边界条件，所以拆成了两个独立子技能，并在 `policies/modern-web-guidance.toml` 中为 `plan` 模式设置命令行执行确认策略，把庞杂的指南语料放进离线包里按需读取。
 
 ### `modern-web-guidance-plugin` 如何用检索控制精度
 
@@ -36,7 +36,7 @@ description: 对照 Google Chrome 的 modern-web-guidance-plugin 与 Anthropic �
 - **强制交付披露**：只要在当前轮次查阅并应用了指南，回复结尾必须附上 `### Modern Web Guidance` 小节，写明采用的指南 ID、规避的缺陷以及指南中的对应原文短句。
 - **旧代码扫描与端到端评测**：面对全量项目现代化需求时，可以运行 `legacy-scan` 扫描其中约 **20%** 具备确定性特征的旧模式，再按 `keepWhen` 与 `dropWhen` 规则剔除误报。Google 团队用真实 Web 应用和 Playwright 浏览器断言跑了多轮端到端对比评测。11 月 8 日这批公开记录显示，开启指导后，Antigravity CLI 的任务通过率从 **58% 升至 94%**，Claude Code 从 **57% 升至 88%**，Codex CLI 从 **54% 升至 82%**。[Eval Dashboard 评测看板](https://googlechrome.github.io/modern-web-guidance-src/)
 
-同属插件包的另一个子技能 `chrome-extensions` 专注浏览器扩展生态，硬性封杀了 Manifest V2 写法。它总结了扩展开发中最容易出故障的 **20 条** 强制规则，提醒智能体不要把状态存进随时会休眠回收的 Service Worker 全局变量而要改用 `chrome.storage`，调用 `chrome.permissions.request()` 前绝不能先插入 `await` 导致用户手势丢失，配置侧边栏打开行为时要使用 `openPanelOnActionClick` 而不是并不存在的 `openPanelOnActionIconClick`。同时，它还附带了 **23 份** 参考文档，细化了权限申报、离屏文档限制以及维护 `CHROMEWEBSTORE.md` 商店发布清单的完整标准。
+浏览器扩展生态由插件包内的 `chrome-extensions` 子技能负责，它硬性封杀了 Manifest V2 写法。它总结了扩展开发中最容易出故障的 **20 条** 强制规则，提醒智能体不要把状态存进随时会休眠回收的 Service Worker 全局变量而要改用 `chrome.storage`，调用 `chrome.permissions.request()` 前绝不能先插入 `await` 导致用户手势丢失，配置侧边栏打开行为时要使用 `openPanelOnActionClick` 而不是并不存在的 `openPanelOnActionIconClick`。同时，它还附带了 **23 份** 参考文档，细化了权限申报、离屏文档限制以及维护 `CHROMEWEBSTORE.md` 商店发布清单的完整标准。
 
 ### `frontend-design` 如何把模型拉出默认模板
 
@@ -82,6 +82,10 @@ description: 对照 Google Chrome 的 modern-web-guidance-plugin 与 Anthropic �
 
 实际研发中，两者的分工可以根据任务性质快速切开。
 
-从零构建新产品落地页、重塑站点视觉或设计交互界面时，应当先跑 `frontend-design`（如果环境里装了同属前端设计赛道的 `impeccable`，也可以用它负责设计系统打磨），敲定产品专属的色板、字体与线框草图，再让 `modern-web-guidance` 介入具体组件编码，用原生弹窗、容器查询与现代色彩函数把草图落地。反过来，遇到 Core Web Vitals 性能排查或 Passkeys 安全改造，以及旧代码现代化扫描和 Chrome 扩展开发，直接启用 `modern-web-guidance-plugin` 即可。
+从零构建新产品落地页、重塑站点视觉或设计交互界面时，应当先跑 `frontend-design`，敲定产品专属的色板、字体与线框草图，再让 `modern-web-guidance` 介入具体组件编码，用原生弹窗、容器查询与现代色彩函数把草图落地。反过来，遇到 Core Web Vitals 性能排查或 Passkeys 安全改造，以及旧代码现代化扫描和 Chrome 扩展开发，直接启用 `modern-web-guidance-plugin` 即可。
 
 在工具配置层面还有一处容易踩到的路径优先级问题。Antigravity 等支持多层级目录的智能体环境通常会按照优先级加载同名技能，工作区或用户 `.agents/skills/` 下的副本优先级高于全局插件目录 `~/.gemini/config/plugins/`。如果早期曾经把 `modern-web-guidance` 单独装在 `~/.agents/skills/modern-web-guidance`，之后又安装了完整插件 `modern-web-guidance-plugin`，旧副本就会一直遮蔽插件里随版本更新的技能定义。把冗余的 `~/.agents/skills/modern-web-guidance` 移除后，客户端会自动回退加载插件目录内的版本，此后 `modern-web-guidance` 与 `chrome-extensions` 就能随着插件统一升级。
+
+## BTW
+
+如果环境里装了同属前端设计赛道的 [Impeccable](https://impeccable.style)，也可以用它负责设计系统打磨。（我就在用😃）
