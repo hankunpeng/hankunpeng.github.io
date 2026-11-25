@@ -44,7 +44,7 @@ Thumbs.db
 .kiro/
 .pi/
 .qoder/
-.workbuddy/
+.*buddy/
 .rovodev/
 .vibe
 skills-lock.json
